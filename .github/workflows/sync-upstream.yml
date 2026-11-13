@@ -198,16 +198,16 @@ jobs:
             `README.md`, `HuongDan_CaiDat.txt`, `CHANGELOG.md`, `src/modules/ntu-thesis/`
             và toàn bộ tài liệu của bản cá nhân hóa giữ nguyên.
 
-            ### Checklist phải áp lại thủ công
-            Sau khi trộn PR này, chạy `src/build/extract-vba.ps1` trên Windows để
-            trích VBA mới từ `vbaProject.bin`, rồi áp lại bảy điểm cá nhân hóa:
+            ### Bước tiếp theo (hoàn toàn tự động)
+            Cá nhân hóa KHÔNG cần làm bằng tay. Sau khi trộn PR này, trên máy có
+            Office chạy một lệnh duy nhất:
 
-            - [ ] 1. Đổi namespace/tiền tố về `NTUThesisAddin`
-            - [ ] 2. Đặt lại hằng `CN_PhienBan` theo bản phát hành của kho này
-            - [ ] 3. Trỏ `CN_ManifestUrl` về `giawin/ntu-thesis-addin`
-            - [ ] 4. Rà lại `CN_DungFileAddIn` (tên tệp đích trong STARTUP)
-            - [ ] 5. Giữ thư mục làm việc `\NTUThesisAddin` trong `%APPDATA%`
-            - [ ] 6. Vô hiệu hóa cổng kiểm tra bản quyền của bản gốc
-            - [ ] 7. Cập nhật chuỗi thương hiệu (tên tab, tên add-in, hộp thoại)
+                powershell -ExecutionPolicy Bypass -File src/build/build-all.ps1
 
-            Không trộn PR này nếu chưa đọc phần checklist trên.
+            Script tự trích VBA từ `.dotm` mới, áp các giá trị NTU một cách tất định
+            (`src/build/personalize.mjs`, kèm `personalize.test.mjs` chứng minh tái
+            tạo đúng từng byte), rồi đóng gói và sinh `version.json` + zip. Không có
+            bước sửa tay nào.
+
+            CI còn chạy `verify-manifest-contract.ps1` để đảm bảo khóa manifest mà
+            add-in đọc khớp khóa workflow sinh; lệch là đỏ ngay.
