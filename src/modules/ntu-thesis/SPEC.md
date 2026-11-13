@@ -61,7 +61,7 @@ Hằng số dùng chung: `APP = "NTUChuanHoa"`, `FONT_NAME = "Times New Roman"`,
 
 | Bước | Thủ tục |
 |---|---|
-| Phiên bản hiện tại | `NTU_PhienBan()` → `"1.0.1"` |
+| Phiên bản hiện tại | `NTU_PhienBan()` → `"1.0.2"` |
 | URL manifest | `NTU_ManifestUrl()` → `…/giawin/ntu-thesis-addin/releases/latest/download/version.json` |
 | Tải manifest (WinHttp 5.1, có `setTimeouts`) | `NTU_TaiManifest` |
 | Đọc trường JSON (`version`, `ntu_url_win`, `ntu_sha256_win`, `ntu_size_win`, `notes_ascii`) | `NTU_ParseJson` |

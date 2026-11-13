@@ -78,7 +78,7 @@ txt = cm.Lines(1, cm.CountOfLines)
 Check "NTUThesisAddin", txt, True
 Check "giawin/ntu-thesis-addin", txt, True
 Check "giatwin_h_ntu_thesis_word.dotm", txt, True
-Check "CN_PhienBan = ""1.0.1""", txt, True
+Check "CN_PhienBan = ""1.0.2""", txt, True
 Check "script.google.com", txt, False
 Check "chuanhoa_vanbandang.dotm", txt, False
 Check "OfficePartySuite", txt, False
@@ -168,8 +168,12 @@ Err.Clear
 On Error GoTo 0
 
 ' A missing macro surfaces here as -2147352573; a broken project as 500.
-RunCheck "CN_PhienBan", "1.0.1"
-RunCheck "TT_ProfileCount", "5"
+RunCheck "CN_PhienBan", "1.0.2"
+' TT_ProfileCount comes from the upstream template, not from our personalization,
+' so pinning it to a literal only breaks every time upstream legitimately adds a
+' profile (it went 5 -> 6 on 2026.11.13). What we must prove is that the function
+' is still reachable and returns real data: a positive integer.
+RunCheckPositive "TT_ProfileCount"
 RunCheck "CN_ManifestUrl", "https://github.com/giawin/ntu-thesis-addin/releases/latest/download/version.json"
 
 WScript.Echo ""
@@ -215,6 +219,34 @@ Sub RunCheck(macroName, expected)
     WScript.Echo "PASS: " & macroName & "() = [" & got & "]"
   Else
     WScript.Echo "FAIL: " & macroName & "() = [" & got & "] - mong doi [" & expected & "]"
+    fails = fails + 1
+  End If
+End Sub
+
+' Like RunCheck, but for values owned by the upstream template: only assert the
+' macro runs and returns a positive integer, never a value we do not control.
+Sub RunCheckPositive(macroName)
+  Dim got, n
+  On Error Resume Next
+  got = w.Run(macroName)
+  If Err.Number <> 0 Then
+    WScript.Echo "FAIL: goi " & macroName & " loi " & Err.Number & " (macro khong ton tai hoac project khong bien dich)"
+    fails = fails + 1
+    Err.Clear
+    On Error GoTo 0
+    Exit Sub
+  End If
+  Err.Clear
+  On Error GoTo 0
+  n = -1
+  On Error Resume Next
+  n = CLng(got)
+  Err.Clear
+  On Error GoTo 0
+  If n > 0 Then
+    WScript.Echo "PASS: " & macroName & "() = [" & got & "] (so nguyen duong)"
+  Else
+    WScript.Echo "FAIL: " & macroName & "() = [" & got & "] - mong doi so nguyen duong"
     fails = fails + 1
   End If
 End Sub

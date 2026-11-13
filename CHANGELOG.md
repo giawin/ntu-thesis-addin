@@ -26,6 +26,18 @@ Dòng có dấu tiếng Việt vẫn được giữ ở phần thân tài liệu
 - Bổ sung kiểm thử hồi quy cho `src/build/vba2bas.mjs` khi gặp tệp có ký tự
   ngoài bảng mã ASCII.
 
+## [1.0.2] - 2026-11-13
+
+### Đã sửa
+
+- **Kiểm chứng không còn phụ thuộc số profile của bản gốc.** `verify-word.vbs` từng đòi
+  `TT_ProfileCount() = 5`; bản gốc 2026.11.13.1 thêm một profile nên giá trị thành 6 và bước
+  kiểm chứng chặn nhầm một bản build hoàn toàn đúng. Nay chỉ yêu cầu macro gọi được và trả về
+  số nguyên dương - đúng điều cần chứng minh, vì giá trị ấy do bản gốc quyết định chứ không
+  phải do phần cá nhân hóa.
+- **Đồng bộ bản gốc 2026.11.13.1** (Word thêm một kiểu định dạng mẫu).
+- Bỏ phần checklist phải áp lại thủ công còn sót trong mẫu thân PR của workflow đồng bộ.
+
 ## [1.0.1] - 2026-11-13
 
 Ban sua loi. Chi thay doi cach dong goi, khong doi hanh vi chuan hoa.

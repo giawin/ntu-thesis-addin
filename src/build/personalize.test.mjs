@@ -11,7 +11,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { personalize } from './personalize.mjs';
+import { personalize, VERSION } from './personalize.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const repo = join(here, '..', '..');
@@ -74,7 +74,7 @@ check('co du gia tri cua ban NTU', () => {
   for (const need of [
     'TT_SETTING_APP As String = "NTUThesisAddin"',
     'giatwin_h_ntu_thesis_word.dotm',
-    'CN_PhienBan = "1.0.1"',
+    'CN_PhienBan = "' + VERSION + '"',
     'giawin/ntu-thesis-addin/releases/latest/download/version.json',
     'Created by Add-in NTU Thesis',
     'CheckLicenseActivation = True',

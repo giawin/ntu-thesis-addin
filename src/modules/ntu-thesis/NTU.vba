@@ -1873,7 +1873,7 @@ End Function
 ' ============================================================================
 
 Public Function NTU_PhienBan() As String
-    NTU_PhienBan = "1.0.1"
+    NTU_PhienBan = "1.0.2"
 End Function
 
 Private Function NTU_ManifestUrl() As String

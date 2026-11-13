@@ -12,12 +12,16 @@ Private mTTDaTach As String
 Private mTTLuuTuBang As Boolean
 Private mTTThuDongNgay As Boolean
 Private mTTThuKhongHoi As Boolean
+Private mTTCHLoi As String
+Private Const TT_CH_BEGIN As String = "===BAT DAU CAU HINH OPS==="
+Private Const TT_CH_END As String = "===KET THUC CAU HINH OPS==="
+Private Const TT_CH_DINHDANG As String = "1"
 Private Const LIC_CAN_NHAP_MA As Boolean = False
 Private Const TT_SETTING_APP As String = "OfficePartySuite"
 Private Const TT_SETTING_SECTION As String = "TheThuc"
 Private Const TT_DEFAULT_PROFILE As String = "DANG"
 Public Function TT_ProfileCount() As Integer
-TT_ProfileCount = 5
+TT_ProfileCount = 6
 End Function
 Public Function TT_ProfileIdAt(ByVal idx As Integer) As String
 Select Case idx
@@ -25,7 +29,8 @@ Case 1: TT_ProfileIdAt = "DANG"
 Case 2: TT_ProfileIdAt = "CHINH_QUYEN"
 Case 3: TT_ProfileIdAt = "CONG_AN"
 Case 4: TT_ProfileIdAt = "QUAN_DOI"
-Case 5: TT_ProfileIdAt = "MTTQ"
+Case 5: TT_ProfileIdAt = "DOAN"
+Case 6: TT_ProfileIdAt = "MTTQ"
 Case Else: TT_ProfileIdAt = ""
 End Select
 End Function
@@ -35,6 +40,7 @@ Case "DANG": TT_ProfileLabelAscii = "Dang"
 Case "CHINH_QUYEN": TT_ProfileLabelAscii = "Chinh quyen"
 Case "CONG_AN": TT_ProfileLabelAscii = "Cong an"
 Case "QUAN_DOI": TT_ProfileLabelAscii = "Quan doi"
+Case "DOAN": TT_ProfileLabelAscii = "Doan TNCS"
 Case "MTTQ": TT_ProfileLabelAscii = "MTTQ va to chuc CT-XH"
 Case "AUTO": TT_ProfileLabelAscii = "Tu dong nhan dien"
 Case Else: TT_ProfileLabelAscii = pid
@@ -46,6 +52,7 @@ Case "DANG": TT_LegalBasisAscii = "Quy dinh so 399-QD/TW ngay 09/01/2026 cua Ban
 Case "CHINH_QUYEN": TT_LegalBasisAscii = "Nghi dinh so 30/2020/ND-CP ngay 05/3/2020 cua Chinh phu ve cong tac van thu (Phu luc I: the thuc, ky thuat trinh bay van ban hanh chinh)"
 Case "CONG_AN": TT_LegalBasisAscii = "Thong tu so 26/2019/TT-BCA ve cong tac van thu trong Cong an nhan dan (hop nhat tai Van ban hop nhat so 08/VBHN-BCA nam 2021); The thuc, ky thuat trinh bay theo Dieu 8, 9 Nghi dinh so 30/2020/ND-CP"
 Case "QUAN_DOI": TT_LegalBasisAscii = "The thuc, ky thuat trinh bay theo Nghi dinh so 30/2020/ND-CP; Quy che cong tac van thu trong Bo Quoc phong (Thong tu so 68/2023/TT-BQP ngay 25/9/2023) - chua doi chieu toan van"
+Case "DOAN": TT_LegalBasisAscii = "Huong dan so 29-HD/TWDTN-VP ngay 29/10/2013 cua Ban Bi thu Trung uong Doan ve the thuc van ban cua Doan TNCS Ho Chi Minh; Quyet dinh so 367-QD/TWDTN-VP ngay 29/10/2013 cua Ban Bi thu Trung uong Doan ve ban hanh van ban cua Doan"
 Case "MTTQ": TT_LegalBasisAscii = "Quyet dinh so 207/QD-MTTW-BTT ngay 29/8/2025 cua Ban Thuong truc Uy ban Trung uong MTTQ Viet Nam - chua doi chieu toan van; The thuc van ban cua tung to chuc chinh tri - xa hoi do Thuong truc to chuc do o Trung uong quy dinh"
 Case Else: TT_LegalBasisAscii = ""
 End Select
@@ -54,6 +61,7 @@ Private Function TT_RawN(ByVal pid As String, ByVal key As String) As Single
 Select Case pid
 Case "DANG"
 Select Case key
+Case "MOTTO_LINE_CM": TT_RawN = 7.2
 Case "PAGE_TOP": TT_RawN = 20
 Case "PAGE_BOTTOM": TT_RawN = 20
 Case "PAGE_LEFT": TT_RawN = 30
@@ -81,6 +89,7 @@ Case "SIGN_SIZE": TT_RawN = 14
 End Select
 Case "CHINH_QUYEN"
 Select Case key
+Case "MOTTO_LINE_CM": TT_RawN = 0
 Case "PAGE_TOP": TT_RawN = 20
 Case "PAGE_BOTTOM": TT_RawN = 20
 Case "PAGE_LEFT": TT_RawN = 30
@@ -108,6 +117,7 @@ Case "SIGN_SIZE": TT_RawN = 14
 End Select
 Case "CONG_AN"
 Select Case key
+Case "MOTTO_LINE_CM": TT_RawN = 0
 Case "PAGE_TOP": TT_RawN = 20
 Case "PAGE_BOTTOM": TT_RawN = 20
 Case "PAGE_LEFT": TT_RawN = 30
@@ -135,6 +145,7 @@ Case "SIGN_SIZE": TT_RawN = 14
 End Select
 Case "QUAN_DOI"
 Select Case key
+Case "MOTTO_LINE_CM": TT_RawN = 0
 Case "PAGE_TOP": TT_RawN = 20
 Case "PAGE_BOTTOM": TT_RawN = 20
 Case "PAGE_LEFT": TT_RawN = 30
@@ -160,8 +171,37 @@ Case "NN_LABEL_SIZE": TT_RawN = 12
 Case "NN_ITEM_SIZE": TT_RawN = 11
 Case "SIGN_SIZE": TT_RawN = 14
 End Select
+Case "DOAN"
+Select Case key
+Case "MOTTO_LINE_CM": TT_RawN = 6.75
+Case "PAGE_TOP": TT_RawN = 20
+Case "PAGE_BOTTOM": TT_RawN = 20
+Case "PAGE_LEFT": TT_RawN = 30
+Case "PAGE_RIGHT": TT_RawN = 20
+Case "PAGE_HEADER": TT_RawN = 10
+Case "PAGE_FOOTER": TT_RawN = 10
+Case "PAGE_NUMBER_SIZE": TT_RawN = 13.5
+Case "PARTY_MOTTO_SIZE": TT_RawN = 15
+Case "QH_SIZE": TT_RawN = 13
+Case "TN_SIZE": TT_RawN = 14
+Case "ORGAN_SIZE": TT_RawN = 14
+Case "HDR_LEFT_MM": TT_RawN = 72
+Case "HDR_RIGHT_MM": TT_RawN = 93
+Case "HDR_LEFT_MIN_MM": TT_RawN = 52
+Case "DOC_NUMBER_SIZE": TT_RawN = 14
+Case "DATE_SIZE": TT_RawN = 13
+Case "CV_SUMMARY_SIZE": TT_RawN = 12
+Case "TITLE_SIZE": TT_RawN = 16
+Case "SUMMARY_SIZE": TT_RawN = 14
+Case "BODY_SIZE": TT_RawN = 14
+Case "INDENT_CM": TT_RawN = 1.27
+Case "NN_LABEL_SIZE": TT_RawN = 13
+Case "NN_ITEM_SIZE": TT_RawN = 11
+Case "SIGN_SIZE": TT_RawN = 14
+End Select
 Case "MTTQ"
 Select Case key
+Case "MOTTO_LINE_CM": TT_RawN = 0
 Case "PAGE_TOP": TT_RawN = 20
 Case "PAGE_BOTTOM": TT_RawN = 20
 Case "PAGE_LEFT": TT_RawN = 30
@@ -198,6 +238,8 @@ Case "ORGAN_UNDERLINE": TT_RawB = False
 Case "CV_SUMMARY_ITALIC": TT_RawB = True
 Case "LEGAL_BASIS_ITALIC": TT_RawB = False
 Case "KINH_GUI_ITALIC": TT_RawB = True
+Case "KINH_GUI_BOLD": TT_RawB = False
+Case "SO_HAI_CHAM": TT_RawB = False
 Case "NN_LABEL_UNDERLINE": TT_RawB = True
 Case "NN_LABEL_BOLD": TT_RawB = False
 Case "NN_LABEL_ITALIC": TT_RawB = False
@@ -212,6 +254,8 @@ Case "ORGAN_UNDERLINE": TT_RawB = True
 Case "CV_SUMMARY_ITALIC": TT_RawB = False
 Case "LEGAL_BASIS_ITALIC": TT_RawB = True
 Case "KINH_GUI_ITALIC": TT_RawB = False
+Case "KINH_GUI_BOLD": TT_RawB = False
+Case "SO_HAI_CHAM": TT_RawB = True
 Case "NN_LABEL_UNDERLINE": TT_RawB = False
 Case "NN_LABEL_BOLD": TT_RawB = True
 Case "NN_LABEL_ITALIC": TT_RawB = True
@@ -226,6 +270,8 @@ Case "ORGAN_UNDERLINE": TT_RawB = True
 Case "CV_SUMMARY_ITALIC": TT_RawB = False
 Case "LEGAL_BASIS_ITALIC": TT_RawB = True
 Case "KINH_GUI_ITALIC": TT_RawB = False
+Case "KINH_GUI_BOLD": TT_RawB = False
+Case "SO_HAI_CHAM": TT_RawB = True
 Case "NN_LABEL_UNDERLINE": TT_RawB = False
 Case "NN_LABEL_BOLD": TT_RawB = True
 Case "NN_LABEL_ITALIC": TT_RawB = True
@@ -240,12 +286,30 @@ Case "ORGAN_UNDERLINE": TT_RawB = True
 Case "CV_SUMMARY_ITALIC": TT_RawB = False
 Case "LEGAL_BASIS_ITALIC": TT_RawB = True
 Case "KINH_GUI_ITALIC": TT_RawB = False
+Case "KINH_GUI_BOLD": TT_RawB = False
+Case "SO_HAI_CHAM": TT_RawB = True
 Case "NN_LABEL_UNDERLINE": TT_RawB = False
 Case "NN_LABEL_BOLD": TT_RawB = True
 Case "NN_LABEL_ITALIC": TT_RawB = True
 Case "ROLE_UNDER_AUTH_BOLD": TT_RawB = True
 Case "RANK_BEFORE_NAME": TT_RawB = True
 Case "CHECK_COLLECTIVE": TT_RawB = False
+End Select
+Case "DOAN"
+Select Case key
+Case "AUTO_INSERT_MOTTO": TT_RawB = True
+Case "ORGAN_UNDERLINE": TT_RawB = False
+Case "CV_SUMMARY_ITALIC": TT_RawB = True
+Case "LEGAL_BASIS_ITALIC": TT_RawB = False
+Case "KINH_GUI_ITALIC": TT_RawB = False
+Case "KINH_GUI_BOLD": TT_RawB = True
+Case "SO_HAI_CHAM": TT_RawB = True
+Case "NN_LABEL_UNDERLINE": TT_RawB = False
+Case "NN_LABEL_BOLD": TT_RawB = True
+Case "NN_LABEL_ITALIC": TT_RawB = False
+Case "ROLE_UNDER_AUTH_BOLD": TT_RawB = False
+Case "RANK_BEFORE_NAME": TT_RawB = False
+Case "CHECK_COLLECTIVE": TT_RawB = True
 End Select
 Case "MTTQ"
 Select Case key
@@ -254,6 +318,8 @@ Case "ORGAN_UNDERLINE": TT_RawB = True
 Case "CV_SUMMARY_ITALIC": TT_RawB = False
 Case "LEGAL_BASIS_ITALIC": TT_RawB = False
 Case "KINH_GUI_ITALIC": TT_RawB = False
+Case "KINH_GUI_BOLD": TT_RawB = False
+Case "SO_HAI_CHAM": TT_RawB = True
 Case "NN_LABEL_UNDERLINE": TT_RawB = False
 Case "NN_LABEL_BOLD": TT_RawB = True
 Case "NN_LABEL_ITALIC": TT_RawB = True
@@ -268,6 +334,7 @@ Select Case pid
 Case "DANG"
 Select Case key
 Case "MOTTO_KIND": TT_RawS = "DANG"
+Case "DAU_SAO": TT_RawS = "*"
 Case "RIGHT_ALIGN": TT_RawS = "RIGHT"
 Case "DOC_NUMBER_STYLE": TT_RawS = "DANG"
 Case "SIGN_PREFIX_STYLE": TT_RawS = "SLASH"
@@ -277,6 +344,7 @@ End Select
 Case "CHINH_QUYEN"
 Select Case key
 Case "MOTTO_KIND": TT_RawS = "QUOC_HIEU"
+Case "DAU_SAO": TT_RawS = ""
 Case "RIGHT_ALIGN": TT_RawS = "CENTER"
 Case "DOC_NUMBER_STYLE": TT_RawS = "NHA_NUOC"
 Case "SIGN_PREFIX_STYLE": TT_RawS = "DOT"
@@ -286,6 +354,7 @@ End Select
 Case "CONG_AN"
 Select Case key
 Case "MOTTO_KIND": TT_RawS = "QUOC_HIEU"
+Case "DAU_SAO": TT_RawS = ""
 Case "RIGHT_ALIGN": TT_RawS = "CENTER"
 Case "DOC_NUMBER_STYLE": TT_RawS = "NHA_NUOC"
 Case "SIGN_PREFIX_STYLE": TT_RawS = "DOT"
@@ -295,15 +364,27 @@ End Select
 Case "QUAN_DOI"
 Select Case key
 Case "MOTTO_KIND": TT_RawS = "QUOC_HIEU"
+Case "DAU_SAO": TT_RawS = ""
 Case "RIGHT_ALIGN": TT_RawS = "CENTER"
 Case "DOC_NUMBER_STYLE": TT_RawS = "NHA_NUOC"
 Case "SIGN_PREFIX_STYLE": TT_RawS = "DOT"
 Case "SUMMARY_RULE": TT_RawS = "LINE"
 Case "STATUS": TT_RawS = "needs_review"
 End Select
+Case "DOAN"
+Select Case key
+Case "MOTTO_KIND": TT_RawS = "DANG"
+Case "DAU_SAO": TT_RawS = "***"
+Case "RIGHT_ALIGN": TT_RawS = "RIGHT"
+Case "DOC_NUMBER_STYLE": TT_RawS = "DANG"
+Case "SIGN_PREFIX_STYLE": TT_RawS = "DOT"
+Case "SUMMARY_RULE": TT_RawS = "DASH"
+Case "STATUS": TT_RawS = "official"
+End Select
 Case "MTTQ"
 Select Case key
 Case "MOTTO_KIND": TT_RawS = "LINH_HOAT"
+Case "DAU_SAO": TT_RawS = ""
 Case "RIGHT_ALIGN": TT_RawS = "CENTER"
 Case "DOC_NUMBER_STYLE": TT_RawS = "LINH_HOAT"
 Case "SIGN_PREFIX_STYLE": TT_RawS = "GIU_NGUYEN"
@@ -436,6 +517,35 @@ Case "TC": TT_RawDocCodeTitle = "THONG CAO"
 Case "TRS": TT_RawDocCodeTitle = "BAN TRICH SAO"
 Case "TTR": TT_RawDocCodeTitle = "TO TRINH"
 End Select
+Case "DOAN"
+Select Case codeAsc
+Case "BB": TT_RawDocCodeTitle = "BIEN BAN"
+Case "BC": TT_RawDocCodeTitle = "BAO CAO"
+Case "CT": TT_RawDocCodeTitle = "CHI THI"
+Case "CTR": TT_RawDocCodeTitle = "CHUONG TRINH"
+Case "CV": TT_RawDocCodeTitle = "CONG VAN"
+Case "DA": TT_RawDocCodeTitle = "DU AN|DE AN"
+Case "DL": TT_RawDocCodeTitle = "DIEU LE"
+Case "GCN": TT_RawDocCodeTitle = "GIAY CHUNG NHAN"
+Case "GGT": TT_RawDocCodeTitle = "GIAY GIOI THIEU"
+Case "GM": TT_RawDocCodeTitle = "GIAY MOI"
+Case "GNP": TT_RawDocCodeTitle = "GIAY NGHI PHEP"
+Case "HD": TT_RawDocCodeTitle = "HUONG DAN"
+Case "KH": TT_RawDocCodeTitle = "KE HOACH"
+Case "KL": TT_RawDocCodeTitle = "KET LUAN"
+Case "LKG": TT_RawDocCodeTitle = "LOI KEU GOI"
+Case "NQ": TT_RawDocCodeTitle = "NGHI QUYET"
+Case "PA": TT_RawDocCodeTitle = "PHUONG AN"
+Case "PC": TT_RawDocCodeTitle = "PHIEU CHUYEN"
+Case "PG": TT_RawDocCodeTitle = "PHIEU GUI"
+Case "QC": TT_RawDocCodeTitle = "QUY CHE"
+Case "QD": TT_RawDocCodeTitle = "QUYET DINH|QUY DINH"
+Case "QH": TT_RawDocCodeTitle = "QUY HOACH"
+Case "TB": TT_RawDocCodeTitle = "THONG BAO|TUYEN BO"
+Case "TC": TT_RawDocCodeTitle = "THONG CAO"
+Case "TT": TT_RawDocCodeTitle = "THONG TRI"
+Case "TTR": TT_RawDocCodeTitle = "TO TRINH"
+End Select
 Case "MTTQ"
 Select Case codeAsc
 Case "BB": TT_RawDocCodeTitle = "BIEN BAN"
@@ -478,11 +588,20 @@ isStrong = True
 TT_DetectFromHeaderText = "DANG"
 Exit Function
 End If
+If InStr(1, t, "DOANTNCSHOCHIMINH") > 0 Then
+isStrong = True
+TT_DetectFromHeaderText = "DOAN"
+Exit Function
+End If
 Dim hasNational As Boolean: hasNational = False
 If InStr(1, t, "CONGHOAXAHOICHUNGHIA") > 0 Or InStr(1, t, "DOCLAP-TUDO") > 0 Then hasNational = True
 If Not hasNational Then
 If InStr(1, t, "DANGUY") > 0 Or InStr(1, t, "DANGBO") > 0 Or InStr(1, t, "CHIBO") > 0 Or InStr(1, t, "TINHUY") > 0 Or InStr(1, t, "THANHUY") > 0 Or InStr(1, t, "BANTHUONGVU") > 0 Or InStr(1, t, "BANCHAPHANHDANGBO") > 0 Then
 TT_DetectFromHeaderText = "DANG"
+Exit Function
+End If
+If InStr(1, t, "BCHDOAN") > 0 Or InStr(1, t, "BANCHAPHANHDOAN") > 0 Or InStr(1, t, "TINHDOAN") > 0 Or InStr(1, t, "THANHDOAN") > 0 Or InStr(1, t, "HUYENDOAN") > 0 Or InStr(1, t, "LIENCHIDOAN") > 0 Or InStr(1, t, "CHIDOAN") > 0 Or InStr(1, t, "PHANDOAN") > 0 Then
+TT_DetectFromHeaderText = "DOAN"
 Exit Function
 End If
 End If
@@ -496,7 +615,7 @@ isStrong = hasNational
 TT_DetectFromHeaderText = "QUAN_DOI"
 Exit Function
 End If
-If InStr(1, t, "MATTRANTOQUOC") > 0 Or InStr(1, t, "UYBANMATTRAN") > 0 Or InStr(1, t, "LIENDOANLAODONG") > 0 Or InStr(1, t, "CONGDOAN") > 0 Or InStr(1, t, "HOINONGDAN") > 0 Or InStr(1, t, "HOILIENHIEPPHUNU") > 0 Or InStr(1, t, "HOICUUCHIENBINH") > 0 Or InStr(1, t, "DOANTNCS") > 0 Or InStr(1, t, "DOANTHANHNIEN") > 0 Then
+If InStr(1, t, "MATTRANTOQUOC") > 0 Or InStr(1, t, "UYBANMATTRAN") > 0 Or InStr(1, t, "LIENDOANLAODONG") > 0 Or InStr(1, t, "CONGDOAN") > 0 Or InStr(1, t, "HOINONGDAN") > 0 Or InStr(1, t, "HOILIENHIEPPHUNU") > 0 Or InStr(1, t, "HOICUUCHIENBINH") > 0 Then
 isStrong = hasNational
 TT_DetectFromHeaderText = "MTTQ"
 Exit Function
@@ -521,6 +640,7 @@ Public Function TT_MauCount(ByVal grp As String) As Integer
 Select Case grp
 Case "DANG": TT_MauCount = 18
 Case "NHA_NUOC": TT_MauCount = 20
+Case "DOAN": TT_MauCount = 15
 Case "MTTQ": TT_MauCount = 12
 Case Else: TT_MauCount = 0
 End Select
@@ -571,6 +691,24 @@ Case 17: TT_MauLabelAscii = "Phieu chuyen"
 Case 18: TT_MauLabelAscii = "Nghi quyet (ca biet)"
 Case 19: TT_MauLabelAscii = "Chi thi"
 Case 20: TT_MauLabelAscii = "Giay nghi phep"
+End Select
+Case "DOAN"
+Select Case idx
+Case 1: TT_MauLabelAscii = "Cong van"
+Case 2: TT_MauLabelAscii = "Bao cao"
+Case 3: TT_MauLabelAscii = "Ke hoach"
+Case 4: TT_MauLabelAscii = "Chuong trinh"
+Case 5: TT_MauLabelAscii = "Quyet dinh"
+Case 6: TT_MauLabelAscii = "Quy dinh"
+Case 7: TT_MauLabelAscii = "Nghi quyet"
+Case 8: TT_MauLabelAscii = "Thong bao"
+Case 9: TT_MauLabelAscii = "To trinh"
+Case 10: TT_MauLabelAscii = "Huong dan"
+Case 11: TT_MauLabelAscii = "Chi thi"
+Case 12: TT_MauLabelAscii = "Thong tri"
+Case 13: TT_MauLabelAscii = "Giay moi"
+Case 14: TT_MauLabelAscii = "Giay gioi thieu"
+Case 15: TT_MauLabelAscii = "Bien ban"
 End Select
 Case "MTTQ"
 Select Case idx
@@ -635,6 +773,24 @@ Case 17: TT_MauData = TT_Mau_NHA_NUOC_17()
 Case 18: TT_MauData = TT_Mau_NHA_NUOC_18()
 Case 19: TT_MauData = TT_Mau_NHA_NUOC_19()
 Case 20: TT_MauData = TT_Mau_NHA_NUOC_20()
+End Select
+Case "DOAN"
+Select Case idx
+Case 1: TT_MauData = TT_Mau_DOAN_1()
+Case 2: TT_MauData = TT_Mau_DOAN_2()
+Case 3: TT_MauData = TT_Mau_DOAN_3()
+Case 4: TT_MauData = TT_Mau_DOAN_4()
+Case 5: TT_MauData = TT_Mau_DOAN_5()
+Case 6: TT_MauData = TT_Mau_DOAN_6()
+Case 7: TT_MauData = TT_Mau_DOAN_7()
+Case 8: TT_MauData = TT_Mau_DOAN_8()
+Case 9: TT_MauData = TT_Mau_DOAN_9()
+Case 10: TT_MauData = TT_Mau_DOAN_10()
+Case 11: TT_MauData = TT_Mau_DOAN_11()
+Case 12: TT_MauData = TT_Mau_DOAN_12()
+Case 13: TT_MauData = TT_Mau_DOAN_13()
+Case 14: TT_MauData = TT_Mau_DOAN_14()
+Case 15: TT_MauData = TT_Mau_DOAN_15()
 End Select
 Case "MTTQ"
 Select Case idx
@@ -1448,6 +1604,318 @@ s = s & "R|" & "[CH" & ChrW(7912) & "C V" & ChrW(7908) & " NG" & ChrW(431) & Chr
 s = s & "H|" & "[H" & ChrW(7885) & " v" & ChrW(224) & " t" & ChrW(234) & "n]" & vbLf
 TT_Mau_NHA_NUOC_20 = s
 End Function
+Private Function TT_Mau_DOAN_1() As String
+Dim s As String
+s = ""
+s = s & "CODE|" & "CV" & vbLf
+s = s & "CV|1" & vbLf
+s = s & "SUM|" & "V/v [tr" & ChrW(237) & "ch y" & ChrW(7871) & "u n" & ChrW(7897) & "i dung c" & ChrW(244) & "ng v" & ChrW(259) & "n]" & vbLf
+s = s & "L|" & "K" & ChrW(237) & "nh g" & ChrW(7917) & "i: [C" & ChrW(417) & " quan, t" & ChrW(7893) & " ch" & ChrW(7913) & "c nh" & ChrW(7853) & "n c" & ChrW(244) & "ng v" & ChrW(259) & "n]." & vbLf
+s = s & "L|" & "[N" & ChrW(7897) & "i dung c" & ChrW(244) & "ng v" & ChrW(259) & "n.]" & vbLf
+s = s & "N|" & "- Nh" & ChrW(432) & " tr" & ChrW(234) & "n;" & vbLf
+s = s & "N|" & "- L" & ChrW(432) & "u VP." & vbLf
+s = s & "A|" & "TM. BAN TH" & ChrW(431) & ChrW(7900) & "NG V" & ChrW(7908) & vbLf
+s = s & "R|" & "[B" & ChrW(205) & " TH" & ChrW(431) & " / PH" & ChrW(211) & " B" & ChrW(205) & " TH" & ChrW(431) & "]" & vbLf
+s = s & "H|" & "[H" & ChrW(7885) & " v" & ChrW(224) & " t" & ChrW(234) & "n]" & vbLf
+TT_Mau_DOAN_1 = s
+End Function
+Private Function TT_Mau_DOAN_2() As String
+Dim s As String
+s = ""
+s = s & "CODE|" & "BC" & vbLf
+s = s & "L|" & "B" & ChrW(193) & "O C" & ChrW(193) & "O" & vbLf
+s = s & "L|" & "[Tr" & ChrW(237) & "ch y" & ChrW(7871) & "u n" & ChrW(7897) & "i dung b" & ChrW(225) & "o c" & ChrW(225) & "o]" & vbLf
+s = s & "L|" & "-----" & vbLf
+s = s & "L|" & "[M" & ChrW(7903) & " " & ChrW(273) & ChrW(7847) & "u b" & ChrW(225) & "o c" & ChrW(225) & "o.]" & vbLf
+s = s & "L|" & "I. [T" & ChrW(204) & "NH H" & ChrW(204) & "NH, K" & ChrW(7870) & "T QU" & ChrW(7842) & " TH" & ChrW(7920) & "C HI" & ChrW(7878) & "N]" & vbLf
+s = s & "L|" & "[N" & ChrW(7897) & "i dung.]" & vbLf
+s = s & "L|" & "II. [H" & ChrW(7840) & "N CH" & ChrW(7870) & ", NGUY" & ChrW(202) & "N NH" & ChrW(194) & "N]" & vbLf
+s = s & "L|" & "[N" & ChrW(7897) & "i dung.]" & vbLf
+s = s & "L|" & "III. [PH" & ChrW(431) & ChrW(416) & "NG H" & ChrW(431) & ChrW(7898) & "NG, NHI" & ChrW(7878) & "M V" & ChrW(7908) & " TH" & ChrW(7900) & "I GIAN T" & ChrW(7898) & "I]" & vbLf
+s = s & "L|" & "[N" & ChrW(7897) & "i dung.]" & vbLf
+s = s & "L|" & "IV. [KI" & ChrW(7870) & "N NGH" & ChrW(7882) & ", " & ChrW(272) & ChrW(7872) & " XU" & ChrW(7844) & "T]" & vbLf
+s = s & "L|" & "[N" & ChrW(7897) & "i dung.]" & vbLf
+s = s & "N|" & "- [N" & ChrW(417) & "i nh" & ChrW(7853) & "n];" & vbLf
+s = s & "N|" & "- L" & ChrW(432) & "u VP." & vbLf
+s = s & "A|" & "TM. BAN TH" & ChrW(431) & ChrW(7900) & "NG V" & ChrW(7908) & vbLf
+s = s & "R|" & "[B" & ChrW(205) & " TH" & ChrW(431) & " / PH" & ChrW(211) & " B" & ChrW(205) & " TH" & ChrW(431) & "]" & vbLf
+s = s & "H|" & "[H" & ChrW(7885) & " v" & ChrW(224) & " t" & ChrW(234) & "n]" & vbLf
+TT_Mau_DOAN_2 = s
+End Function
+Private Function TT_Mau_DOAN_3() As String
+Dim s As String
+s = ""
+s = s & "CODE|" & "KH" & vbLf
+s = s & "L|" & "K" & ChrW(7870) & " HO" & ChrW(7840) & "CH" & vbLf
+s = s & "L|" & "[Tr" & ChrW(237) & "ch y" & ChrW(7871) & "u n" & ChrW(7897) & "i dung k" & ChrW(7871) & " ho" & ChrW(7841) & "ch]" & vbLf
+s = s & "L|" & "-----" & vbLf
+s = s & "L|" & "[C" & ChrW(259) & "n c" & ChrW(7913) & ", m" & ChrW(7903) & " " & ChrW(273) & ChrW(7847) & "u k" & ChrW(7871) & " ho" & ChrW(7841) & "ch.]" & vbLf
+s = s & "L|" & "I. M" & ChrW(7908) & "C " & ChrW(272) & ChrW(205) & "CH, Y" & ChrW(202) & "U C" & ChrW(7846) & "U" & vbLf
+s = s & "L|" & "1. M" & ChrW(7909) & "c " & ChrW(273) & ChrW(237) & "ch" & vbLf
+s = s & "L|" & "[N" & ChrW(7897) & "i dung.]" & vbLf
+s = s & "L|" & "2. Y" & ChrW(234) & "u c" & ChrW(7847) & "u" & vbLf
+s = s & "L|" & "[N" & ChrW(7897) & "i dung.]" & vbLf
+s = s & "L|" & "II. N" & ChrW(7896) & "I DUNG" & vbLf
+s = s & "L|" & "[N" & ChrW(7897) & "i dung.]" & vbLf
+s = s & "L|" & "III. T" & ChrW(7892) & " CH" & ChrW(7912) & "C TH" & ChrW(7920) & "C HI" & ChrW(7878) & "N" & vbLf
+s = s & "L|" & "[Ph" & ChrW(226) & "n c" & ChrW(244) & "ng nhi" & ChrW(7879) & "m v" & ChrW(7909) & ", th" & ChrW(7901) & "i gian th" & ChrW(7921) & "c hi" & ChrW(7879) & "n.]" & vbLf
+s = s & "N|" & "- [N" & ChrW(417) & "i nh" & ChrW(7853) & "n];" & vbLf
+s = s & "N|" & "- L" & ChrW(432) & "u VP." & vbLf
+s = s & "A|" & "TM. BAN TH" & ChrW(431) & ChrW(7900) & "NG V" & ChrW(7908) & vbLf
+s = s & "R|" & "[B" & ChrW(205) & " TH" & ChrW(431) & " / PH" & ChrW(211) & " B" & ChrW(205) & " TH" & ChrW(431) & "]" & vbLf
+s = s & "H|" & "[H" & ChrW(7885) & " v" & ChrW(224) & " t" & ChrW(234) & "n]" & vbLf
+TT_Mau_DOAN_3 = s
+End Function
+Private Function TT_Mau_DOAN_4() As String
+Dim s As String
+s = ""
+s = s & "CODE|" & "CTr" & vbLf
+s = s & "L|" & "CH" & ChrW(431) & ChrW(416) & "NG TR" & ChrW(204) & "NH" & vbLf
+s = s & "L|" & "[c" & ChrW(244) & "ng t" & ChrW(225) & "c " & ChrW(272) & "o" & ChrW(224) & "n v" & ChrW(224) & " phong tr" & ChrW(224) & "o thanh thi" & ChrW(7871) & "u nhi n" & ChrW(259) & "m ...]" & vbLf
+s = s & "L|" & "-----" & vbLf
+s = s & "L|" & "[C" & ChrW(259) & "n c" & ChrW(7913) & ", m" & ChrW(7903) & " " & ChrW(273) & ChrW(7847) & "u ch" & ChrW(432) & ChrW(417) & "ng tr" & ChrW(236) & "nh.]" & vbLf
+s = s & "L|" & "I. M" & ChrW(7908) & "C " & ChrW(272) & ChrW(205) & "CH, Y" & ChrW(202) & "U C" & ChrW(7846) & "U" & vbLf
+s = s & "L|" & "[N" & ChrW(7897) & "i dung.]" & vbLf
+s = s & "L|" & "II. N" & ChrW(7896) & "I DUNG" & vbLf
+s = s & "L|" & "[N" & ChrW(7897) & "i dung.]" & vbLf
+s = s & "L|" & "III. T" & ChrW(7892) & " CH" & ChrW(7912) & "C TH" & ChrW(7920) & "C HI" & ChrW(7878) & "N" & vbLf
+s = s & "L|" & "[Ph" & ChrW(226) & "n c" & ChrW(244) & "ng nhi" & ChrW(7879) & "m v" & ChrW(7909) & ", th" & ChrW(7901) & "i gian th" & ChrW(7921) & "c hi" & ChrW(7879) & "n.]" & vbLf
+s = s & "N|" & "- [N" & ChrW(417) & "i nh" & ChrW(7853) & "n];" & vbLf
+s = s & "N|" & "- L" & ChrW(432) & "u VP." & vbLf
+s = s & "A|" & "TM. BAN TH" & ChrW(431) & ChrW(7900) & "NG V" & ChrW(7908) & vbLf
+s = s & "R|" & "[B" & ChrW(205) & " TH" & ChrW(431) & " / PH" & ChrW(211) & " B" & ChrW(205) & " TH" & ChrW(431) & "]" & vbLf
+s = s & "H|" & "[H" & ChrW(7885) & " v" & ChrW(224) & " t" & ChrW(234) & "n]" & vbLf
+TT_Mau_DOAN_4 = s
+End Function
+Private Function TT_Mau_DOAN_5() As String
+Dim s As String
+s = ""
+s = s & "CODE|" & "Q" & ChrW(272) & vbLf
+s = s & "L|" & "QUY" & ChrW(7870) & "T " & ChrW(272) & ChrW(7882) & "NH" & vbLf
+s = s & "L|" & "[v" & ChrW(7873) & " vi" & ChrW(7879) & "c ...]" & vbLf
+s = s & "L|" & "-----" & vbLf
+s = s & "L|" & "C" & ChrW(259) & "n c" & ChrW(7913) & " " & ChrW(272) & "i" & ChrW(7873) & "u l" & ChrW(7879) & " " & ChrW(272) & "o" & ChrW(224) & "n TNCS H" & ChrW(7891) & " Ch" & ChrW(237) & " Minh;" & vbLf
+s = s & "L|" & "C" & ChrW(259) & "n c" & ChrW(7913) & " [v" & ChrW(259) & "n b" & ChrW(7843) & "n l" & ChrW(224) & "m c" & ChrW(259) & "n c" & ChrW(7913) & "];" & vbLf
+s = s & "L|" & "X" & ChrW(233) & "t " & ChrW(273) & ChrW(7873) & " ngh" & ChrW(7883) & " c" & ChrW(7911) & "a [ban, " & ChrW(273) & ChrW(417) & "n v" & ChrW(7883) & " " & ChrW(273) & ChrW(7873) & " ngh" & ChrW(7883) & "]," & vbLf
+s = s & "L|" & "QUY" & ChrW(7870) & "T " & ChrW(272) & ChrW(7882) & "NH:" & vbLf
+s = s & "L|" & ChrW(272) & "i" & ChrW(7873) & "u 1. [N" & ChrW(7897) & "i dung quy" & ChrW(7871) & "t " & ChrW(273) & ChrW(7883) & "nh.]" & vbLf
+s = s & "L|" & ChrW(272) & "i" & ChrW(7873) & "u 2. [N" & ChrW(7897) & "i dung quy" & ChrW(7871) & "t " & ChrW(273) & ChrW(7883) & "nh.]" & vbLf
+s = s & "L|" & ChrW(272) & "i" & ChrW(7873) & "u 3. [C" & ChrW(225) & "c ban, " & ChrW(273) & ChrW(417) & "n v" & ChrW(7883) & ", c" & ChrW(225) & " nh" & ChrW(226) & "n] ch" & ChrW(7883) & "u tr" & ChrW(225) & "ch nhi" & ChrW(7879) & "m thi h" & ChrW(224) & "nh Quy" & ChrW(7871) & "t " & ChrW(273) & ChrW(7883) & "nh n" & ChrW(224) & "y." & vbLf
+s = s & "N|" & "- Nh" & ChrW(432) & " " & ChrW(272) & "i" & ChrW(7873) & "u 3;" & vbLf
+s = s & "N|" & "- L" & ChrW(432) & "u VP." & vbLf
+s = s & "A|" & "TM. BAN TH" & ChrW(431) & ChrW(7900) & "NG V" & ChrW(7908) & vbLf
+s = s & "R|" & "[B" & ChrW(205) & " TH" & ChrW(431) & " / PH" & ChrW(211) & " B" & ChrW(205) & " TH" & ChrW(431) & "]" & vbLf
+s = s & "H|" & "[H" & ChrW(7885) & " v" & ChrW(224) & " t" & ChrW(234) & "n]" & vbLf
+TT_Mau_DOAN_5 = s
+End Function
+Private Function TT_Mau_DOAN_6() As String
+Dim s As String
+s = ""
+s = s & "CODE|" & "Q" & ChrW(272) & vbLf
+s = s & "L|" & "QUY " & ChrW(272) & ChrW(7882) & "NH" & vbLf
+s = s & "L|" & "[v" & ChrW(7873) & " ...]" & vbLf
+s = s & "L|" & "-----" & vbLf
+s = s & "L|" & "C" & ChrW(259) & "n c" & ChrW(7913) & " " & ChrW(272) & "i" & ChrW(7873) & "u l" & ChrW(7879) & " " & ChrW(272) & "o" & ChrW(224) & "n TNCS H" & ChrW(7891) & " Ch" & ChrW(237) & " Minh;" & vbLf
+s = s & "L|" & "C" & ChrW(259) & "n c" & ChrW(7913) & " [v" & ChrW(259) & "n b" & ChrW(7843) & "n l" & ChrW(224) & "m c" & ChrW(259) & "n c" & ChrW(7913) & "]," & vbLf
+s = s & "L|" & "Ban Th" & ChrW(432) & ChrW(7901) & "ng v" & ChrW(7909) & " [t" & ChrW(234) & "n c" & ChrW(7845) & "p b" & ChrW(7897) & " " & ChrW(273) & "o" & ChrW(224) & "n] quy " & ChrW(273) & ChrW(7883) & "nh [...] nh" & ChrW(432) & " sau:" & vbLf
+s = s & "L|" & "Ch" & ChrW(432) & ChrW(417) & "ng I" & vbLf
+s = s & "L|" & "QUY " & ChrW(272) & ChrW(7882) & "NH CHUNG" & vbLf
+s = s & "L|" & ChrW(272) & "i" & ChrW(7873) & "u 1. Ph" & ChrW(7841) & "m vi " & ChrW(273) & "i" & ChrW(7873) & "u ch" & ChrW(7881) & "nh, " & ChrW(273) & ChrW(7889) & "i t" & ChrW(432) & ChrW(7907) & "ng " & ChrW(225) & "p d" & ChrW(7909) & "ng" & vbLf
+s = s & "L|" & "[N" & ChrW(7897) & "i dung.]" & vbLf
+s = s & "L|" & "Ch" & ChrW(432) & ChrW(417) & "ng II" & vbLf
+s = s & "L|" & "[N" & ChrW(7896) & "I DUNG QUY " & ChrW(272) & ChrW(7882) & "NH]" & vbLf
+s = s & "L|" & ChrW(272) & "i" & ChrW(7873) & "u 2. [T" & ChrW(234) & "n " & ChrW(273) & "i" & ChrW(7873) & "u]" & vbLf
+s = s & "L|" & "[N" & ChrW(7897) & "i dung.]" & vbLf
+s = s & "L|" & "Ch" & ChrW(432) & ChrW(417) & "ng III" & vbLf
+s = s & "L|" & "T" & ChrW(7892) & " CH" & ChrW(7912) & "C TH" & ChrW(7920) & "C HI" & ChrW(7878) & "N" & vbLf
+s = s & "L|" & ChrW(272) & "i" & ChrW(7873) & "u 3. Tr" & ChrW(225) & "ch nhi" & ChrW(7879) & "m thi h" & ChrW(224) & "nh" & vbLf
+s = s & "L|" & "[N" & ChrW(7897) & "i dung.]" & vbLf
+s = s & "L|" & ChrW(272) & "i" & ChrW(7873) & "u 4. Hi" & ChrW(7879) & "u l" & ChrW(7921) & "c thi h" & ChrW(224) & "nh" & vbLf
+s = s & "L|" & "Quy " & ChrW(273) & ChrW(7883) & "nh n" & ChrW(224) & "y c" & ChrW(243) & " hi" & ChrW(7879) & "u l" & ChrW(7921) & "c t" & ChrW(7915) & " ng" & ChrW(224) & "y k" & ChrW(253) & "." & vbLf
+s = s & "N|" & "- [N" & ChrW(417) & "i nh" & ChrW(7853) & "n];" & vbLf
+s = s & "N|" & "- L" & ChrW(432) & "u VP." & vbLf
+s = s & "A|" & "TM. BAN TH" & ChrW(431) & ChrW(7900) & "NG V" & ChrW(7908) & vbLf
+s = s & "R|" & "[B" & ChrW(205) & " TH" & ChrW(431) & " / PH" & ChrW(211) & " B" & ChrW(205) & " TH" & ChrW(431) & "]" & vbLf
+s = s & "H|" & "[H" & ChrW(7885) & " v" & ChrW(224) & " t" & ChrW(234) & "n]" & vbLf
+TT_Mau_DOAN_6 = s
+End Function
+Private Function TT_Mau_DOAN_7() As String
+Dim s As String
+s = ""
+s = s & "CODE|" & "NQ" & vbLf
+s = s & "L|" & "NGH" & ChrW(7882) & " QUY" & ChrW(7870) & "T" & vbLf
+s = s & "L|" & "[v" & ChrW(7873) & " ...]" & vbLf
+s = s & "L|" & "-----" & vbLf
+s = s & "L|" & "[Ph" & ChrW(7847) & "n m" & ChrW(7903) & " " & ChrW(273) & ChrW(7847) & "u: c" & ChrW(259) & "n c" & ChrW(7913) & ", b" & ChrW(7889) & "i c" & ChrW(7843) & "nh ban h" & ChrW(224) & "nh ngh" & ChrW(7883) & " quy" & ChrW(7871) & "t.]" & vbLf
+s = s & "L|" & "I. [T" & ChrW(204) & "NH H" & ChrW(204) & "NH, K" & ChrW(7870) & "T QU" & ChrW(7842) & "]" & vbLf
+s = s & "L|" & "[N" & ChrW(7897) & "i dung.]" & vbLf
+s = s & "L|" & "II. [M" & ChrW(7908) & "C TI" & ChrW(202) & "U, NHI" & ChrW(7878) & "M V" & ChrW(7908) & ", GI" & ChrW(7842) & "I PH" & ChrW(193) & "P]" & vbLf
+s = s & "L|" & "1. [M" & ChrW(7909) & "c ti" & ChrW(234) & "u]" & vbLf
+s = s & "L|" & "[N" & ChrW(7897) & "i dung.]" & vbLf
+s = s & "L|" & "2. [Nhi" & ChrW(7879) & "m v" & ChrW(7909) & ", gi" & ChrW(7843) & "i ph" & ChrW(225) & "p]" & vbLf
+s = s & "L|" & "[N" & ChrW(7897) & "i dung.]" & vbLf
+s = s & "L|" & "III. T" & ChrW(7892) & " CH" & ChrW(7912) & "C TH" & ChrW(7920) & "C HI" & ChrW(7878) & "N" & vbLf
+s = s & "L|" & "[N" & ChrW(7897) & "i dung.]" & vbLf
+s = s & "N|" & "- [N" & ChrW(417) & "i nh" & ChrW(7853) & "n];" & vbLf
+s = s & "N|" & "- L" & ChrW(432) & "u VP." & vbLf
+s = s & "A|" & "TM. BAN CH" & ChrW(7844) & "P H" & ChrW(192) & "NH" & vbLf
+s = s & "R|" & "[B" & ChrW(205) & " TH" & ChrW(431) & "]" & vbLf
+s = s & "H|" & "[H" & ChrW(7885) & " v" & ChrW(224) & " t" & ChrW(234) & "n]" & vbLf
+TT_Mau_DOAN_7 = s
+End Function
+Private Function TT_Mau_DOAN_8() As String
+Dim s As String
+s = ""
+s = s & "CODE|" & "TB" & vbLf
+s = s & "L|" & "TH" & ChrW(212) & "NG B" & ChrW(193) & "O" & vbLf
+s = s & "L|" & "[Tr" & ChrW(237) & "ch y" & ChrW(7871) & "u n" & ChrW(7897) & "i dung th" & ChrW(244) & "ng b" & ChrW(225) & "o]" & vbLf
+s = s & "L|" & "-----" & vbLf
+s = s & "L|" & "[N" & ChrW(7897) & "i dung th" & ChrW(244) & "ng b" & ChrW(225) & "o.]" & vbLf
+s = s & "N|" & "- [N" & ChrW(417) & "i nh" & ChrW(7853) & "n];" & vbLf
+s = s & "N|" & "- L" & ChrW(432) & "u VP." & vbLf
+s = s & "A|" & "TM. BAN TH" & ChrW(431) & ChrW(7900) & "NG V" & ChrW(7908) & vbLf
+s = s & "R|" & "[B" & ChrW(205) & " TH" & ChrW(431) & " / PH" & ChrW(211) & " B" & ChrW(205) & " TH" & ChrW(431) & "]" & vbLf
+s = s & "H|" & "[H" & ChrW(7885) & " v" & ChrW(224) & " t" & ChrW(234) & "n]" & vbLf
+TT_Mau_DOAN_8 = s
+End Function
+Private Function TT_Mau_DOAN_9() As String
+Dim s As String
+s = ""
+s = s & "CODE|" & "TTr" & vbLf
+s = s & "L|" & "T" & ChrW(7900) & " TR" & ChrW(204) & "NH" & vbLf
+s = s & "L|" & "[v" & ChrW(7873) & " ...]" & vbLf
+s = s & "L|" & "-----" & vbLf
+s = s & "L|" & "K" & ChrW(237) & "nh g" & ChrW(7917) & "i: [C" & ChrW(417) & " quan, t" & ChrW(7893) & " ch" & ChrW(7913) & "c nh" & ChrW(7853) & "n t" & ChrW(7901) & " tr" & ChrW(236) & "nh]." & vbLf
+s = s & "L|" & "[L" & ChrW(253) & " do, c" & ChrW(259) & "n c" & ChrW(7913) & " tr" & ChrW(236) & "nh.]" & vbLf
+s = s & "L|" & "[N" & ChrW(7897) & "i dung " & ChrW(273) & ChrW(7873) & " ngh" & ChrW(7883) & ".]" & vbLf
+s = s & "L|" & "[C" & ChrW(417) & " quan ban h" & ChrW(224) & "nh] k" & ChrW(237) & "nh tr" & ChrW(236) & "nh [c" & ChrW(417) & " quan, t" & ChrW(7893) & " ch" & ChrW(7913) & "c] xem x" & ChrW(233) & "t, quy" & ChrW(7871) & "t " & ChrW(273) & ChrW(7883) & "nh." & vbLf
+s = s & "N|" & "- Nh" & ChrW(432) & " tr" & ChrW(234) & "n;" & vbLf
+s = s & "N|" & "- L" & ChrW(432) & "u VP." & vbLf
+s = s & "A|" & "TM. BAN TH" & ChrW(431) & ChrW(7900) & "NG V" & ChrW(7908) & vbLf
+s = s & "R|" & "[B" & ChrW(205) & " TH" & ChrW(431) & " / PH" & ChrW(211) & " B" & ChrW(205) & " TH" & ChrW(431) & "]" & vbLf
+s = s & "H|" & "[H" & ChrW(7885) & " v" & ChrW(224) & " t" & ChrW(234) & "n]" & vbLf
+TT_Mau_DOAN_9 = s
+End Function
+Private Function TT_Mau_DOAN_10() As String
+Dim s As String
+s = ""
+s = s & "CODE|" & "HD" & vbLf
+s = s & "L|" & "H" & ChrW(431) & ChrW(7898) & "NG D" & ChrW(7850) & "N" & vbLf
+s = s & "L|" & "[v" & ChrW(7873) & " ...]" & vbLf
+s = s & "L|" & "-----" & vbLf
+s = s & "L|" & "C" & ChrW(259) & "n c" & ChrW(7913) & " " & ChrW(272) & "i" & ChrW(7873) & "u l" & ChrW(7879) & " " & ChrW(272) & "o" & ChrW(224) & "n TNCS H" & ChrW(7891) & " Ch" & ChrW(237) & " Minh;" & vbLf
+s = s & "L|" & "C" & ChrW(259) & "n c" & ChrW(7913) & " [v" & ChrW(259) & "n b" & ChrW(7843) & "n l" & ChrW(224) & "m c" & ChrW(259) & "n c" & ChrW(7913) & "]," & vbLf
+s = s & "L|" & "[C" & ChrW(417) & " quan ban h" & ChrW(224) & "nh] h" & ChrW(432) & ChrW(7899) & "ng d" & ChrW(7851) & "n [...] nh" & ChrW(432) & " sau:" & vbLf
+s = s & "L|" & "I. [M" & ChrW(7908) & "C " & ChrW(272) & ChrW(205) & "CH, Y" & ChrW(202) & "U C" & ChrW(7846) & "U]" & vbLf
+s = s & "L|" & "[N" & ChrW(7897) & "i dung.]" & vbLf
+s = s & "L|" & "II. [N" & ChrW(7896) & "I DUNG H" & ChrW(431) & ChrW(7898) & "NG D" & ChrW(7850) & "N]" & vbLf
+s = s & "L|" & "[N" & ChrW(7897) & "i dung.]" & vbLf
+s = s & "L|" & "III. T" & ChrW(7892) & " CH" & ChrW(7912) & "C TH" & ChrW(7920) & "C HI" & ChrW(7878) & "N" & vbLf
+s = s & "L|" & "[N" & ChrW(7897) & "i dung.]" & vbLf
+s = s & "N|" & "- [N" & ChrW(417) & "i nh" & ChrW(7853) & "n];" & vbLf
+s = s & "N|" & "- L" & ChrW(432) & "u VP." & vbLf
+s = s & "A|" & "TM. BAN TH" & ChrW(431) & ChrW(7900) & "NG V" & ChrW(7908) & vbLf
+s = s & "R|" & "[B" & ChrW(205) & " TH" & ChrW(431) & " / PH" & ChrW(211) & " B" & ChrW(205) & " TH" & ChrW(431) & "]" & vbLf
+s = s & "H|" & "[H" & ChrW(7885) & " v" & ChrW(224) & " t" & ChrW(234) & "n]" & vbLf
+TT_Mau_DOAN_10 = s
+End Function
+Private Function TT_Mau_DOAN_11() As String
+Dim s As String
+s = ""
+s = s & "CODE|" & "CT" & vbLf
+s = s & "L|" & "CH" & ChrW(7880) & " TH" & ChrW(7882) & vbLf
+s = s & "L|" & "[v" & ChrW(7873) & " ...]" & vbLf
+s = s & "L|" & "-----" & vbLf
+s = s & "L|" & "[" & ChrW(272) & ChrW(225) & "nh gi" & ChrW(225) & " t" & ChrW(236) & "nh h" & ChrW(236) & "nh, n" & ChrW(234) & "u y" & ChrW(234) & "u c" & ChrW(7847) & "u c" & ChrW(7847) & "n ch" & ChrW(7881) & " " & ChrW(273) & ChrW(7841) & "o.]" & vbLf
+s = s & "L|" & "[Ban Th" & ChrW(432) & ChrW(7901) & "ng v" & ChrW(7909) & " ... y" & ChrW(234) & "u c" & ChrW(7847) & "u c" & ChrW(225) & "c c" & ChrW(7845) & "p b" & ChrW(7897) & " " & ChrW(273) & "o" & ChrW(224) & "n th" & ChrW(7921) & "c hi" & ChrW(7879) & "n t" & ChrW(7889) & "t c" & ChrW(225) & "c nhi" & ChrW(7879) & "m v" & ChrW(7909) & " sau:]" & vbLf
+s = s & "L|" & "1. [Nhi" & ChrW(7879) & "m v" & ChrW(7909) & ", gi" & ChrW(7843) & "i ph" & ChrW(225) & "p.]" & vbLf
+s = s & "L|" & "2. [Nhi" & ChrW(7879) & "m v" & ChrW(7909) & ", gi" & ChrW(7843) & "i ph" & ChrW(225) & "p.]" & vbLf
+s = s & "L|" & "3. [T" & ChrW(7893) & " ch" & ChrW(7913) & "c th" & ChrW(7921) & "c hi" & ChrW(7879) & "n.]" & vbLf
+s = s & "N|" & "- [N" & ChrW(417) & "i nh" & ChrW(7853) & "n];" & vbLf
+s = s & "N|" & "- L" & ChrW(432) & "u VP." & vbLf
+s = s & "A|" & "TM. BAN TH" & ChrW(431) & ChrW(7900) & "NG V" & ChrW(7908) & vbLf
+s = s & "R|" & "[B" & ChrW(205) & " TH" & ChrW(431) & " / PH" & ChrW(211) & " B" & ChrW(205) & " TH" & ChrW(431) & "]" & vbLf
+s = s & "H|" & "[H" & ChrW(7885) & " v" & ChrW(224) & " t" & ChrW(234) & "n]" & vbLf
+TT_Mau_DOAN_11 = s
+End Function
+Private Function TT_Mau_DOAN_12() As String
+Dim s As String
+s = ""
+s = s & "CODE|" & "TT" & vbLf
+s = s & "L|" & "TH" & ChrW(212) & "NG TRI" & vbLf
+s = s & "L|" & "[v" & ChrW(7873) & " ...]" & vbLf
+s = s & "L|" & "-----" & vbLf
+s = s & "L|" & "[N" & ChrW(7897) & "i dung th" & ChrW(244) & "ng tri: ch" & ChrW(7881) & " " & ChrW(273) & ChrW(7841) & "o, gi" & ChrW(7843) & "i th" & ChrW(237) & "ch, h" & ChrW(432) & ChrW(7899) & "ng d" & ChrW(7851) & "n th" & ChrW(7921) & "c hi" & ChrW(7879) & "n ...]" & vbLf
+s = s & "L|" & "1. [N" & ChrW(7897) & "i dung.]" & vbLf
+s = s & "L|" & "2. [N" & ChrW(7897) & "i dung.]" & vbLf
+s = s & "L|" & "3. [T" & ChrW(7893) & " ch" & ChrW(7913) & "c th" & ChrW(7921) & "c hi" & ChrW(7879) & "n.]" & vbLf
+s = s & "N|" & "- [N" & ChrW(417) & "i nh" & ChrW(7853) & "n];" & vbLf
+s = s & "N|" & "- L" & ChrW(432) & "u VP." & vbLf
+s = s & "A|" & "TM. BAN TH" & ChrW(431) & ChrW(7900) & "NG V" & ChrW(7908) & vbLf
+s = s & "R|" & "[B" & ChrW(205) & " TH" & ChrW(431) & " / PH" & ChrW(211) & " B" & ChrW(205) & " TH" & ChrW(431) & "]" & vbLf
+s = s & "H|" & "[H" & ChrW(7885) & " v" & ChrW(224) & " t" & ChrW(234) & "n]" & vbLf
+TT_Mau_DOAN_12 = s
+End Function
+Private Function TT_Mau_DOAN_13() As String
+Dim s As String
+s = ""
+s = s & "CODE|" & "GM" & vbLf
+s = s & "L|" & "GI" & ChrW(7844) & "Y M" & ChrW(7900) & "I" & vbLf
+s = s & "L|" & "[Tr" & ChrW(237) & "ch y" & ChrW(7871) & "u: d" & ChrW(7921) & " h" & ChrW(7897) & "i ngh" & ChrW(7883) & ", cu" & ChrW(7897) & "c h" & ChrW(7885) & "p ...]" & vbLf
+s = s & "L|" & "-----" & vbLf
+s = s & "L|" & "[C" & ChrW(417) & " quan ban h" & ChrW(224) & "nh] tr" & ChrW(226) & "n tr" & ChrW(7885) & "ng k" & ChrW(237) & "nh m" & ChrW(7901) & "i: [" & ChrW(272) & ChrW(7841) & "i bi" & ChrW(7875) & "u " & ChrW(273) & ChrW(432) & ChrW(7907) & "c m" & ChrW(7901) & "i]." & vbLf
+s = s & "L|" & "Th" & ChrW(7901) & "i gian: [gi" & ChrW(7901) & ", ng" & ChrW(224) & "y, th" & ChrW(225) & "ng, n" & ChrW(259) & "m]." & vbLf
+s = s & "L|" & ChrW(272) & ChrW(7883) & "a " & ChrW(273) & "i" & ChrW(7875) & "m: [" & ChrW(273) & ChrW(7883) & "a " & ChrW(273) & "i" & ChrW(7875) & "m]." & vbLf
+s = s & "L|" & "N" & ChrW(7897) & "i dung: [n" & ChrW(7897) & "i dung]." & vbLf
+s = s & "L|" & "[" & ChrW(272) & ChrW(7873) & " ngh" & ChrW(7883) & " chu" & ChrW(7849) & "n b" & ChrW(7883) & " t" & ChrW(224) & "i li" & ChrW(7879) & "u, li" & ChrW(234) & "n h" & ChrW(7879) & " (n" & ChrW(7871) & "u c" & ChrW(243) & ").]" & vbLf
+s = s & "N|" & "- Nh" & ChrW(432) & " tr" & ChrW(234) & "n;" & vbLf
+s = s & "N|" & "- L" & ChrW(432) & "u VP." & vbLf
+s = s & "A|" & "TM. BAN TH" & ChrW(431) & ChrW(7900) & "NG V" & ChrW(7908) & vbLf
+s = s & "R|" & "[B" & ChrW(205) & " TH" & ChrW(431) & " / PH" & ChrW(211) & " B" & ChrW(205) & " TH" & ChrW(431) & "]" & vbLf
+s = s & "H|" & "[H" & ChrW(7885) & " v" & ChrW(224) & " t" & ChrW(234) & "n]" & vbLf
+TT_Mau_DOAN_13 = s
+End Function
+Private Function TT_Mau_DOAN_14() As String
+Dim s As String
+s = ""
+s = s & "CODE|" & "GGT" & vbLf
+s = s & "L|" & "GI" & ChrW(7844) & "Y GI" & ChrW(7898) & "I THI" & ChrW(7878) & "U" & vbLf
+s = s & "L|" & "-----" & vbLf
+s = s & "L|" & "[C" & ChrW(417) & " quan ban h" & ChrW(224) & "nh] tr" & ChrW(226) & "n tr" & ChrW(7885) & "ng gi" & ChrW(7899) & "i thi" & ChrW(7879) & "u:" & vbLf
+s = s & "L|" & ChrW(272) & ChrW(7891) & "ng ch" & ChrW(237) & ": [h" & ChrW(7885) & " v" & ChrW(224) & " t" & ChrW(234) & "n]." & vbLf
+s = s & "L|" & "Ch" & ChrW(7913) & "c v" & ChrW(7909) & ": [ch" & ChrW(7913) & "c v" & ChrW(7909) & ", " & ChrW(273) & ChrW(417) & "n v" & ChrW(7883) & " c" & ChrW(244) & "ng t" & ChrW(225) & "c]." & vbLf
+s = s & "L|" & ChrW(272) & ChrW(432) & ChrW(7907) & "c c" & ChrW(7917) & " " & ChrW(273) & ChrW(7871) & "n: [c" & ChrW(417) & " quan, t" & ChrW(7893) & " ch" & ChrW(7913) & "c " & ChrW(273) & ChrW(432) & ChrW(7907) & "c gi" & ChrW(7899) & "i thi" & ChrW(7879) & "u t" & ChrW(7899) & "i l" & ChrW(224) & "m vi" & ChrW(7879) & "c]." & vbLf
+s = s & "L|" & "V" & ChrW(7873) & " vi" & ChrW(7879) & "c: [n" & ChrW(7897) & "i dung l" & ChrW(224) & "m vi" & ChrW(7879) & "c]." & vbLf
+s = s & "L|" & ChrW(272) & ChrW(7873) & " ngh" & ChrW(7883) & " [c" & ChrW(417) & " quan, t" & ChrW(7893) & " ch" & ChrW(7913) & "c] gi" & ChrW(250) & "p " & ChrW(273) & ChrW(7905) & " " & ChrW(273) & ChrW(7891) & "ng ch" & ChrW(237) & " c" & ChrW(243) & " t" & ChrW(234) & "n tr" & ChrW(234) & "n ho" & ChrW(224) & "n th" & ChrW(224) & "nh nhi" & ChrW(7879) & "m v" & ChrW(7909) & "." & vbLf
+s = s & "L|" & "Gi" & ChrW(7845) & "y n" & ChrW(224) & "y c" & ChrW(243) & " gi" & ChrW(225) & " tr" & ChrW(7883) & " " & ChrW(273) & ChrW(7871) & "n h" & ChrW(7871) & "t ng" & ChrW(224) & "y [...]." & vbLf
+s = s & "N|" & "- [N" & ChrW(417) & "i nh" & ChrW(7853) & "n];" & vbLf
+s = s & "N|" & "- L" & ChrW(432) & "u VP." & vbLf
+s = s & "A|" & "TM. BAN TH" & ChrW(431) & ChrW(7900) & "NG V" & ChrW(7908) & vbLf
+s = s & "R|" & "[B" & ChrW(205) & " TH" & ChrW(431) & " / PH" & ChrW(211) & " B" & ChrW(205) & " TH" & ChrW(431) & "]" & vbLf
+s = s & "H|" & "[H" & ChrW(7885) & " v" & ChrW(224) & " t" & ChrW(234) & "n]" & vbLf
+TT_Mau_DOAN_14 = s
+End Function
+Private Function TT_Mau_DOAN_15() As String
+Dim s As String
+s = ""
+s = s & "CODE|" & "BB" & vbLf
+s = s & "L|" & "BI" & ChrW(202) & "N B" & ChrW(7842) & "N" & vbLf
+s = s & "L|" & "[Tr" & ChrW(237) & "ch y" & ChrW(7871) & "u: cu" & ChrW(7897) & "c h" & ChrW(7885) & "p, h" & ChrW(7897) & "i ngh" & ChrW(7883) & " ...]" & vbLf
+s = s & "L|" & "-----" & vbLf
+s = s & "L|" & "Th" & ChrW(7901) & "i gian b" & ChrW(7855) & "t " & ChrW(273) & ChrW(7847) & "u: [gi" & ChrW(7901) & ", ng" & ChrW(224) & "y, th" & ChrW(225) & "ng, n" & ChrW(259) & "m]." & vbLf
+s = s & "L|" & ChrW(272) & ChrW(7883) & "a " & ChrW(273) & "i" & ChrW(7875) & "m: [" & ChrW(273) & ChrW(7883) & "a " & ChrW(273) & "i" & ChrW(7875) & "m]." & vbLf
+s = s & "L|" & "Th" & ChrW(224) & "nh ph" & ChrW(7847) & "n tham d" & ChrW(7921) & ": [th" & ChrW(224) & "nh ph" & ChrW(7847) & "n]." & vbLf
+s = s & "L|" & "Ch" & ChrW(7911) & " tr" & ChrW(236) & ": [h" & ChrW(7885) & " t" & ChrW(234) & "n, ch" & ChrW(7913) & "c v" & ChrW(7909) & "]." & vbLf
+s = s & "L|" & "Th" & ChrW(432) & " k" & ChrW(253) & " (ng" & ChrW(432) & ChrW(7901) & "i ghi bi" & ChrW(234) & "n b" & ChrW(7843) & "n): [h" & ChrW(7885) & " t" & ChrW(234) & "n, ch" & ChrW(7913) & "c v" & ChrW(7909) & "]." & vbLf
+s = s & "L|" & "N" & ChrW(7897) & "i dung: [theo di" & ChrW(7877) & "n bi" & ChrW(7871) & "n cu" & ChrW(7897) & "c h" & ChrW(7885) & "p, h" & ChrW(7897) & "i ngh" & ChrW(7883) & "]." & vbLf
+s = s & "L|" & "Cu" & ChrW(7897) & "c h" & ChrW(7885) & "p k" & ChrW(7871) & "t th" & ChrW(250) & "c v" & ChrW(224) & "o [gi" & ChrW(7901) & ", ng" & ChrW(224) & "y, th" & ChrW(225) & "ng, n" & ChrW(259) & "m]." & vbLf
+s = s & "A|" & vbLf
+s = s & "R|" & "CH" & ChrW(7910) & " TR" & ChrW(204) & vbLf
+s = s & "H|" & "[H" & ChrW(7885) & " v" & ChrW(224) & " t" & ChrW(234) & "n]" & vbLf
+s = s & "LR|" & "TH" & ChrW(431) & " K" & ChrW(221) & vbLf
+s = s & "LH|" & "[H" & ChrW(7885) & " v" & ChrW(224) & " t" & ChrW(234) & "n]" & vbLf
+TT_Mau_DOAN_15 = s
+End Function
 Private Function TT_Mau_MTTQ_1() As String
 Dim s As String
 s = ""
@@ -1688,8 +2156,42 @@ s = s & "R|" & "[CH" & ChrW(7910) & " T" & ChrW(7882) & "CH / PH" & ChrW(211) & 
 s = s & "H|" & "[H" & ChrW(7885) & " v" & ChrW(224) & " t" & ChrW(234) & "n]" & vbLf
 TT_Mau_MTTQ_12 = s
 End Function
+Public Function TT_TextTieuNguOf(ByVal pid As String) As String
+Select Case pid
+Case "DANG": TT_TextTieuNguOf = ChrW(272) & ChrW(7842) & "NG C" & ChrW(7896) & "NG S" & ChrW(7842) & "N VI" & ChrW(7878) & "T NAM"
+Case "DOAN": TT_TextTieuNguOf = ChrW(272) & "O" & ChrW(192) & "N TNCS H" & ChrW(7890) & " CH" & ChrW(205) & " MINH"
+Case Else: TT_TextTieuNguOf = ChrW(272) & ChrW(7842) & "NG C" & ChrW(7896) & "NG S" & ChrW(7842) & "N VI" & ChrW(7878) & "T NAM"
+End Select
+End Function
+Public Function TT_TieuNguKieuDangAsc() As String
+TT_TieuNguKieuDangAsc = "|DANG CONG SAN VIET NAM|DOAN TNCS HO CHI MINH|"
+End Function
+Public Function TT_NhomKieuDang(ByVal g As String) As Boolean
+TT_NhomKieuDang = (TT_RawS(g, "MOTTO_KIND") = "DANG")
+End Function
+Public Function TT_DauSaoOf(ByVal g As String) As String
+TT_DauSaoOf = TT_RawS(g, "DAU_SAO")
+If Len(TT_DauSaoOf) = 0 Then TT_DauSaoOf = "*"
+End Function
 Public Function TT_TextTieuNguDang() As String
-TT_TextTieuNguDang = ChrW(272) & ChrW(7842) & "NG C" & ChrW(7896) & "NG S" & ChrW(7842) & "N VI" & ChrW(7878) & "T NAM"
+TT_TextTieuNguDang = TT_TextTieuNguOf(TT_Profile())
+End Function
+Public Function TT_CoTieuDe(ByVal sAsc As String) As Boolean
+TT_CoTieuDe = (InStr(1, sAsc, "DANG CONG SAN") > 0)
+If Not TT_CoTieuDe And InStr(1, sAsc, "DOAN TNCS") > 0 Then TT_CoTieuDe = TT_DongDauLa(sAsc, "DOAN TNCS")
+End Function
+Public Function TT_CoTieuDeDu(ByVal sAsc As String) As Boolean
+TT_CoTieuDeDu = (InStr(1, sAsc, "DANG CONG SAN VIET NAM") > 0)
+If Not TT_CoTieuDeDu And InStr(1, sAsc, "DOAN TNCS HO CHI MINH") > 0 Then TT_CoTieuDeDu = TT_DongDauLa(sAsc, "DOAN TNCS HO CHI MINH")
+End Function
+Private Function TT_DongDauLa(ByVal s As String, ByVal dau As String) As Boolean
+Dim t As String, a() As String, i As Long
+t = Replace(Replace(Replace(Replace(s, Chr(7), vbCr), Chr(11), vbCr), vbTab, vbCr), vbLf, vbCr)
+a = Split(t, vbCr)
+For i = 0 To UBound(a)
+If Left$(Trim$(a(i)), Len(dau)) = dau Then TT_DongDauLa = True: Exit Function
+Next i
+TT_DongDauLa = False
 End Function
 Public Function TT_GetSetting() As String
 Dim v As String
@@ -1742,6 +2244,9 @@ ten = " " & UCase(ToAscii(TT_UnitGet(grp, "COQUAN") & " " & TT_UnitGet(grp, "CAP
 If Len(Trim(ten)) = 0 Then Exit Sub
 If grp = "DANG" Then
 lech = (InStr(1, ten, "UY BAN NHAN DAN") > 0 Or InStr(1, ten, " UBND ") > 0 Or InStr(1, ten, "HOI DONG NHAN DAN") > 0)
+ElseIf grp = "DOAN" Then
+lech = (InStr(1, ten, "UY BAN NHAN DAN") > 0 Or InStr(1, ten, " UBND ") > 0 Or InStr(1, ten, " DANG UY ") > 0 Or _
+InStr(1, ten, " DANG BO ") > 0 Or InStr(1, ten, " CHI BO ") > 0)
 Else
 lech = (InStr(1, ten, " DANG UY ") > 0 Or InStr(1, ten, " DANG BO ") > 0 Or InStr(1, ten, " CHI BO ") > 0 Or _
 InStr(1, ten, " TINH UY ") > 0 Or InStr(1, ten, " THANH UY ") > 0)
@@ -1850,6 +2355,7 @@ TT_N = TT_RawN(TT_Profile(), key)
 If TT_OvGet(key, ov) Then TT_N = ov
 End Function
 Public Function TT_OptCount(ByVal grp As String) As Integer
+If grp = "DOAN" Then TT_OptCount = 9: Exit Function
 If grp = "DANG" Then
 TT_OptCount = 9
 Else
@@ -1857,6 +2363,18 @@ TT_OptCount = 20
 End If
 End Function
 Public Function TT_OptKey(ByVal grp As String, ByVal i As Integer) As String
+If grp = "DOAN" Then
+If i = 1 Then TT_OptKey = "BODY_SIZE"
+If i = 2 Then TT_OptKey = "TITLE_SIZE"
+If i = 3 Then TT_OptKey = "SUMMARY_SIZE"
+If i = 4 Then TT_OptKey = "INDENT_CM"
+If i = 5 Then TT_OptKey = "LINE_SPACING"
+If i = 6 Then TT_OptKey = "PARA_BEFORE"
+If i = 7 Then TT_OptKey = "PARA_AFTER"
+If i = 8 Then TT_OptKey = "TEN_DAI"
+If i = 9 Then TT_OptKey = "GOM_CHU_LE"
+Exit Function
+End If
 TT_OptKey = ""
 If grp <> "DANG" Then
 Select Case i
@@ -1896,6 +2414,7 @@ End Select
 End If
 End Function
 Public Function TT_OptLabel(ByVal grp As String, ByVal i As Integer) As String
+If grp = "DOAN" Then TT_OptLabel = TT_OptLabel("DANG", i): Exit Function
 TT_OptLabel = ""
 If grp <> "DANG" Then
 Select Case i
@@ -1935,6 +2454,20 @@ End Select
 End If
 End Function
 Public Function TT_OptMin(ByVal grp As String, ByVal i As Integer) As Single
+If grp = "DOAN" Then
+Select Case i
+Case 1: TT_OptMin = 13
+Case 2: TT_OptMin = 15
+Case 3: TT_OptMin = 13
+Case 4: TT_OptMin = 1
+Case 5: TT_OptMin = 1
+Case 6: TT_OptMin = 0
+Case 7: TT_OptMin = 0
+Case 8: TT_OptMin = 1
+Case 9: TT_OptMin = 0
+End Select
+Exit Function
+End If
 TT_OptMin = 0
 If grp <> "DANG" Then
 Select Case i
@@ -1974,6 +2507,20 @@ End Select
 End If
 End Function
 Public Function TT_OptMax(ByVal grp As String, ByVal i As Integer) As Single
+If grp = "DOAN" Then
+Select Case i
+Case 1: TT_OptMax = 14
+Case 2: TT_OptMax = 16
+Case 3: TT_OptMax = 14
+Case 4: TT_OptMax = 1.27
+Case 5: TT_OptMax = 1.2
+Case 6: TT_OptMax = 6
+Case 7: TT_OptMax = 6
+Case 8: TT_OptMax = 2
+Case 9: TT_OptMax = 1
+End Select
+Exit Function
+End If
 TT_OptMax = 0
 If grp <> "DANG" Then
 Select Case i
@@ -2013,6 +2560,19 @@ End Select
 End If
 End Function
 Public Function TT_OptNote(ByVal grp As String, ByVal i As Integer) As String
+If grp = "DOAN" Then
+Select Case i
+Case 1: TT_OptNote = "14 (HD 29-HD/TW" & ChrW(272) & "TN-VP); 13 khi c" & ChrW(7847) & "n"
+Case 2: TT_OptNote = "16 (HD 29-HD/TW" & ChrW(272) & "TN-VP, m" & ChrW(7851) & "u 3)"
+Case 3: TT_OptNote = "14 (HD 29-HD/TW" & ChrW(272) & "TN-VP, m" & ChrW(7851) & "u 3)"
+Case 4: TT_OptNote = "1,27 cm = 1 default tab (HD 29-HD/TW" & ChrW(272) & "TN-VP)"
+Case 5: TT_OptNote = "1 " & ChrW(8211) & " 1,2 d" & ChrW(242) & "ng (HD 29-HD/TW" & ChrW(272) & "TN-VP). " & ChrW(272) & ChrW(7875) & " tr" & ChrW(7889) & "ng = d" & ChrW(242) & "ng " & ChrW(273) & ChrW(417) & "n"
+Case 6: TT_OptNote = "0 " & ChrW(8211) & " 6. HD 29: kho" & ChrW(7843) & "ng c" & ChrW(225) & "ch gi" & ChrW(7919) & "a c" & ChrW(225) & "c " & ChrW(273) & "o" & ChrW(7841) & "n t" & ChrW(7889) & "i " & ChrW(273) & "a 6pt"
+Case 7: TT_OptNote = "0 " & ChrW(8211) & " 6. " & ChrW(272) & ChrW(7863) & "t 0 " & ChrW(273) & ChrW(7875) & " v" & ChrW(259) & "n b" & ChrW(7843) & "n g" & ChrW(7885) & "n h" & ChrW(417) & "n"
+Case Else: TT_OptNote = TT_OptNote("DANG", i)
+End Select
+Exit Function
+End If
 TT_OptNote = ""
 If grp <> "DANG" Then
 Select Case i
@@ -2738,7 +3298,9 @@ ds = Array("DANG UY", "DANG BO", "CHI BO", "UY BAN", "HOI DONG", "SO ", "BAN ", 
 "TRUNG TAM", "CHI CUC", "CUC ", "TONG CUC", "VU ", "MAT TRAN", "THANH TRA", "KHO BAC", "BENH VIEN", "TRAM ", _
 "VIEN ", "HOC VIEN", "LIEN DOAN", "CONG DOAN", "QUY ", "NGAN HANG", "BAO ", "DAI ", "TOA AN", "DOI ", _
 "TIEU BAN", "CHI NHANH", "CONG TY", "BO ", "KHOI ", "LIEN MINH", "HOP TAC XA", "DON VI", "TIEU DOAN", "TRUNG DOAN", _
-"SU DOAN", "LU DOAN", "DAI DOI", "TRUNG DOI", "CUM ", "KHU ", "TO ")
+"SU DOAN", "LU DOAN", "DAI DOI", "TRUNG DOI", "CUM ", "KHU ", "TO ", _
+"BCH ", "BAN CHAP HANH", "THANH DOAN", "TINH DOAN", "HUYEN DOAN", "QUAN DOAN", "THI DOAN", "CHI DOAN", _
+"LIEN CHI DOAN", "PHAN DOAN")
 For k = LBound(ds) To UBound(ds)
 If Left(b, Len(ds(k))) = ds(k) Then Exit Function
 Next k
@@ -2998,7 +3560,7 @@ End Function
 Private Sub TT_UnitTach(ByVal grp As String)
 If InStr(1, mTTDaTach, "|" & grp & "|") > 0 Then Exit Sub
 mTTDaTach = mTTDaTach & "|" & grp & "|"
-If grp = "DANG" Or TT_IndexOfProfile(grp) = 0 Then Exit Sub
+If TT_NhomKieuDang(grp) Or TT_IndexOfProfile(grp) = 0 Then Exit Sub
 On Error Resume Next
 If GetSetting(TT_SETTING_APP, TT_SETTING_SECTION, "DaTachDonVi_" & grp, "") = "1" Then Exit Sub
 SaveSetting TT_SETTING_APP, TT_SETTING_SECTION, "DaTachDonVi_" & grp, "1"
@@ -3322,7 +3884,7 @@ End Sub
 Public Sub TT_KiemThuInDonVi()
 If Len(Dir(Environ("HOME") & "/thethuc_debug.on")) = 0 Then Exit Sub
 Dim g As Variant, i As Integer, kq As String
-For Each g In Array("DANG", "CHINH_QUYEN", "CONG_AN", "QUAN_DOI", "MTTQ")
+For Each g In Array("DANG", "CHINH_QUYEN", "CONG_AN", "QUAN_DOI", "DOAN", "MTTQ")
 kq = kq & " || " & g & ": so=" & TT_UnitCount(CStr(g)) & " chon=" & TT_UnitSlot(CStr(g))
 For i = 1 To TT_UnitCount(CStr(g))
 kq = kq & " [" & i & "]=" & ToAscii(TT_UnitLabelAt(CStr(g), i))
@@ -3385,8 +3947,14 @@ End Sub
 Public Sub RibbonDVBH_MenuLabel(control As Object, ByRef returnedVal)
 Dim g As String, nhan As String
 g = TT_UnitGroupCurrent()
+If Left$(control.Id, 10) = "ddDVBHHome" Then
+nhan = Trim(TT_UnitGetAt(g, TT_UnitSlot(g), "VIETTAT"))
+If Len(nhan) = 0 Then nhan = TT_UnitLabelAt(g, TT_UnitSlot(g))
+If Len(nhan) > 16 Then nhan = Left(nhan, 15) & ChrW(8230)
+Else
 nhan = TT_UnitLabelAt(g, TT_UnitSlot(g))
-If Len(nhan) > 34 Then nhan = Left(nhan, 32) & "..."
+If Len(nhan) > 28 Then nhan = Left(nhan, 27) & ChrW(8230)
+End If
 returnedVal = ChrW(272) & ChrW(417) & "n v" & ChrW(7883) & ": " & nhan
 End Sub
 Public Sub RibbonDVBH_ItemLabel(control As Object, ByRef returnedVal)
@@ -3413,7 +3981,7 @@ Public Sub RibbonDVBH_GetItemLabel(control As Object, index As Variant, ByRef re
 returnedVal = TT_UnitLabelAt(TT_UnitGroupCurrent(), CInt(index) + 1)
 End Sub
 Public Sub RibbonDVBH_GetItemID(control As Object, index As Variant, ByRef returnedVal)
-returnedVal = control.ID & "_" & CStr(CInt(index) + 1)
+returnedVal = control.Id & "_" & CStr(CInt(index) + 1)
 End Sub
 Public Sub RibbonDVBH_GetSelectedIndex(control As Object, ByRef returnedVal)
 returnedVal = TT_UnitSlot(TT_UnitGroupCurrent()) - 1
@@ -3675,6 +4243,305 @@ End Sub
 Public Sub RibbonHome_GetVisible(control As Object, ByRef returnedVal)
 returnedVal = TT_HienHome()
 End Sub
+Private Function TT_CH_KhoaHopLe() As String
+Dim s As String, p As Integer, pid As String, n As Integer, i As Integer, nhom As String, muc As String
+s = vbLf
+s = s & TT_SETTING_SECTION & "|DonVi" & vbLf
+s = s & TT_SETTING_SECTION & "|TenDai" & vbLf
+s = s & TT_SETTING_SECTION & "|GomChuLe" & vbLf
+s = s & TT_SETTING_SECTION & "|HienHome" & vbLf
+For p = 1 To TT_ProfileCount()
+pid = TT_ProfileIdAt(p)
+s = s & TT_SETTING_SECTION & "|SoDonVi_" & pid & vbLf
+s = s & TT_SETTING_SECTION & "|DonViChon_" & pid & vbLf
+s = s & TT_SETTING_SECTION & "|DaTachDonVi_" & pid & vbLf
+nhom = TT_TemplateGroupOf(pid)
+For n = 1 To TT_UnitMax()
+muc = TT_UnitSection(pid, n)
+For i = 1 To 7
+s = s & muc & "|" & TT_UnitFieldAt(i) & vbLf
+Next i
+For i = 1 To TT_OptCount(nhom)
+s = s & muc & "|TC_" & TT_OptKey(nhom, i) & vbLf
+Next i
+Next n
+Next p
+TT_CH_KhoaHopLe = s
+End Function
+Private Function TT_CH_GiaTriHopLe(ByVal v As String) As Boolean
+Dim i As Long, c As String
+TT_CH_GiaTriHopLe = False
+If Len(v) = 0 Or Len(v) > 4000 Then Exit Function
+For i = 1 To Len(v)
+c = Mid$(v, i, 1)
+If Not (c Like "[A-Za-z0-9]" Or c = "." Or c = "," Or c = "-" Or c = "_") Then Exit Function
+Next i
+TT_CH_GiaTriHopLe = True
+End Function
+Private Function TT_CH_Tong(ByVal s As String) As Long
+Dim i As Long, h As Long
+h = 7
+For i = 1 To Len(s)
+h = (h * 31 + AscW(Mid$(s, i, 1))) Mod 1000003
+If h < 0 Then h = h + 1000003
+Next i
+TT_CH_Tong = h
+End Function
+Private Function TT_CH_Doc(ByVal muc As String, ByVal khoa As String) As String
+Dim v As String
+v = ""
+On Error Resume Next
+v = GetSetting(TT_SETTING_APP, muc, khoa, "")
+On Error GoTo 0
+TT_CH_Doc = v
+End Function
+Private Function TT_CH_TaoMa(ByRef soDong As Long) As String
+Dim s As String, p As Integer, pid As String, n As Integer, i As Integer, nhom As String, muc As String
+Dim k As Variant, v As String
+s = ""
+soDong = 0
+For Each k In Array("DonVi", "TenDai", "GomChuLe", "HienHome")
+v = TT_CH_Doc(TT_SETTING_SECTION, CStr(k))
+If TT_CH_GiaTriHopLe(v) Then s = s & TT_SETTING_SECTION & "|" & k & "|" & v & vbLf: soDong = soDong + 1
+Next k
+For p = 1 To TT_ProfileCount()
+pid = TT_ProfileIdAt(p)
+nhom = TT_TemplateGroupOf(pid)
+s = s & TT_SETTING_SECTION & "|SoDonVi_" & pid & "|" & CStr(TT_UnitCount(pid)) & vbLf
+s = s & TT_SETTING_SECTION & "|DonViChon_" & pid & "|" & CStr(TT_UnitSlot(pid)) & vbLf
+soDong = soDong + 2
+For n = 1 To TT_UnitCount(pid)
+muc = TT_UnitSection(pid, n)
+For i = 1 To 7
+v = TT_CH_Doc(muc, TT_UnitFieldAt(i))
+If TT_CH_GiaTriHopLe(v) Then s = s & muc & "|" & TT_UnitFieldAt(i) & "|" & v & vbLf: soDong = soDong + 1
+Next i
+For i = 1 To TT_OptCount(nhom)
+v = TT_CH_Doc(muc, "TC_" & TT_OptKey(nhom, i))
+If TT_CH_GiaTriHopLe(v) Then s = s & muc & "|TC_" & TT_OptKey(nhom, i) & "|" & v & vbLf: soDong = soDong + 1
+Next i
+Next n
+Next p
+TT_CH_TaoMa = s
+End Function
+Public Sub TT_CauHinhXuat()
+Dim ma As String, soDong As Long, d As Document, r As Range, dong As Variant, tieuDe As String
+ma = TT_CH_TaoMa(soDong)
+Set d = Documents.Add
+If d Is Nothing Then Exit Sub
+Set r = d.Content
+r.text = "C" & ChrW(7844) & "U H" & ChrW(204) & "NH ADD-IN CHU" & ChrW(7848) & "N H" & ChrW(211) & "A TH" & ChrW(7874) & " TH" & ChrW(7912) & "C V" & ChrW(258) & "N B" & ChrW(7842) & "N" & vbCr & _
+"V" & ChrW(259) & "n b" & ChrW(7843) & "n n" & ChrW(224) & "y ch" & ChrW(7913) & "a th" & ChrW(244) & "ng tin " & ChrW(273) & ChrW(417) & "n v" & ChrW(7883) & " ban h" & ChrW(224) & "nh v" & ChrW(224) & " t" & ChrW(249) & "y ch" & ChrW(7885) & "n th" & ChrW(7875) & " th" & ChrW(7913) & "c c" & ChrW(7911) & "a m" & ChrW(225) & "y " & ChrW(273) & ChrW(227) & " xu" & ChrW(7845) & "t (kh" & ChrW(244) & "ng ch" & ChrW(7913) & "a m" & ChrW(227) & " b" & ChrW(7843) & "n quy" & ChrW(7873) & "n)." & vbCr & _
+"C" & ChrW(225) & "ch d" & ChrW(249) & "ng: l" & ChrW(432) & "u v" & ChrW(259) & "n b" & ChrW(7843) & "n n" & ChrW(224) & "y th" & ChrW(224) & "nh file (Word), g" & ChrW(7917) & "i sang m" & ChrW(225) & "y kh" & ChrW(225) & "c. Tr" & ChrW(234) & "n m" & ChrW(225) & "y " & ChrW(273) & ChrW(243) & " m" & ChrW(7903) & " file ra, v" & ChrW(224) & "o tab TH" & ChrW(7874) & " TH" & ChrW(7912) & "C V" & ChrW(258) & "N B" & ChrW(7842) & "N, b" & ChrW(7845) & "m ""Nh" & ChrW(7853) & "p c" & ChrW(7845) & "u h" & ChrW(236) & "nh""." & vbCr & _
+"Kh" & ChrW(244) & "ng s" & ChrW(7917) & "a c" & ChrW(225) & "c d" & ChrW(242) & "ng m" & ChrW(227) & " b" & ChrW(234) & "n d" & ChrW(432) & ChrW(7899) & "i, s" & ChrW(7917) & "a sai m" & ChrW(7897) & "t k" & ChrW(253) & " t" & ChrW(7921) & " th" & ChrW(236) & " add-in s" & ChrW(7869) & " kh" & ChrW(244) & "ng nh" & ChrW(7853) & "n." & vbCr & vbCr
+r.Font.Name = "Times New Roman"
+r.Font.Size = 13
+r.ParagraphFormat.SpaceAfter = 6
+d.Paragraphs(1).Range.Font.Bold = True
+d.Paragraphs(1).Range.Font.Size = 14
+Set r = d.Content
+r.Collapse 0
+r.InsertAfter TT_CH_BEGIN & vbCr & "OPS|" & TT_CH_DINHDANG & "|" & CN_PhienBan() & "|" & CStr(soDong) & vbCr & _
+Replace(ma, vbLf, vbCr) & "CHECK|" & CStr(TT_CH_Tong(ma)) & vbCr & TT_CH_END
+r.Font.Name = "Courier New"
+r.Font.Size = 8
+r.Font.Bold = False
+r.ParagraphFormat.SpaceAfter = 0
+r.ParagraphFormat.Alignment = 0
+d.Saved = True
+If mTTThuKhongHoi Then Exit Sub
+Dim dlg As Object, kq As Long
+kq = 0
+On Error Resume Next
+d.Activate
+Set dlg = Dialogs(wdDialogFileSaveAs)
+dlg.Name = "CauHinh_AddIn_" & Format(Date, "yyyy-mm-dd") & ".docx"
+kq = dlg.Show
+On Error GoTo 0
+If kq = -1 And Len(d.Path) > 0 Then
+MsgBox "Da luu file cau hinh (" & soDong & " muc):" & vbCrLf & d.FullName & vbCrLf & vbCrLf & _
+"Gui file nay sang may khac. Tren may do: vao tab THE THUC VAN BAN, bam 'Nhap cau hinh' roi chon file.", vbInformation, "Xuat cau hinh"
+Else
+MsgBox "Chua luu file. Van ban cau hinh van dang mo (" & soDong & " muc)." & vbCrLf & vbCrLf & _
+"Hay LUU van ban nay thanh file (File > Save As) roi gui sang may khac." & vbCrLf & _
+"Tren may do: vao tab THE THUC VAN BAN, bam 'Nhap cau hinh' roi chon file.", vbInformation, "Xuat cau hinh"
+End If
+End Sub
+Private Function TT_CH_DocMa(ByRef loi As String) As String
+Dim t As String, a As Long, b As Long, dongs() As String, i As Long, ma As String, soDong As Long
+Dim dauDong As String, tong As String, phan() As String, dem As Long, x As String
+loi = ""
+TT_CH_DocMa = ""
+If Documents.Count = 0 Then loi = "Chua mo van ban nao (neu file dang o che do Protected View, hay bam Enable Editing truoc).": Exit Function
+t = ActiveDocument.Content.text
+t = Replace(t, Chr(11), vbCr)
+t = Replace(t, vbLf, vbCr)
+a = InStr(1, t, TT_CH_BEGIN)
+If a = 0 Then loi = "Van ban dang mo khong co khoi ma cau hinh (dong '" & TT_CH_BEGIN & "').": Exit Function
+b = InStr(a, t, TT_CH_END)
+If b = 0 Then loi = "Khoi ma cau hinh bi thieu dong ket thuc. Co the file bi cat bot.": Exit Function
+dongs = Split(Mid$(t, a + Len(TT_CH_BEGIN), b - a - Len(TT_CH_BEGIN)), vbCr)
+ma = ""
+dem = 0
+For i = 0 To UBound(dongs)
+x = Trim$(Replace(Replace(dongs(i), Chr(7), ""), ChrW(160), ""))
+If Len(x) > 0 Then
+If Left$(x, 4) = "OPS|" Then
+dauDong = x
+ElseIf Left$(x, 6) = "CHECK|" Then
+tong = Mid$(x, 7)
+Else
+ma = ma & x & vbLf
+dem = dem + 1
+End If
+End If
+Next i
+phan = Split(dauDong & "|||", "|")
+If phan(0) <> "OPS" Then loi = "Khoi ma cau hinh khong co dong 'OPS|...'.": Exit Function
+If phan(1) <> TT_CH_DINHDANG Then loi = "File cau hinh duoc tao boi phien ban add-in khac (" & phan(2) & "). Hay cap nhat add-in tren ca hai may.": Exit Function
+If Val(phan(3)) <> dem Or CStr(TT_CH_Tong(ma)) <> tong Then loi = "Khoi ma cau hinh bi sua hoac bi thieu dong. Hay xuat lai tu may goc.": Exit Function
+TT_CH_DocMa = ma
+End Function
+Public Sub TT_CauHinhNhap()
+Dim dMo As Document, coMa As Boolean, truoc As Long, kq As Long, app As Object
+coMa = False
+On Error Resume Next
+If Documents.Count > 0 Then coMa = (InStr(1, ActiveDocument.Content.text, TT_CH_BEGIN) > 0)
+On Error GoTo 0
+If Not coMa And Not mTTThuKhongHoi Then
+Dim tenTruoc As String, nPV As Long
+tenTruoc = ""
+truoc = Documents.Count
+On Error Resume Next
+If truoc > 0 Then tenTruoc = ActiveDocument.FullName
+kq = 0
+kq = Dialogs(wdDialogFileOpen).Show
+On Error GoTo 0
+If kq <> -1 Then Exit Sub
+Set app = Application
+nPV = 0
+On Error Resume Next
+nPV = app.ProtectedViewWindows.Count
+If Err.Number <> 0 Then nPV = 0
+Err.Clear
+On Error GoTo 0
+If nPV > 0 Then
+On Error Resume Next
+Set dMo = app.ActiveProtectedViewWindow.Edit
+On Error GoTo 0
+End If
+If dMo Is Nothing And Documents.Count > 0 Then
+If ActiveDocument.FullName <> tenTruoc Then Set dMo = ActiveDocument
+End If
+If Not dMo Is Nothing Then dMo.Activate
+End If
+Call TT_CauHinhNhapTuVanBan
+If Not dMo Is Nothing Then
+On Error Resume Next
+dMo.Close SaveChanges:=wdDoNotSaveChanges
+On Error GoTo 0
+End If
+End Sub
+Private Sub TT_CauHinhNhapTuVanBan()
+Dim ma As String, loi As String, dongs() As String, i As Long, phan() As String, hopLe As String
+Dim nhomCo As String, p As Integer, pid As String, n As Integer, tom As String, soNhom As Integer, sl As Long
+mTTCHLoi = ""
+ma = TT_CH_DocMa(loi)
+If Len(loi) > 0 Then
+mTTCHLoi = loi
+If mTTThuKhongHoi Then Exit Sub
+MsgBox loi & vbCrLf & vbCrLf & "Cach dung: bam 'Nhap cau hinh' roi chon file cau hinh da xuat tu may khac.", vbExclamation, "Nhap cau hinh"
+Exit Sub
+End If
+hopLe = TT_CH_KhoaHopLe()
+dongs = Split(ma, vbLf)
+nhomCo = "|"
+For i = 0 To UBound(dongs)
+If Len(dongs(i)) > 0 Then
+phan = Split(dongs(i), "|")
+If UBound(phan) <> 2 Then loi = "Dong ma sai dang: " & Left$(dongs(i), 60): Exit For
+If InStr(1, hopLe, vbLf & phan(0) & "|" & phan(1) & vbLf) = 0 Then loi = "Khoa khong hop le: " & phan(0) & "|" & phan(1): Exit For
+If Not TT_CH_GiaTriHopLe(phan(2)) Then loi = "Gia tri khong hop le o khoa " & phan(1): Exit For
+If phan(0) = TT_SETTING_SECTION And Left$(phan(1), 8) = "SoDonVi_" Then nhomCo = nhomCo & Mid$(phan(1), 9) & "|"
+End If
+Next i
+If Len(loi) > 0 Then
+mTTCHLoi = loi
+If mTTThuKhongHoi Then Exit Sub
+MsgBox "File cau hinh khong hop le, chua nhap gi ca." & vbCrLf & loi, vbExclamation, "Nhap cau hinh"
+Exit Sub
+End If
+tom = ""
+soNhom = 0
+For p = 1 To TT_ProfileCount()
+pid = TT_ProfileIdAt(p)
+If InStr(1, nhomCo, "|" & pid & "|") > 0 Then
+soNhom = soNhom + 1
+sl = TT_CH_GiaTri(dongs, TT_SETTING_SECTION, "SoDonVi_" & pid, 1)
+tom = tom & vbCrLf & "- " & TT_ProfileLabelAscii(pid) & ": " & sl & " don vi"
+Dim tenDs As String, tenMot As String
+tenDs = ""
+For n = 1 To sl
+tenMot = Trim$(ToAscii(TT_DecU(TT_CH_GiaTriChuoi(dongs, TT_UnitSection(pid, n), "COQUAN"))))
+If Len(tenMot) > 0 Then tenDs = tenDs & IIf(Len(tenDs) > 0, ", ", "") & tenMot
+Next n
+If Len(tenDs) > 0 Then tom = tom & " (" & tenDs & ")"
+End If
+Next p
+If soNhom = 0 Then
+MsgBox "File cau hinh khong co thong tin don vi nao.", vbExclamation, "Nhap cau hinh"
+Exit Sub
+End If
+If Not mTTThuKhongHoi Then
+If MsgBox("Nhap cau hinh tu file " & ActiveDocument.Name & "?" & vbCrLf & tom & vbCrLf & vbCrLf & _
+"Thong tin don vi va tuy chon the thuc cua cac khoi tren tren may nay se bi THAY THE.", _
+vbYesNo + vbQuestion, "Nhap cau hinh") <> vbYes Then Exit Sub
+End If
+On Error Resume Next
+For p = 1 To TT_ProfileCount()
+pid = TT_ProfileIdAt(p)
+If InStr(1, nhomCo, "|" & pid & "|") > 0 Then
+For n = 1 To TT_UnitMax()
+DeleteSetting TT_SETTING_APP, TT_UnitSection(pid, n)
+Next n
+DeleteSetting TT_SETTING_APP, TT_SETTING_SECTION, "DonViChon_" & pid
+SaveSetting TT_SETTING_APP, TT_SETTING_SECTION, "DaTachDonVi_" & pid, "1"
+End If
+Next p
+For i = 0 To UBound(dongs)
+If Len(dongs(i)) > 0 Then
+phan = Split(dongs(i), "|")
+SaveSetting TT_SETTING_APP, phan(0), phan(1), phan(2)
+End If
+Next i
+On Error GoTo 0
+mTTOvPid = ""
+mTTOvStr = ""
+Call TT_RibbonRefresh
+If mTTThuKhongHoi Then Exit Sub
+MsgBox "Da nhap cau hinh cho " & soNhom & " khoi." & tom, vbInformation, "Nhap cau hinh"
+End Sub
+Private Function TT_CH_GiaTriChuoi(dongs() As String, ByVal muc As String, ByVal khoa As String) As String
+Dim i As Long, dau As String
+dau = muc & "|" & khoa & "|"
+TT_CH_GiaTriChuoi = ""
+For i = 0 To UBound(dongs)
+If Left$(dongs(i), Len(dau)) = dau Then TT_CH_GiaTriChuoi = Mid$(dongs(i), Len(dau) + 1): Exit Function
+Next i
+End Function
+Private Function TT_CH_GiaTri(dongs() As String, ByVal muc As String, ByVal khoa As String, ByVal macDinh As Long) As Long
+Dim v As String
+v = TT_CH_GiaTriChuoi(dongs, muc, khoa)
+If Len(v) = 0 Then TT_CH_GiaTri = macDinh Else TT_CH_GiaTri = Val(v)
+If TT_CH_GiaTri < 1 Then TT_CH_GiaTri = 1
+If TT_CH_GiaTri > TT_UnitMax() Then TT_CH_GiaTri = TT_UnitMax()
+End Function
+Public Sub RibbonCauHinh_Xuat(control As Object)
+Call TT_CauHinhXuat
+End Sub
+Public Sub RibbonCauHinh_Nhap(control As Object)
+Call TT_CauHinhNhap
+End Sub
 Public Function TT_UnitGroupCurrent() As String
 Dim pid As String, g As String
 pid = TT_GetSetting()
@@ -3700,6 +4567,8 @@ End Sub
 Public Sub RibbonUnit_GetLabel(control As Object, ByRef returnedVal)
 If TT_UnitGroupCurrent() = "DANG" Then
 returnedVal = "(" & ChrW(273) & "ang s" & ChrW(7917) & "a: kh" & ChrW(7889) & "i " & ChrW(272) & ChrW(7843) & "ng)"
+ElseIf TT_UnitGroupCurrent() = "DOAN" Then
+returnedVal = "(" & ChrW(273) & "ang s" & ChrW(7917) & "a: kh" & ChrW(7889) & "i " & ChrW(272) & "o" & ChrW(224) & "n" & ")"
 Else
 returnedVal = "(" & ChrW(273) & "ang s" & ChrW(7917) & "a: kh" & ChrW(7889) & "i Nh" & ChrW(224) & " n" & ChrW(432) & ChrW(7899) & "c)"
 End If
@@ -3792,7 +4661,7 @@ Public Sub RibbonMau_GetVisible(control As Object, ByRef returnedVal)
 Dim pid As String
 pid = TT_GetSetting()
 If pid = "AUTO" Then
-returnedVal = True
+returnedVal = (Left$(control.Id, 10) <> "mnuMauHome")
 Else
 returnedVal = (TT_TemplateGroupOf(pid) = control.tag)
 End If
@@ -3803,6 +4672,8 @@ If control.tag = "DANG" Then
 returnedVal = "M" & ChrW(7851) & "u kh" & ChrW(7889) & "i " & ChrW(272) & ChrW(7843) & "ng"
 ElseIf control.tag = "MTTQ" Then
 returnedVal = "M" & ChrW(7851) & "u kh" & ChrW(7889) & "i MTTQ"
+ElseIf control.tag = "DOAN" Then
+returnedVal = "M" & ChrW(7851) & "u kh" & ChrW(7889) & "i " & ChrW(272) & "o" & ChrW(224) & "n"
 Else
 returnedVal = "M" & ChrW(7851) & "u kh" & ChrW(7889) & "i Nh" & ChrW(224) & " n" & ChrW(432) & ChrW(7899) & "c"
 End If
@@ -4025,6 +4896,15 @@ If Documents.Count > 0 Then Set srcDoc = ActiveDocument
 On Error GoTo 0
 Call TT_CreateFromTemplate(pid, nM, srcDoc, True)
 End Sub
+Private Function TT_ChoTrongCoQuanBanHanh(ByVal grp As String) As String
+If grp = "DANG" Then
+TT_ChoTrongCoQuanBanHanh = "[" & ChrW(272) & ChrW(7842) & "NG " & ChrW(7910) & "Y / CHI B" & ChrW(7896) & " BAN H" & ChrW(192) & "NH]"
+ElseIf grp = "DOAN" Then
+TT_ChoTrongCoQuanBanHanh = "[BCH " & ChrW(272) & "O" & ChrW(192) & "N T" & ChrW(202) & "N " & ChrW(272) & ChrW(416) & "N V" & ChrW(7882) & "]"
+Else
+TT_ChoTrongCoQuanBanHanh = "[T" & ChrW(202) & "N C" & ChrW(416) & " QUAN BAN H" & ChrW(192) & "NH]"
+End If
+End Function
 Public Function TT_CreateFromTemplate(ByVal pid As String, ByVal nM As Integer, ByVal srcDoc As Document, ByVal showMsg As Boolean, Optional ByVal khoaDonVi As String = "") As Document
 Set TT_CreateFromTemplate = Nothing
 If Len(khoaDonVi) = 0 Then khoaDonVi = pid
@@ -4057,6 +4937,16 @@ infoSource = "DONVI"
 Else
 Call TT_ReadOrganInfo(srcDoc, grp, organLines, orgAbbr, placeName)
 If Len(organLines) > 0 Then infoSource = "VANBAN"
+Dim uCapTren2 As String, uViet2 As String, uDia2 As String
+uCapTren2 = TT_UnitGet(khoaDonVi, "CAPTREN")
+uViet2 = TT_UnitGet(khoaDonVi, "VIETTAT")
+uDia2 = TT_UnitGet(khoaDonVi, "DIADANH")
+If Len(uCapTren2) > 0 And Len(organLines) = 0 Then
+organLines = Replace(Replace(uCapTren2, " | ", vbCr), "|", vbCr) & vbCr & TT_ChoTrongCoQuanBanHanh(grp)
+infoSource = "DONVI"
+End If
+If Len(uViet2) > 0 Then orgAbbr = uViet2: infoSource = "DONVI"
+If Len(uDia2) > 0 Then placeName = uDia2: infoSource = "DONVI"
 End If
 Dim tookInfo As Boolean
 tookInfo = (Len(infoSource) > 0)
@@ -4228,6 +5118,8 @@ If Len(organLines) = 0 Then
 If grp = "DANG" Then
 organLines = TT_PartySuperiorPlaceholder() & vbCr & _
 "[" & ChrW(272) & ChrW(7842) & "NG " & ChrW(7910) & "Y / CHI B" & ChrW(7896) & " BAN H" & ChrW(192) & "NH]"
+ElseIf grp = "DOAN" Then
+organLines = "[" & "T" & ChrW(202) & "N " & ChrW(272) & "O" & ChrW(192) & "N C" & ChrW(7844) & "P TR" & ChrW(202) & "N TR" & ChrW(7920) & "C TI" & ChrW(7870) & "P" & "]" & vbCr & "[" & "BCH " & ChrW(272) & "O" & ChrW(192) & "N T" & ChrW(202) & "N " & ChrW(272) & ChrW(416) & "N V" & ChrW(7882) & "]"
 ElseIf pid = "CONG_AN" Or pid = "QUAN_DOI" Or pid = "MTTQ" Then
 Select Case pid
 Case "CONG_AN": organLines = "[C" & ChrW(212) & "NG AN T" & ChrW(7880) & "NH ...]" & vbCr & "[C" & ChrW(212) & "NG AN X" & ChrW(195) & " ...]"
@@ -4245,6 +5137,8 @@ bodyText = Replace(bodyText, "{VIETTAT}", orgAbbr)
 Dim soLine As String
 If grp = "DANG" Then
 soLine = "S" & ChrW(7889) & "   -" & code & "/" & orgAbbr
+ElseIf TT_NhomKieuDang(grp) Then
+soLine = "S" & ChrW(7889) & ":   -" & code & "/" & orgAbbr
 ElseIf isCV Then
 soLine = "S" & ChrW(7889) & ":   /" & orgAbbr & "-[" & ChrW(272) & "VST]"
 Else
@@ -4252,12 +5146,12 @@ soLine = "S" & ChrW(7889) & ":   /" & code & "-" & orgAbbr
 End If
 Dim leftText As String
 leftText = organLines
-If grp = "DANG" Then Call AppendLineToBuffer(leftText, "*")
+If TT_NhomKieuDang(grp) Then Call AppendLineToBuffer(leftText, TT_DauSaoOf(grp))
 If Not noNumber Then Call AppendLineToBuffer(leftText, soLine)
 If isCV And Len(summary) > 0 Then Call AppendLineToBuffer(leftText, summary)
 Dim rightText As String
-If grp = "DANG" Then
-rightText = TT_TextTieuNguDang()
+If TT_NhomKieuDang(grp) Then
+rightText = TT_TextTieuNguOf(pid)
 Else
 rightText = TT_TextQuocHieu() & vbCr & TT_TextTieuNgu()
 End If
@@ -4292,6 +5186,44 @@ Set rN = d.Range(d.Content.End - 1, d.Content.End - 1)
 rN.InsertAfter vbCr & "N" & ChrW(417) & "i nh" & ChrW(7853) & "n:" & vbCr & recipText
 End If
 XongChuKy:
+Call TT_NoiCotChuKy(d)
+On Error GoTo 0
+End Sub
+Private Sub TT_NoiCotChuKy(ByVal doc As Document)
+On Error Resume Next
+Dim tbl As Table, r As Long, p As Paragraph, t As String, rot As Boolean
+Dim w1 As Single, w2 As Single, tong As Single, minTrai As Single, buoc As Integer
+minTrai = MillimetersToPoints(60)
+For Each tbl In doc.Tables
+If tbl.Columns.Count = 2 And tbl.Rows.Count <= 2 Then
+If IsFooterSignatureTable(tbl, ToAscii(tbl.Range.text)) Then
+w1 = 0: w2 = 0
+w1 = tbl.Cell(1, 1).Width
+w2 = tbl.Cell(1, 2).Width
+tong = w1 + w2
+If w1 > 0 And w2 > 0 Then
+For buoc = 1 To 30
+rot = False
+For r = 1 To tbl.Rows.Count
+For Each p In tbl.Cell(r, 2).Range.Paragraphs
+t = Trim(CleanParaText(p.Range.text))
+If Len(t) > 3 And Len(t) < 80 And UCase(t) = t And t Like "*[A-Z]*" Then
+If TT_ParaLines(p) > 1 Then rot = True: Exit For
+End If
+Next p
+If rot Then Exit For
+Next r
+If Not rot Then Exit For
+If w1 - MillimetersToPoints(2) < minTrai Then Exit For
+w1 = w1 - MillimetersToPoints(2)
+w2 = tong - w1
+tbl.Columns(1).Width = w1
+tbl.Columns(2).Width = w2
+Next buoc
+End If
+End If
+End If
+Next tbl
 On Error GoTo 0
 End Sub
 Public Sub RibbonChuanHoa(control As Object)
@@ -4428,11 +5360,11 @@ tAsc = ToAscii(tbl.Range.text)
 Dim isHeaderTbl As Boolean
 isHeaderTbl = False
 Dim hdrDetectStrong As Boolean
-If tblCounter = 1 And (InStr(1, tAsc, "DANG CONG SAN") > 0 Or InStr(1, tAsc, "VIET NAM") > 0 Or InStr(1, tAsc, "DANG BO") > 0 Or InStr(1, tAsc, "DANG UY") > 0 Or InStr(1, tAsc, "CHI BO") > 0 Or InStr(1, tAsc, "TINH UY") > 0 Or InStr(1, tAsc, "THANH UY") > 0 Or InStr(1, tAsc, "HUYEN UY") > 0) Then
+If tblCounter = 1 And (TT_CoTieuDe(tAsc) Or InStr(1, tAsc, "VIET NAM") > 0 Or InStr(1, tAsc, "DANG BO") > 0 Or InStr(1, tAsc, "DANG UY") > 0 Or InStr(1, tAsc, "CHI BO") > 0 Or InStr(1, tAsc, "TINH UY") > 0 Or InStr(1, tAsc, "THANH UY") > 0 Or InStr(1, tAsc, "HUYEN UY") > 0) Then
 isHeaderTbl = True
 ElseIf tblCounter = 1 And tbl.Rows.Count <= 3 And Len(TT_DetectFromHeaderText(tAsc, hdrDetectStrong)) > 0 And InStr(1, tAsc, "NOI NHAN") = 0 Then
 isHeaderTbl = True
-ElseIf InStr(1, tAsc, "DANG CONG SAN VIET NAM") > 0 Or InStr(1, tAsc, "CONG HOA XA HOI CHU NGHIA") > 0 Then
+ElseIf TT_CoTieuDeDu(tAsc) Or InStr(1, tAsc, "CONG HOA XA HOI CHU NGHIA") > 0 Then
 isHeaderTbl = True
 End If
 If isHeaderTbl Then
@@ -4474,7 +5406,7 @@ GoTo NextCellHeader
 End If
 Dim isRightCell As Boolean
 isRightCell = False
-If InStr(1, cAsc, "DANG CONG SAN") > 0 Or InStr(1, cAsc, "DOC LAP - TU DO") > 0 Or InStr(1, cAsc, "CONG HOA XA HOI") > 0 Then
+If TT_CoTieuDe(cAsc) Or InStr(1, cAsc, "DOC LAP - TU DO") > 0 Or InStr(1, cAsc, "CONG HOA XA HOI") > 0 Then
 isRightCell = True
 Set cRight = c
 ElseIf InStr(1, cAsc, "NGAY") > 0 And InStr(1, cAsc, "THANG") > 0 And InStr(1, cAsc, "NAM") > 0 And InStr(1, cAsc, "V/V") = 0 Then
@@ -4540,7 +5472,7 @@ pCell.Range.Font.Italic = False
 pCell.Format.Alignment = wdAlignParagraphCenter
 pCell.Format.SpaceAfter = 8
 Set pTieuNgu = pCell
-ElseIf InStr(1, pAsc, "DANG CONG SAN") > 0 Or InStr(1, pAsc, "VIET NAM") > 0 Then
+ElseIf TT_CoTieuDe(pAsc) Or InStr(1, pAsc, "VIET NAM") > 0 Then
 pCell.Range.Case = wdUpperCase
 pCell.Range.Font.Size = 15
 pCell.Range.Font.Bold = True
@@ -4627,6 +5559,7 @@ ElseIf pAsc = "*" Or pAsc = "***" Or IsSeparatorLine(pAsc) Then
 If TT_B("ORGAN_UNDERLINE") Then
 Call SafeSetParagraphText(doc, pCell, "")
 Else
+If TT_NhomKieuDang(TT_Profile()) And (pAsc = "*" Or pAsc = "***") And pAsc <> TT_DauSaoOf(TT_Profile()) Then Call SafeSetParagraphText(doc, pCell, TT_DauSaoOf(TT_Profile()))
 pCell.Format.Alignment = wdAlignParagraphCenter
 pCell.Range.Font.Size = 14
 pCell.Range.Font.Bold = False
@@ -4809,6 +5742,7 @@ rPad = cRightCell.RightPadding
 On Error Resume Next
 End If
 Dim lineWidth As Single: lineWidth = CentimetersToPoints(7.2)
+If TT_N("MOTTO_LINE_CM") > 0 Then lineWidth = CentimetersToPoints(TT_N("MOTTO_LINE_CM"))
 Dim lPos As Single: lPos = cellW - lineWidth - rPad - 5.5
 If lPos < 0 Then lPos = 0
 On Error Resume Next
@@ -4835,7 +5769,7 @@ cellTxtKG = CleanParaText(cKG.Range.text)
 If Len(cellTxtKG) > 0 Then
 Dim cAscKG As String
 cAscKG = Trim(ToAscii(cellTxtKG))
-If InStr(1, cAscKG, "DANG CONG SAN") > 0 Or InStr(1, cAscKG, "CONG HOA XA HOI") > 0 Or _
+If TT_CoTieuDe(cAscKG) Or InStr(1, cAscKG, "CONG HOA XA HOI") > 0 Or _
 InStr(1, Replace(cAscKG, " ", ""), "DOCLAP-TUDO") > 0 Or _
 (InStr(1, cAscKG, "NGAY") > 0 And InStr(1, cAscKG, "THANG") > 0 And InStr(1, cAscKG, "NAM") > 0) Or _
 IsDocNumberLineAsc(cAscKG) Then
@@ -4849,7 +5783,7 @@ cKG.Shading.BackgroundPatternColor = wdColorAutomatic
 cKG.Shading.Texture = wdTextureNone
 cKG.VerticalAlignment = wdCellAlignVerticalTop
 On Error Resume Next
-cKG.Range.Font.Bold = False
+cKG.Range.Font.Bold = TT_B("KINH_GUI_BOLD")
 cKG.Range.Font.Italic = TT_B("KINH_GUI_ITALIC")
 Dim pKGLeft As Paragraph
 For Each pKGLeft In cKG.Range.Paragraphs
@@ -4872,7 +5806,7 @@ With pKGLeft.Format
 End With
 pKGLeft.Range.Font.Name = "Times New Roman"
 pKGLeft.Range.Font.Size = 14
-pKGLeft.Range.Font.Bold = False
+pKGLeft.Range.Font.Bold = TT_B("KINH_GUI_BOLD")
 pKGLeft.Range.Font.Italic = TT_B("KINH_GUI_ITALIC")
 pKGLeft.Range.Font.ColorIndex = wdBlack
 pKGLeft.Range.Font.Underline = wdUnderlineNone
@@ -4886,7 +5820,7 @@ cKG.Shading.Texture = wdTextureNone
 cKG.VerticalAlignment = wdCellAlignVerticalTop
 Call SafeReplaceSoftBreaksInRange(cKG.Range)
 On Error Resume Next
-cKG.Range.Font.Bold = False
+cKG.Range.Font.Bold = TT_B("KINH_GUI_BOLD")
 cKG.Range.Font.Italic = False
 Dim lastLineKG As Integer: lastLineKG = 0
 Dim counterKG As Integer: counterKG = 1
@@ -5222,6 +6156,7 @@ fCellIdx = fCellIdx + 1
 Next c
 End If
 Next tbl
+Call TT_NoiCotChuKy(doc)
 Call TT_DebugLog("BUOC 4 bat dau")
 Dim p As Paragraph
 Dim s As String
@@ -5525,7 +6460,7 @@ With p.Format
 End With
 p.Range.Font.Name = "Times New Roman"
 p.Range.Font.Size = 14
-p.Range.Font.Bold = False
+p.Range.Font.Bold = TT_B("KINH_GUI_BOLD")
 p.Range.Font.Underline = wdUnderlineNone
 p.Range.Font.ColorIndex = wdBlack
 Dim cPosColon As Long: cPosColon = InStr(1, p.Range.text, ":")
@@ -5578,7 +6513,7 @@ With p.Format
 End With
 p.Range.Font.Name = "Times New Roman"
 p.Range.Font.Size = 14
-p.Range.Font.Bold = False
+p.Range.Font.Bold = TT_B("KINH_GUI_BOLD")
 p.Range.Font.Italic = False
 p.Range.Font.Underline = wdUnderlineNone
 p.Range.Font.ColorIndex = wdBlack
@@ -6034,7 +6969,7 @@ parasBeforeTbl1 = parasBeforeTbl1 + 1
 End If
 Next pCheckBefore
 Dim t1DetectStrong As Boolean
-If parasBeforeTbl1 <= 1 And (InStr(1, t1Asc, "DANG CONG SAN") > 0 Or InStr(1, t1Asc, "DANG BO") > 0 Or InStr(1, t1Asc, "DANG UY") > 0 Or InStr(1, t1Asc, "CHI BO") > 0 Or InStr(1, t1Asc, "TINH UY") > 0 Or InStr(1, t1Asc, "THANH UY") > 0 Or _
+If parasBeforeTbl1 <= 1 And (TT_CoTieuDe(t1Asc) Or InStr(1, t1Asc, "DANG BO") > 0 Or InStr(1, t1Asc, "DANG UY") > 0 Or InStr(1, t1Asc, "CHI BO") > 0 Or InStr(1, t1Asc, "TINH UY") > 0 Or InStr(1, t1Asc, "THANH UY") > 0 Or _
 InStr(1, t1Asc, "CONG HOA XA HOI") > 0 Or (firstTbl.Rows.Count <= 3 And Len(TT_DetectFromHeaderText(t1Asc, t1DetectStrong)) > 0 And InStr(1, t1Asc, "NOI NHAN") = 0)) Then
 Dim pAfterH As Paragraph
 Set pAfterH = firstTbl.Range.Paragraphs(firstTbl.Range.Paragraphs.Count).Next
@@ -6090,7 +7025,7 @@ If IsStrictBodyOrHeadingStart(sRaw, sAsc) Then
 Exit For
 End If
 Dim isHdrLine As Boolean: isHdrLine = False
-If InStr(1, sAsc, "DANG CONG SAN") > 0 Or InStr(1, sAsc, "DOC LAP - TU DO") > 0 Or InStr(1, sAsc, "CONG HOA XA HOI") > 0 Then
+If TT_CoTieuDe(sAsc) Or InStr(1, sAsc, "DOC LAP - TU DO") > 0 Or InStr(1, sAsc, "CONG HOA XA HOI") > 0 Then
 isHdrLine = True
 sawMottoOrOrgan = True
 sawMotto = True
@@ -6140,7 +7075,7 @@ If Len(Trim(leftLines)) = 0 And Len(Trim(rightLines)) = 0 Then Exit Sub
 Dim rightAsc As String
 rightAsc = ToAscii(rightLines)
 Dim hasAnyMotto As Boolean
-hasAnyMotto = (InStr(1, rightAsc, "DANG CONG SAN") > 0 Or InStr(1, rightAsc, "CONG HOA XA HOI") > 0)
+hasAnyMotto = (TT_CoTieuDe(rightAsc) Or InStr(1, rightAsc, "CONG HOA XA HOI") > 0)
 Dim mottoStr As String
 mottoStr = ""
 If TT_B("AUTO_INSERT_MOTTO") Then
@@ -6205,6 +7140,7 @@ sAsc = Trim(ToAscii(sLine))
 If Len(sAsc) = 0 Then Exit Sub
 Dim posDCS As Long
 posDCS = InStr(1, sAsc, "DANG CONG SAN")
+If posDCS = 0 Then posDCS = InStr(1, sAsc, "DOAN TNCS HO CHI MINH")
 If posDCS = 0 Then posDCS = InStr(1, sAsc, "CONG HOA XA HOI")
 If posDCS = 0 Then posDCS = InStr(1, sAsc, "DOC LAP - TU DO")
 If posDCS > 3 Then
@@ -6215,13 +7151,13 @@ If Len(leftPart1) > 0 Then Call AppendLineToBuffer(leftLines, leftPart1)
 If Len(rightPart1) > 0 Then Call AppendLineToBuffer(rightLines, rightPart1)
 Exit Sub
 End If
-If InStr(1, sAsc, "DANG CONG SAN") > 0 Or sAsc = "VIET NAM" Or InStr(1, sAsc, "DOC LAP - TU DO") > 0 Or InStr(1, sAsc, "CONG HOA XA HOI") > 0 Then
+If TT_CoTieuDe(sAsc) Or sAsc = "VIET NAM" Or InStr(1, sAsc, "DOC LAP - TU DO") > 0 Or InStr(1, sAsc, "CONG HOA XA HOI") > 0 Then
 Call AppendLineToBuffer(rightLines, sLine)
 ElseIf InStr(1, sAsc, "NGAY") > 0 And InStr(1, sAsc, "THANG") > 0 And InStr(1, sAsc, "V/V") = 0 Then
 Call AppendLineToBuffer(rightLines, sLine)
 ElseIf sAsc = "*" Or sAsc = "***" Then
 If InStr(1, leftLines, "*") = 0 And Not TT_B("ORGAN_UNDERLINE") Then
-Call AppendLineToBuffer(leftLines, "*")
+Call AppendLineToBuffer(leftLines, TT_DauSaoOf(TT_Profile()))
 End If
 ElseIf IsSeparatorLine(sLine) Then
 If InStr(1, ToAscii(leftLines), "V/V") > 0 Or InStr(1, ToAscii(leftLines), "VE VIEC") > 0 Then
@@ -6260,16 +7196,17 @@ Dim tblH As Table
 Set tblH = doc.Tables(1)
 Dim tHAsc As String
 tHAsc = ToAscii(tblH.Range.text)
-If InStr(1, tHAsc, "DANG CONG SAN") > 0 Or InStr(1, tHAsc, "DANG BO") > 0 Or InStr(1, tHAsc, "DANG UY") > 0 Then
+If TT_CoTieuDe(tHAsc) Or InStr(1, tHAsc, "DANG BO") > 0 Or InStr(1, tHAsc, "DANG UY") > 0 Then
 Dim ch As Cell
 For Each ch In tblH.Range.Cells
 Dim pH As Paragraph
 For Each pH In ch.Range.Paragraphs
 Dim sH As String: sH = CleanParaText(pH.Range.text)
 Dim sHAsc As String: sHAsc = Trim(ToAscii(sH))
-If InStr(1, sHAsc, "DANG CONG SAN VIET NAM") > 0 And InStr(1, sHAsc, "NGAY") > 0 And InStr(1, sHAsc, "THANG") > 0 Then
+If TT_CoTieuDeDu(sHAsc) And InStr(1, sHAsc, "NGAY") > 0 And InStr(1, sHAsc, "THANG") > 0 Then
 Dim posVN As Long
 posVN = InStr(1, sHAsc, "VIET NAM")
+If Not TT_CoTieuDeDu(sHAsc) Then posVN = InStr(1, sHAsc, "DOAN TNCS HO CHI MINH") + 13
 If posVN > 0 Then
 Dim cutVN As Long: cutVN = posVN + 7
 Dim leftMotto As String, rightDate As String
@@ -6582,6 +7519,9 @@ If InsertGapIfPrecededByTable(doc, pStart) Then
 kgStartPos = kgStartPos + 1
 kgEndPos = kgEndPos + 1
 End If
+If Not pEnd.Next Is Nothing Then
+If pEnd.Next.Range.Information(wdWithInTable) Then doc.Range(kgEndPos - 1, kgEndPos - 1).InsertAfter vbCr
+End If
 Dim rngReplace As Range
 Set rngReplace = doc.Range(kgStartPos, kgEndPos)
 Dim newTbl As Table
@@ -6595,10 +7535,10 @@ On Error Resume Next
 .Columns(2).Width = MillimetersToPoints(117)
 On Error GoTo 0
 .Cell(1, 1).Range.text = prefixText
-.Cell(1, 1).Range.Font.Bold = False
+.Cell(1, 1).Range.Font.Bold = TT_B("KINH_GUI_BOLD")
 .Cell(1, 1).Range.Font.Italic = TT_B("KINH_GUI_ITALIC")
 .Cell(1, 2).Range.text = recipientsText
-.Cell(1, 2).Range.Font.Bold = False
+.Cell(1, 2).Range.Font.Bold = TT_B("KINH_GUI_BOLD")
 .Cell(1, 2).Range.Font.Italic = False
 End With
 On Error GoTo 0
@@ -6781,7 +7721,10 @@ t Like "UY BAN KIEM TRA*" Or t Like "TIEU BAN*" Or t Like "HOI DONG*" Or _
 t Like "UY BAN NHAN DAN*" Or t Like "UBND *" Or t Like "HDND *" Or _
 t Like "BO CONG AN*" Or t Like "CONG AN *" Or t Like "BO QUOC PHONG*" Or _
 t Like "BO CHI HUY*" Or t Like "BAN CHI HUY*" Or t Like "BO TU LENH*" Or t Like "QUAN KHU*" Or _
-t Like "UY BAN MAT TRAN*" Or t Like "MAT TRAN TO QUOC*" Or t Like "BAN THUONG TRUC*" Then
+t Like "UY BAN MAT TRAN*" Or t Like "MAT TRAN TO QUOC*" Or t Like "BAN THUONG TRUC*" Or _
+t Like "BCH DOAN*" Or t Like "TINH DOAN *" Or t Like "THANH DOAN *" Or t Like "HUYEN DOAN *" Or _
+t Like "QUAN DOAN *" Or t Like "THI DOAN *" Or t Like "LIEN CHI DOAN *" Or t Like "CHI DOAN *" Or _
+t Like "DOAN THANH NIEN *" Or t Like "TRUNG UONG DOAN*" Then
 IsHeaderOrganLineAsc = True
 Else
 IsHeaderOrganLineAsc = False
@@ -6816,7 +7759,7 @@ Next cCheck
 End Function
 Private Function IsFooterSignatureTable(ByVal tbl As Table, ByVal tAscFooter As String) As Boolean
 IsFooterSignatureTable = False
-If InStr(1, tAscFooter, "DANG CONG SAN") > 0 Then Exit Function
+If TT_CoTieuDe(tAscFooter) Then Exit Function
 If InStr(1, tAscFooter, "CONG HOA XA HOI") > 0 Then Exit Function
 If tbl.Rows.Count > 4 Or tbl.Columns.Count > 4 Then Exit Function
 Dim cCheck As Cell
@@ -6941,6 +7884,10 @@ IsKinhGuiRecipientItem = False
 Exit Function
 End If
 If IsSeparatorLine(tRaw) Then
+IsKinhGuiRecipientItem = False
+Exit Function
+End If
+If Right(tRaw, 3) = "./." Or Right(tRaw, 2) = "/." Then
 IsKinhGuiRecipientItem = False
 Exit Function
 End If
@@ -7289,6 +8236,7 @@ End If
 End If
 End If
 End If
+If TT_NhomKieuDang(TT_Profile()) And TT_B("SO_HAI_CHAM") And Left$(s, 3) = "S" & ChrW(7889) & " " Then s = "S" & ChrW(7889) & ":" & Mid$(s, 3)
 ChuanHoa_SoKyHieu_Dang = s
 End Function
 Private Function ChuanHoa_NgayThang(ByVal sRaw As String) As String
@@ -7443,7 +8391,7 @@ Set tblH = doc.Tables(1)
 Dim tHAsc As String
 tHAsc = ToAscii(tblH.Range.text)
 Dim tHDetectStrong As Boolean
-If InStr(1, tHAsc, "DANG CONG SAN") > 0 Or InStr(1, tHAsc, "DANG UY") > 0 Or InStr(1, tHAsc, "DANG BO") > 0 Or InStr(1, tHAsc, "CHI BO") > 0 Or _
+If TT_CoTieuDe(tHAsc) Or InStr(1, tHAsc, "DANG UY") > 0 Or InStr(1, tHAsc, "DANG BO") > 0 Or InStr(1, tHAsc, "CHI BO") > 0 Or _
 InStr(1, tHAsc, "CONG HOA XA HOI") > 0 Or (tblH.Rows.Count <= 3 And Len(TT_DetectFromHeaderText(tHAsc, tHDetectStrong)) > 0 And InStr(1, tHAsc, "NOI NHAN") = 0) Then
 Dim ch As Cell
 Dim orgLinesCount As Integer: orgLinesCount = 0
@@ -7459,7 +8407,7 @@ ElseIf InStr(1, sHAsc, "NGAY") > 0 And InStr(1, sHAsc, "THANG") > 0 Then
 foundDateRaw = sHAsc
 ElseIf sHAsc Like "V/V*" Or sHAsc Like "VE VIEC*" Then
 hasVvSummary = True
-ElseIf InStr(1, sHAsc, "DANG CONG SAN") = 0 And InStr(1, sHAsc, "CONG HOA XA HOI") = 0 And InStr(1, Replace(sHAsc, " ", ""), "DOCLAP-TUDO") = 0 And _
+ElseIf Not TT_CoTieuDe(sHAsc) And InStr(1, sHAsc, "CONG HOA XA HOI") = 0 And InStr(1, Replace(sHAsc, " ", ""), "DOCLAP-TUDO") = 0 And _
 InStr(1, sHAsc, "KINH GUI") = 0 And Left(sH, 1) <> "-" And Not IsSeparatorLine(sH) And sHAsc <> "*" And sHAsc <> "***" Then
 orgLinesCount = orgLinesCount + 1
 If orgLinesCount = 1 Then
@@ -7711,12 +8659,14 @@ End If
 If hasNoiNhan Then
 If Not hasLuuVT And Not hasLuuOther Then
 warnCount = warnCount + 1
-If TT_S("MOTTO_KIND") = "DANG" Then
+If TT_Profile() = "DOAN" Then
+warnings = warnings & vbCrLf & warnCount & ". [Noi nhan] Phan 'Noi nhan:' dang thieu dong luu o cuoi (vi du theo HD 29-HD/TWDTN-VP: '- Luu VP.')."
+ElseIf TT_S("MOTTO_KIND") = "DANG" Then
 warnings = warnings & vbCrLf & warnCount & ". [Noi nhan] Phan 'Noi nhan:' dang thieu dong luu o cuoi (vi du: '- Luu Van phong Tinh uy.')."
 Else
 warnings = warnings & vbCrLf & warnCount & ". [Noi nhan] Phan 'Noi nhan:' dang thieu dong '- Luu: VT...' o cuoi."
 End If
-ElseIf Not hasLuuVT And hasLuuOther Then
+ElseIf Not hasLuuVT And hasLuuOther And TT_Profile() <> "DOAN" Then
 warnCount = warnCount + 1
 If TT_S("MOTTO_KIND") = "DANG" Then
 warnings = warnings & vbCrLf & warnCount & ". [Noi nhan] Dong luu nen ghi noi luu (vi du theo HD 05-HD/VPTW: '- Luu Van phong Tinh uy.')."
@@ -7752,9 +8702,9 @@ End If
 End If
 End If
 If Not isStandaloneNonDispatch Then
-If TT_S("MOTTO_KIND") = "DANG" And InStr(1, docAscFull, "DANG CONG SAN VIET NAM") = 0 Then
+If TT_S("MOTTO_KIND") = "DANG" And InStr(1, docAscFull, UCase(ToAscii(TT_TextTieuNguDang()))) = 0 Then
 warnCount = warnCount + 1
-warnings = warnings & vbCrLf & warnCount & ". [Tieu ngu] Van ban Dang chua co dong 'DANG CONG SAN VIET NAM' o dau trang."
+warnings = warnings & vbCrLf & warnCount & ". [Tieu ngu] Van ban " & TT_ProfileLabelAscii(TT_Profile()) & " chua co dong '" & UCase(ToAscii(TT_TextTieuNguDang())) & "' o dau trang."
 ElseIf TT_S("MOTTO_KIND") = "QUOC_HIEU" And InStr(1, docAscFull, "CONG HOA XA HOI CHU NGHIA") = 0 Then
 warnCount = warnCount + 1
 warnings = warnings & vbCrLf & warnCount & ". [Quoc hieu] Van ban hanh chinh chua co Quoc hieu 'CONG HOA XA HOI CHU NGHIA VIET NAM' va Tieu ngu."
@@ -7874,7 +8824,7 @@ raw = ""
 raw = t.Range.text
 If i = 1 And soDong <= 4 And Len(raw) <= 600 Then
 a = UCase(ToAscii(raw))
-If InStr(1, a, "CONG HOA XA HOI") > 0 Or InStr(1, a, "DANG CONG SAN VIET NAM") > 0 Then canGo = True
+If InStr(1, a, "CONG HOA XA HOI") > 0 Or TT_CoTieuDeDu(a) Then canGo = True
 ElseIf soDong >= 3 And Len(raw) > 300 Then
 soDeMuc = 0
 For Each pp In t.Range.Paragraphs
@@ -7907,7 +8857,7 @@ vt = InStrRev(t, vbTab)
 If vt > 0 Then t = Mid(t, vt + 1)
 a = UCase(Trim(ToAscii(t)))
 If a Like "CONG HOA XA HOI CHU NGHIA VIET NAM*" And Len(a) <= 45 Then TT_LaDongMoDauVanBan = True
-If a = "DANG CONG SAN VIET NAM" Then TT_LaDongMoDauVanBan = True
+If a = "DANG CONG SAN VIET NAM" Or a = "DOAN TNCS HO CHI MINH" Then TT_LaDongMoDauVanBan = True
 End Function
 Private Function TT_TachVanBanTiepTheo(ByVal doc As Document) As Document
 Set TT_TachVanBanTiepTheo = Nothing
@@ -7997,7 +8947,7 @@ viTri = -1
 viTri = shp.Anchor.Start
 If viTri >= 0 And viTri < gioiHan Then
 a = UCase(ToAscii(t))
-If InStr(1, a, "CONG HOA XA HOI") > 0 Or InStr(1, a, "DOC LAP") > 0 Or InStr(1, a, "DANG CONG SAN") > 0 Or _
+If InStr(1, a, "CONG HOA XA HOI") > 0 Or InStr(1, a, "DOC LAP") > 0 Or TT_CoTieuDe(a) Or _
 IsHeaderOrganLineAsc(Trim(Split(a, vbCr)(0))) Or IsDocNumberLineAsc(Trim(Split(a, vbCr)(0))) Or _
 a Like "*NGAY*THANG*NAM*" Then
 Set r = Nothing
@@ -8086,7 +9036,7 @@ If Len(r) < 4 Or Len(r) > 150 Then Exit Function
 If Right(r, 1) = "." Or Right(r, 1) = ";" Or Right(r, 1) = ":" Or Right(r, 1) = "," Then Exit Function
 If IsStrictBodyOrHeadingStart(rawText, sAsc) Or IsKinhGuiStart(rawText, sAsc) Or IsSeparatorLine(rawText) Then Exit Function
 If IsDocNumberLineAsc(a) Or a Like "V/V*" Or a Like "V.V*" Or a Like "#*" Or a Like "[A-H]. *" Then Exit Function
-If a Like "CONG HOA XA HOI*" Or a Like "DOC LAP*" Or a Like "DANG CONG SAN*" Or a Like "*NGAY*THANG*NAM*" Then Exit Function
+If a Like "CONG HOA XA HOI*" Or a Like "DOC LAP*" Or a Like "DANG CONG SAN*" Or a Like "DOAN TNCS*" Or a Like "*NGAY*THANG*NAM*" Then Exit Function
 If IsHeaderOrganLineAsc(a) Or a Like "NOI NHAN*" Or IsSignatureRoleOrAuth(a) Then Exit Function
 Dim giua As Boolean, dam As Boolean
 On Error Resume Next
@@ -8483,7 +9433,7 @@ Public Sub AutoExec()
 Call CN_HenKiemTraKhiMo
 End Sub
 Public Function CN_PhienBan() As String
-CN_PhienBan = "2026.11.12.2"
+CN_PhienBan = "2026.11.13.1"
 End Function
 Private Function CN_ManifestUrl() As String
 CN_ManifestUrl = "https://github.com/CuongBC195/add-in-office/releases/latest/download/version.json"

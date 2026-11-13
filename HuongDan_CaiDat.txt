@@ -1,6 +1,6 @@
 HƯỚNG DẪN CÀI ĐẶT VÀ SỬ DỤNG
 BỘ ADD-IN "TRỢ THỦ LUẬN ÁN NTU"
-Phiên bản 1.0.1 — Mã định danh: giatwin_h-ntu-thesis-addin
+Phiên bản 1.0.2 — Mã định danh: giatwin_h-ntu-thesis-addin
 ================================================================
 
 I. GIỚI THIỆU

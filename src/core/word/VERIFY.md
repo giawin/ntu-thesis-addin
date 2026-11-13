@@ -73,7 +73,7 @@ Module1.upstream.bas:8518:CN_DungFileAddIn = (n = "chuanhoa_vanbandang.dotm")
 ## 3. Đủ 4 nhóm dấu hiệu cá nhân hóa
 
 ```powershell
-Select-String -Path 'Module1.vba' -Pattern 'NTUThesisAddin|giawin/ntu-thesis-addin|giatwin_h_ntu_thesis_word|CN_PhienBan = "1.0.1"'
+Select-String -Path 'Module1.vba' -Pattern 'NTUThesisAddin|giawin/ntu-thesis-addin|giatwin_h_ntu_thesis_word|CN_PhienBan = "1.0.2"'
 ```
 
 Tiêu chí PASS: in ra đủ 4 nhóm (dòng 16 và 4 dòng `GetSetting`/`SaveSetting`, dòng manifest, dòng `CN_DungFileAddIn`, dòng `CN_PhienBan`).
@@ -83,7 +83,7 @@ Output thật:
 ```
 16:Private Const TT_SETTING_APP As String = "NTUThesisAddin"
 8307:LicApiUrl = ""
-8373:CN_PhienBan = "1.0.1"
+8373:CN_PhienBan = "1.0.2"
 8376:CN_ManifestUrl = "https://github.com/giawin/ntu-thesis-addin/releases/latest/download/version.json"
 8405:CN_DungFileAddIn = (n = "giatwin_h_ntu_thesis_word.dotm")
 8448:lastChk = GetSetting("NTUThesisAddin", "CapNhat", "LanKiemTra_WORD", "")

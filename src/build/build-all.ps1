@@ -28,7 +28,7 @@ param(
 # chi can sua mot cho la manifest va ten zip lech nhau. Gio ba cho duoi day deu
 # doc tu $PhienBan, con hai tep ma VBA kiem tra (CN_PhienBan/NTU_PhienBan) van
 # phai sua tay -- va verify-word.vbs / verify-ntu.vbs se bao do ngay neu quen.
-$PhienBan = '1.0.1'
+$PhienBan = '1.0.2'
 
 # Office dang mo se khoa tep .dotm va lam hong buoc dong goi giua chung.
 # Chan ngay tu dau voi thong bao ro rang thay vi that bai kho hieu o buoc 4.

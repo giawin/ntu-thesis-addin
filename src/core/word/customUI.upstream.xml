@@ -56,6 +56,25 @@
             <button id="mnuMauHome_NHA_NUOC_19" label="Chỉ thị" tag="NHA_NUOC|19" onAction="RibbonTaoMauItem" />
             <button id="mnuMauHome_NHA_NUOC_20" label="Giấy nghỉ phép" tag="NHA_NUOC|20" onAction="RibbonTaoMauItem" />
           </menu>
+          <menu id="mnuMauHome_DOAN" tag="DOAN" getLabel="RibbonMau_GetLabel" getVisible="RibbonMau_GetVisible" size="large" imageMso="FileNew" itemSize="normal"
+                screentip="Tạo văn bản mẫu - Khối Đoàn TNCS"
+                supertip="Chọn loại văn bản để tạo văn bản mới đúng thể thức. Tên cơ quan, ký hiệu, địa danh, người ký lấy từ Thông tin đơn vị (tab THỂ THỨC VĂN BẢN); chỗ chưa có được để trống [ ... ] tô vàng.">
+            <button id="mnuMauHome_DOAN_1" label="Công văn" tag="DOAN|1" onAction="RibbonTaoMauItem" />
+            <button id="mnuMauHome_DOAN_2" label="Báo cáo" tag="DOAN|2" onAction="RibbonTaoMauItem" />
+            <button id="mnuMauHome_DOAN_3" label="Kế hoạch" tag="DOAN|3" onAction="RibbonTaoMauItem" />
+            <button id="mnuMauHome_DOAN_4" label="Chương trình" tag="DOAN|4" onAction="RibbonTaoMauItem" />
+            <button id="mnuMauHome_DOAN_5" label="Quyết định" tag="DOAN|5" onAction="RibbonTaoMauItem" />
+            <button id="mnuMauHome_DOAN_6" label="Quy định" tag="DOAN|6" onAction="RibbonTaoMauItem" />
+            <button id="mnuMauHome_DOAN_7" label="Nghị quyết" tag="DOAN|7" onAction="RibbonTaoMauItem" />
+            <button id="mnuMauHome_DOAN_8" label="Thông báo" tag="DOAN|8" onAction="RibbonTaoMauItem" />
+            <button id="mnuMauHome_DOAN_9" label="Tờ trình" tag="DOAN|9" onAction="RibbonTaoMauItem" />
+            <button id="mnuMauHome_DOAN_10" label="Hướng dẫn" tag="DOAN|10" onAction="RibbonTaoMauItem" />
+            <button id="mnuMauHome_DOAN_11" label="Chỉ thị" tag="DOAN|11" onAction="RibbonTaoMauItem" />
+            <button id="mnuMauHome_DOAN_12" label="Thông tri" tag="DOAN|12" onAction="RibbonTaoMauItem" />
+            <button id="mnuMauHome_DOAN_13" label="Giấy mời" tag="DOAN|13" onAction="RibbonTaoMauItem" />
+            <button id="mnuMauHome_DOAN_14" label="Giấy giới thiệu" tag="DOAN|14" onAction="RibbonTaoMauItem" />
+            <button id="mnuMauHome_DOAN_15" label="Biên bản" tag="DOAN|15" onAction="RibbonTaoMauItem" />
+          </menu>
           <menu id="mnuMauHome_MTTQ" tag="MTTQ" getLabel="RibbonMau_GetLabel" getVisible="RibbonMau_GetVisible" size="large" imageMso="FileNew" itemSize="normal"
                 screentip="Tạo văn bản mẫu - Khối MTTQ"
                 supertip="Chọn loại văn bản để tạo văn bản mới đúng thể thức. Tên cơ quan, ký hiệu, địa danh, người ký lấy từ Thông tin đơn vị (tab THỂ THỨC VĂN BẢN); chỗ chưa có được để trống [ ... ] tô vàng.">
@@ -74,7 +93,7 @@
           </menu>
           <dropDown id="ddDonViHome" label="Khối" sizeString="MTTQ và tổ chức CT-XH"
                     screentip="Khối thể thức văn bản"
-                    supertip="Chọn khối đơn vị để áp dụng đúng thể thức: Đảng (HD 05-HD/VPTW), Chính quyền (NĐ 30/2020/NĐ-CP), Công an, Quân đội, MTTQ và tổ chức chính trị - xã hội. Mặc định tự nhận diện theo dòng tiêu ngữ / Quốc hiệu và tên cơ quan ban hành."
+                    supertip="Chọn khối đơn vị để áp dụng đúng thể thức: Đảng (HD 05-HD/VPTW), Chính quyền (NĐ 30/2020/NĐ-CP), Công an, Quân đội, Đoàn TNCS Hồ Chí Minh (HD 29-HD/TWĐTN-VP), MTTQ và tổ chức chính trị - xã hội. Mặc định tự nhận diện theo dòng tiêu ngữ / Quốc hiệu và tên cơ quan ban hành."
                     getSelectedItemIndex="RibbonDonVi_GetSelectedIndex"
                     onAction="RibbonDonVi_OnAction">
             <item id="ddDonViHome_AUTO" label="Tự động nhận diện" />
@@ -82,6 +101,7 @@
             <item id="ddDonViHome_CHINH_QUYEN" label="Chính quyền" />
             <item id="ddDonViHome_CONG_AN" label="Công an" />
             <item id="ddDonViHome_QUAN_DOI" label="Quân đội" />
+            <item id="ddDonViHome_DOAN" label="Đoàn TNCS" />
             <item id="ddDonViHome_MTTQ" label="MTTQ và tổ chức CT-XH" />
           </dropDown>
           <menu id="ddDVBHHome" getLabel="RibbonDVBH_MenuLabel" imageMso="AddressBook" itemSize="normal"
@@ -110,9 +130,10 @@
                   screentip="Chuẩn hóa thể thức văn bản theo khối đơn vị"
                   supertip="Tự động chuẩn hóa lề trang, phông chữ, tiêu ngữ / Quốc hiệu, số ký hiệu, ngày tháng, trích yếu, kính gửi, nơi nhận, chữ ký và rà soát logic theo khối đang chọn."
                   onAction="RibbonChuanHoa" />
+          <button size="large" id="btnCapNhat" label="Cập nhật" imageMso="Refresh" screentip="Cập nhật add-in" supertip="Kiểm tra và cài phiên bản mới nhất. Thông tin đơn vị, khối đã chọn và bản quyền được giữ nguyên." onAction="RibbonCapNhat" />
           <dropDown id="ddDonVi" label="Khối" sizeString="MTTQ và tổ chức CT-XH"
                     screentip="Khối thể thức văn bản"
-                    supertip="Chọn khối đơn vị để áp dụng đúng thể thức: Đảng (HD 05-HD/VPTW), Chính quyền (NĐ 30/2020/NĐ-CP), Công an, Quân đội, MTTQ và tổ chức chính trị - xã hội. Mặc định tự nhận diện theo dòng tiêu ngữ / Quốc hiệu và tên cơ quan ban hành."
+                    supertip="Chọn khối đơn vị để áp dụng đúng thể thức: Đảng (HD 05-HD/VPTW), Chính quyền (NĐ 30/2020/NĐ-CP), Công an, Quân đội, Đoàn TNCS Hồ Chí Minh (HD 29-HD/TWĐTN-VP), MTTQ và tổ chức chính trị - xã hội. Mặc định tự nhận diện theo dòng tiêu ngữ / Quốc hiệu và tên cơ quan ban hành."
                     getSelectedItemIndex="RibbonDonVi_GetSelectedIndex"
                     onAction="RibbonDonVi_OnAction">
             <item id="ddDonVi_AUTO" label="Tự động nhận diện" />
@@ -120,6 +141,7 @@
             <item id="ddDonVi_CHINH_QUYEN" label="Chính quyền" />
             <item id="ddDonVi_CONG_AN" label="Công an" />
             <item id="ddDonVi_QUAN_DOI" label="Quân đội" />
+            <item id="ddDonVi_DOAN" label="Đoàn TNCS" />
             <item id="ddDonVi_MTTQ" label="MTTQ và tổ chức CT-XH" />
           </dropDown>
         </group>
@@ -170,6 +192,25 @@
             <button id="mnuMau_NHA_NUOC_19" label="Chỉ thị" tag="NHA_NUOC|19" onAction="RibbonTaoMauItem" />
             <button id="mnuMau_NHA_NUOC_20" label="Giấy nghỉ phép" tag="NHA_NUOC|20" onAction="RibbonTaoMauItem" />
           </menu>
+          <menu id="mnuMau_DOAN" tag="DOAN" getLabel="RibbonMau_GetLabel" getVisible="RibbonMau_GetVisible" size="large" imageMso="FileNew" itemSize="normal"
+                screentip="Tạo văn bản mẫu - Khối Đoàn TNCS"
+                supertip="Chọn loại văn bản để tạo văn bản mới đúng thể thức. Tên cơ quan, ký hiệu, địa danh, người ký lấy từ Thông tin đơn vị (tab THỂ THỨC VĂN BẢN); chỗ chưa có được để trống [ ... ] tô vàng.">
+            <button id="mnuMau_DOAN_1" label="Công văn" tag="DOAN|1" onAction="RibbonTaoMauItem" />
+            <button id="mnuMau_DOAN_2" label="Báo cáo" tag="DOAN|2" onAction="RibbonTaoMauItem" />
+            <button id="mnuMau_DOAN_3" label="Kế hoạch" tag="DOAN|3" onAction="RibbonTaoMauItem" />
+            <button id="mnuMau_DOAN_4" label="Chương trình" tag="DOAN|4" onAction="RibbonTaoMauItem" />
+            <button id="mnuMau_DOAN_5" label="Quyết định" tag="DOAN|5" onAction="RibbonTaoMauItem" />
+            <button id="mnuMau_DOAN_6" label="Quy định" tag="DOAN|6" onAction="RibbonTaoMauItem" />
+            <button id="mnuMau_DOAN_7" label="Nghị quyết" tag="DOAN|7" onAction="RibbonTaoMauItem" />
+            <button id="mnuMau_DOAN_8" label="Thông báo" tag="DOAN|8" onAction="RibbonTaoMauItem" />
+            <button id="mnuMau_DOAN_9" label="Tờ trình" tag="DOAN|9" onAction="RibbonTaoMauItem" />
+            <button id="mnuMau_DOAN_10" label="Hướng dẫn" tag="DOAN|10" onAction="RibbonTaoMauItem" />
+            <button id="mnuMau_DOAN_11" label="Chỉ thị" tag="DOAN|11" onAction="RibbonTaoMauItem" />
+            <button id="mnuMau_DOAN_12" label="Thông tri" tag="DOAN|12" onAction="RibbonTaoMauItem" />
+            <button id="mnuMau_DOAN_13" label="Giấy mời" tag="DOAN|13" onAction="RibbonTaoMauItem" />
+            <button id="mnuMau_DOAN_14" label="Giấy giới thiệu" tag="DOAN|14" onAction="RibbonTaoMauItem" />
+            <button id="mnuMau_DOAN_15" label="Biên bản" tag="DOAN|15" onAction="RibbonTaoMauItem" />
+          </menu>
           <menu id="mnuMau_MTTQ" tag="MTTQ" getLabel="RibbonMau_GetLabel" getVisible="RibbonMau_GetVisible" size="large" imageMso="FileNew" itemSize="normal"
                 screentip="Tạo văn bản mẫu - Khối MTTQ"
                 supertip="Chọn loại văn bản để tạo văn bản mới đúng thể thức. Tên cơ quan, ký hiệu, địa danh, người ký lấy từ Thông tin đơn vị (tab THỂ THỨC VĂN BẢN); chỗ chưa có được để trống [ ... ] tô vàng.">
@@ -209,8 +250,9 @@
         </group>
         <group id="grpTuyChon" label="Tùy chọn">
           <button id="btnTuyChonTheThuc" label="Tùy chọn thể thức" imageMso="AddressBook" screentip="Tùy chọn thể thức của khối đang chọn" supertip="Mở bảng các thông số mà quy định cho phép một khoảng: cỡ chữ nội dung, tên loại, trích yếu, Quốc hiệu, tên cơ quan, lề trang, thụt đầu dòng, giãn dòng, giãn đoạn, cách xử lý tên cơ quan dài, gom chữ lẻ cuối đoạn. Mỗi đơn vị ban hành lưu một bộ riêng; giá trị ngoài khoảng quy định sẽ không được nhận." onAction="RibbonTuyChon_Mo" />
+          <button id="btnCauHinhXuat" label="Xuất cấu hình" imageMso="FileSaveAs" screentip="Xuất cấu hình sang máy khác" supertip="Tạo một văn bản chứa thông tin đơn vị ban hành và tùy chọn thể thức của máy này (không có mã bản quyền). Lưu văn bản đó thành file rồi gửi sang máy khác." onAction="RibbonCauHinh_Xuat" />
+          <button id="btnCauHinhNhap" label="Nhập cấu hình" imageMso="FileOpen" screentip="Nhập cấu hình từ máy khác" supertip="Mở file cấu hình đã xuất từ máy khác rồi bấm nút này: thông tin đơn vị và tùy chọn thể thức của các khối có trong file sẽ thay cho dữ liệu trên máy này." onAction="RibbonCauHinh_Nhap" />
           <checkBox id="chkHienHome" label="Hiện ở tab Home" screentip="Hiện công cụ ở tab Home" supertip="Bật: nhóm THỂ THỨC VĂN BẢN (nút Chuẩn hóa, mẫu văn bản, khối, đơn vị) hiện ngay ở tab Home. Tắt: chỉ còn ở tab này, tab Home gọn hơn." getPressed="RibbonHienHome_GetPressed" onAction="RibbonHienHome_OnAction" />
-          <button id="btnCapNhat" label="Cập nhật" imageMso="Refresh" screentip="Cập nhật add-in" supertip="Kiểm tra và cài phiên bản mới nhất. Thông tin đơn vị, khối đã chọn và bản quyền được giữ nguyên." onAction="RibbonCapNhat" />
         </group>
       </tab>
     </tabs>
