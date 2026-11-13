@@ -1,4 +1,4 @@
-﻿Attribute VB_Name = "NTU"
+Attribute VB_Name = "NTU"
 Option Explicit
 
 ' ===================================================================
@@ -28,13 +28,13 @@ Private Const APP As String = "NTUChuanHoa"
 Private Const MAX_DEPTH As Long = 4
 Private Const FONT_NAME As String = "Times New Roman"
 
-' Buoc dang chay â€” de bao loi biet chet o dau (xem NTU_Apply).
+' Buoc dang chay — de bao loi biet chet o dau (xem NTU_Apply).
 Private lastStep As String
 
 ' So caption da chen trong lan ApplyCaptions gan nhat (doc lai o NTU_ChuanHoaFull).
 Private LastCaptionCount As Long
 
-' Cua so nhap (Document tam) dung cho RibbonPhanTich â€” giu tham chieu de dong lai.
+' Cua so nhap (Document tam) dung cho RibbonPhanTich — giu tham chieu de dong lai.
 Private LastScratch As Document
 
 ' Ket qua luot kiem tra gan nhat: so loi, tai lieu goc, va vung cua tung loi
@@ -67,30 +67,30 @@ End Sub
 
 Public Sub RibbonHuongDan(control As IRibbonControl)
     Dim s As String
-    s = "QUY CÃCH TRÃŒNH BÃ€Y â€” TRÆ¯á»œNG Äáº I Há»ŒC NHA TRANG" & vbCrLf & _
-        "(Quyáº¿t Ä‘á»‹nh sá»‘ 900/QÄ-ÄHNT ngÃ y 31/7/2023)" & vbCrLf & String(46, "-") & vbCrLf & _
-        "Khá»• giáº¥y: A4 (210 Ã— 297 mm), chiá»u dá»c, in má»™t máº·t" & vbCrLf & _
-        "Lá»: trÃªn 2 Â· dÆ°á»›i 2 Â· trÃ¡i 3 Â· pháº£i 2 cm" & vbCrLf & _
-        "PhÃ´ng: Times New Roman, cá»¡ 13; cÄƒn Ä‘á»u 2 bÃªn" & vbCrLf & _
-        "GiÃ£n dÃ²ng 1,5 Â· dÃ²ng Ä‘áº§u má»—i Ä‘oáº¡n thá»¥t 1 cm" & vbCrLf & _
-        "CÃ¡ch Ä‘oáº¡n: 3â€“6 pt phÃ­a trÃªn, 0 pt phÃ­a dÆ°á»›i" & vbCrLf & _
-        "KhÃ´ng dÃ¹ng header Â· sá»‘ trang á»Ÿ giá»¯a phÃ­a DÆ¯á»šI" & vbCrLf & vbCrLf & _
-        "TiÃªu Ä‘á» chÆ°Æ¡ng: IN HOA, in Ä‘áº­m, cÄƒn giá»¯a, cá»¡ 14." & vbCrLf & _
-        "TiÃªu Ä‘á» má»¥c/tiá»ƒu má»¥c: chá»¯ thÆ°á»ng, in Ä‘áº­m, cÄƒn Ä‘á»u, khÃ´ng thá»¥t, cá»¡ 13." & vbCrLf & _
-        "Tiá»ƒu má»¥c tá»‘i Ä‘a 4 cáº¥p; má»—i nhÃ³m pháº£i cÃ³ Ã­t nháº¥t 2 má»¥c." & vbCrLf & _
-        "Báº£ng/hÃ¬nh: sá»‘ gáº¯n vá»›i chÆ°Æ¡ng (HÃ¬nh 3.4). Äáº§u Ä‘á» báº£ng á»Ÿ TRÃŠN, hÃ¬nh á»Ÿ DÆ¯á»šI." & vbCrLf & _
-        "TrÃ­ch dáº«n: ngoáº·c vuÃ´ng theo sá»‘ thá»© tá»±, vÃ­ dá»¥ [15, tr.32-35]." & vbCrLf & vbCrLf & _
-        "CÃ´ng cá»¥ tá»± sá»­a: khá»• giáº¥y, lá», phÃ´ng, cá»¡ chá»¯, cÄƒn lá», thá»¥t dÃ²ng, giÃ£n dÃ²ng, " & _
-        "cÃ¡ch Ä‘oáº¡n, header, sá»‘ trang, gáº¡ch dÃ i." & vbCrLf & _
-        "Pháº£i tá»± sá»­a: sá»‘ báº£ng/hÃ¬nh theo chÆ°Æ¡ng, nhÃ³m chá»‰ 1 tiá»ƒu má»¥c, ""báº£ng dÆ°á»›i Ä‘Ã¢y"", " & _
-        "danh má»¥c tÃ i liá»‡u tham kháº£o, báº£ng chá»¯ viáº¿t táº¯t."
-    MsgBox s, vbInformation, "Chuáº©n NTU"
+    s = "QUY CÁCH TRÌNH BÀY — TRƯỜNG ĐẠI HỌC NHA TRANG" & vbCrLf & _
+        "(Quyết định số 900/QĐ-ĐHNT ngày 31/7/2023)" & vbCrLf & String(46, "-") & vbCrLf & _
+        "Khổ giấy: A4 (210 × 297 mm), chiều dọc, in một mặt" & vbCrLf & _
+        "Lề: trên 2 · dưới 2 · trái 3 · phải 2 cm" & vbCrLf & _
+        "Phông: Times New Roman, cỡ 13; căn đều 2 bên" & vbCrLf & _
+        "Giãn dòng 1,5 · dòng đầu mỗi đoạn thụt 1 cm" & vbCrLf & _
+        "Cách đoạn: 3–6 pt phía trên, 0 pt phía dưới" & vbCrLf & _
+        "Không dùng header · số trang ở giữa phía DƯỚI" & vbCrLf & vbCrLf & _
+        "Tiêu đề chương: IN HOA, in đậm, căn giữa, cỡ 14." & vbCrLf & _
+        "Tiêu đề mục/tiểu mục: chữ thường, in đậm, căn đều, không thụt, cỡ 13." & vbCrLf & _
+        "Tiểu mục tối đa 4 cấp; mỗi nhóm phải có ít nhất 2 mục." & vbCrLf & _
+        "Bảng/hình: số gắn với chương (Hình 3.4). Đầu đề bảng ở TRÊN, hình ở DƯỚI." & vbCrLf & _
+        "Trích dẫn: ngoặc vuông theo số thứ tự, ví dụ [15, tr.32-35]." & vbCrLf & vbCrLf & _
+        "Công cụ tự sửa: khổ giấy, lề, phông, cỡ chữ, căn lề, thụt dòng, giãn dòng, " & _
+        "cách đoạn, header, số trang, gạch dài." & vbCrLf & _
+        "Phải tự sửa: số bảng/hình theo chương, nhóm chỉ 1 tiểu mục, ""bảng dưới đây"", " & _
+        "danh mục tài liệu tham khảo, bảng chữ viết tắt."
+    MsgBox s, vbInformation, "Chuẩn NTU"
 End Sub
 
 ' Nut [Chuan hoa luan an]: 1-CLICK du 5 buoc (QD 900 muc 2.b).
 Public Sub RibbonChuanHoa(control As IRibbonControl)
     If Application.Documents.Count = 0 Then
-        MsgBox "ChÆ°a cÃ³ tÃ i liá»‡u nÃ o Ä‘ang má»Ÿ.", vbExclamation, "Chuáº©n NTU"
+        MsgBox "Chưa có tài liệu nào đang mở.", vbExclamation, "Chuẩn NTU"
         Exit Sub
     End If
 
@@ -98,15 +98,15 @@ Public Sub RibbonChuanHoa(control As IRibbonControl)
     Set d = ActiveDocument
 
     Dim msg As String
-    msg = "Chuáº©n hÃ³a tÃ i liá»‡u theo quy cÃ¡ch TrÆ°á»ng Äáº¡i há»c Nha Trang" & vbCrLf & _
-          "(QÄ 900/QÄ-ÄHNT ngÃ y 31/7/2023):" & vbCrLf & vbCrLf & _
-          "1. Khá»• A4 dá»c Â· lá» trÃªn 2 Â· dÆ°á»›i 2 Â· trÃ¡i 3 Â· pháº£i 2 cm" & vbCrLf & _
-          "2. ThÃ¢n bÃ i Times New Roman 13 pt, cÄƒn Ä‘á»u, giÃ£n 1,5, thá»¥t dÃ²ng Ä‘áº§u, cÃ¡ch Ä‘oáº¡n 6/0 pt" & vbCrLf & _
-          "3. TiÃªu Ä‘á» chÆ°Æ¡ng in hoa Ä‘áº­m 14 pt cÄƒn giá»¯a; má»¥c/tiá»ƒu má»¥c Ä‘áº­m 13 pt" & vbCrLf & _
-          "4. Caption ""Báº£ng X.Y"" trÃªn báº£ng, ""HÃ¬nh X.Y"" dÆ°á»›i hÃ¬nh, kÃ¨m dÃ²ng Nguá»“n" & vbCrLf & _
-          "5. Sá»‘ trang La MÃ£ á»Ÿ pháº§n Ä‘áº§u, áº¢ Ráº­p tá»« chÆ°Æ¡ng 1 Â· bá» header" & vbCrLf & vbCrLf & _
-          "Thao tÃ¡c nÃ y sá»­a trá»±c tiáº¿p tÃ i liá»‡u Ä‘ang má»Ÿ (Ctrl+Z hoÃ n tÃ¡c Ä‘Æ°á»£c). Tiáº¿p tá»¥c?"
-    If MsgBox(msg, vbOKCancel + vbQuestion, "Chuáº©n NTU") <> vbOK Then Exit Sub
+    msg = "Chuẩn hóa tài liệu theo quy cách Trường Đại học Nha Trang" & vbCrLf & _
+          "(QĐ 900/QĐ-ĐHNT ngày 31/7/2023):" & vbCrLf & vbCrLf & _
+          "1. Khổ A4 dọc · lề trên 2 · dưới 2 · trái 3 · phải 2 cm" & vbCrLf & _
+          "2. Thân bài Times New Roman 13 pt, căn đều, giãn 1,5, thụt dòng đầu, cách đoạn 6/0 pt" & vbCrLf & _
+          "3. Tiêu đề chương in hoa đậm 14 pt căn giữa; mục/tiểu mục đậm 13 pt" & vbCrLf & _
+          "4. Caption ""Bảng X.Y"" trên bảng, ""Hình X.Y"" dưới hình, kèm dòng Nguồn" & vbCrLf & _
+          "5. Số trang La Mã ở phần đầu, Ả Rập từ chương 1 · bỏ header" & vbCrLf & vbCrLf & _
+          "Thao tác này sửa trực tiếp tài liệu đang mở (Ctrl+Z hoàn tác được). Tiếp tục?"
+    If MsgBox(msg, vbOKCancel + vbQuestion, "Chuẩn NTU") <> vbOK Then Exit Sub
 
     Dim rep As String
     rep = NTU_ChuanHoaFull(d, OptSize(), OptKeepHeading(), True)
@@ -114,7 +114,7 @@ Public Sub RibbonChuanHoa(control As IRibbonControl)
     ' Buoc 5: tu soat lai roi tom tat chung mot hop thoai.
     Dim kq As String
     kq = NTU_KiemTraSilent()
-    MsgBox rep & vbCrLf & "----- Tá»± kiá»ƒm tra -----" & vbCrLf & kq, vbInformation, "Chuáº©n NTU"
+    MsgBox rep & vbCrLf & "----- Tự kiểm tra -----" & vbCrLf & kq, vbInformation, "Chuẩn NTU"
 End Sub
 
 ' Ten goi thay the cho nut [Phan tich] (giu de tuong thich voi manifest cu).
@@ -144,13 +144,13 @@ End Function
 Public Sub NTU_TuyChon()
     Dim s As String
 
-    s = InputBox("Giá»¯ nguyÃªn cá»¡ chá»¯ cá»§a tiÃªu Ä‘á» Ä‘Ã£ Ä‘áº·t tay (1 = cÃ³, 0 = Ä‘Æ°a táº¥t cáº£ vá» 13)." & vbCrLf & _
-                 "Quy cÃ¡ch quy Ä‘á»‹nh: tiÃªu Ä‘á» chÆ°Æ¡ng 14, má»¥c/tiá»ƒu má»¥c 13.", "Chuáº©n NTU â€” tÃ¹y chá»n", IIf(OptKeepHeading(), "1", "0"))
+    s = InputBox("Giữ nguyên cỡ chữ của tiêu đề đã đặt tay (1 = có, 0 = đưa tất cả về 13)." & vbCrLf & _
+                 "Quy cách quy định: tiêu đề chương 14, mục/tiểu mục 13.", "Chuẩn NTU — tùy chọn", IIf(OptKeepHeading(), "1", "0"))
     If StrPtr(s) = 0 Then Exit Sub
     SaveSetting APP, "Opt", "KeepHeading", IIf(Trim$(s) = "0", "0", "1")
 
-    MsgBox "ÄÃ£ lÆ°u: thÃ¢n bÃ i 13 pt Â· tiÃªu Ä‘á» " & _
-           IIf(OptKeepHeading(), "giá»¯ cá»¡ riÃªng", "Ä‘Æ°a vá» 13 pt") & ".", vbInformation, "Chuáº©n NTU"
+    MsgBox "Đã lưu: thân bài 13 pt · tiêu đề " & _
+           IIf(OptKeepHeading(), "giữ cỡ riêng", "đưa về 13 pt") & ".", vbInformation, "Chuẩn NTU"
 End Sub
 
 ' ---------------------------------------------------------------- Vao viec
@@ -158,25 +158,25 @@ End Sub
 Public Sub NTU_ChuanHoa()
     Dim d As Document
     If Application.Documents.Count = 0 Then
-        MsgBox "ChÆ°a cÃ³ tÃ i liá»‡u nÃ o Ä‘ang má»Ÿ.", vbExclamation, "Chuáº©n NTU"
+        MsgBox "Chưa có tài liệu nào đang mở.", vbExclamation, "Chuẩn NTU"
         Exit Sub
     End If
     Set d = ActiveDocument
 
     Dim msg As String
-    msg = "Chuáº©n hÃ³a tÃ i liá»‡u theo quy cÃ¡ch TrÆ°á»ng Äáº¡i há»c Nha Trang" & vbCrLf & _
-          "(QÄ 900/QÄ-ÄHNT ngÃ y 31/7/2023):" & vbCrLf & vbCrLf & _
-          "â€¢ Times New Roman 13 pt, cÄƒn Ä‘á»u 2 bÃªn, giÃ£n dÃ²ng 1,5" & vbCrLf & _
-          "â€¢ DÃ²ng Ä‘áº§u má»—i Ä‘oáº¡n thá»¥t 1 cm; cÃ¡ch Ä‘oáº¡n 6 pt trÃªn, 0 pt dÆ°á»›i" & vbCrLf & _
-          "â€¢ A4 Â· lá» trÃªn 2 Â· dÆ°á»›i 2 Â· trÃ¡i 3 Â· pháº£i 2 cm" & vbCrLf & _
-          "â€¢ Bá» header Â· sá»‘ trang á»Ÿ giá»¯a phÃ­a DÆ¯á»šI má»—i trang" & vbCrLf & _
-          "â€¢ Gáº¡ch dÃ i (â€” â€“ â€’ â€•) Ä‘á»•i thÃ nh gáº¡ch ná»‘i (-)" & vbCrLf & vbCrLf & _
-          "Thao tÃ¡c nÃ y sá»­a trá»±c tiáº¿p tÃ i liá»‡u Ä‘ang má»Ÿ (Ctrl+Z hoÃ n tÃ¡c Ä‘Æ°á»£c). Tiáº¿p tá»¥c?"
-    If MsgBox(msg, vbOKCancel + vbQuestion, "Chuáº©n NTU") <> vbOK Then Exit Sub
+    msg = "Chuẩn hóa tài liệu theo quy cách Trường Đại học Nha Trang" & vbCrLf & _
+          "(QĐ 900/QĐ-ĐHNT ngày 31/7/2023):" & vbCrLf & vbCrLf & _
+          "• Times New Roman 13 pt, căn đều 2 bên, giãn dòng 1,5" & vbCrLf & _
+          "• Dòng đầu mỗi đoạn thụt 1 cm; cách đoạn 6 pt trên, 0 pt dưới" & vbCrLf & _
+          "• A4 · lề trên 2 · dưới 2 · trái 3 · phải 2 cm" & vbCrLf & _
+          "• Bỏ header · số trang ở giữa phía DƯỚI mỗi trang" & vbCrLf & _
+          "• Gạch dài (— – ‒ ―) đổi thành gạch nối (-)" & vbCrLf & vbCrLf & _
+          "Thao tác này sửa trực tiếp tài liệu đang mở (Ctrl+Z hoàn tác được). Tiếp tục?"
+    If MsgBox(msg, vbOKCancel + vbQuestion, "Chuẩn NTU") <> vbOK Then Exit Sub
 
     Dim rep As String
     rep = NTU_Apply(d, OptSize(), OptKeepHeading(), True)
-    MsgBox rep, vbInformation, "Chuáº©n NTU"
+    MsgBox rep, vbInformation, "Chuẩn NTU"
 End Sub
 
 ' Entry point khong hoi giac (dung cho kiem thu tu dong)
@@ -221,11 +221,11 @@ Public Function NTU_Apply(ByVal d As Document, ByVal sz As Single, ByVal keepH A
     Err.Clear
     OptimizePageSetup d
     If Err.Number <> 0 Then
-        rep = rep & "! Lá» / khá»• giáº¥y: " & Err.Description & vbCrLf
+        rep = rep & "! Lề / khổ giấy: " & Err.Description & vbCrLf
         Trace "step le ERR " & Err.Number & " " & Err.Description
         Err.Clear
     Else
-        rep = rep & "âœ“ Khá»• A4 Â· lá» trÃªn 2 Â· dÆ°á»›i 2 Â· trÃ¡i 3 Â· pháº£i 2 cm" & vbCrLf
+        rep = rep & "✓ Khổ A4 · lề trên 2 · dưới 2 · trái 3 · phải 2 cm" & vbCrLf
     End If
     On Error GoTo Loi
 
@@ -235,12 +235,12 @@ Public Function NTU_Apply(ByVal d As Document, ByVal sz As Single, ByVal keepH A
     Err.Clear
     n = NormalizeBody(d, sz, keepH)
     If Err.Number <> 0 Then
-        rep = rep & "! PhÃ´ng / cá»¡ chá»¯: " & Err.Description & vbCrLf
+        rep = rep & "! Phông / cỡ chữ: " & Err.Description & vbCrLf
         Trace "step chu ERR " & Err.Number & " " & Err.Description
         Err.Clear
     End If
-    rep = rep & "âœ“ ÄÃ£ Ä‘á»‹nh dáº¡ng " & Format$(n, "#,##0") & " Ä‘oáº¡n" & _
-          IIf(keepH, " (giá»¯ cá»¡ chá»¯ cá»§a tiÃªu Ä‘á»)", "") & vbCrLf
+    rep = rep & "✓ Đã định dạng " & Format$(n, "#,##0") & " đoạn" & _
+          IIf(keepH, " (giữ cỡ chữ của tiêu đề)", "") & vbCrLf
     On Error GoTo Loi
 
     ' 3. Kieu Normal de go tiep cung dung chuan
@@ -249,7 +249,7 @@ Public Function NTU_Apply(ByVal d As Document, ByVal sz As Single, ByVal keepH A
     Err.Clear
     SetNormalStyle d, sz
     If Err.Number <> 0 Then
-        rep = rep & "! Kiá»ƒu Normal: " & Err.Description & vbCrLf
+        rep = rep & "! Kiểu Normal: " & Err.Description & vbCrLf
         Trace "step style ERR " & Err.Number & " " & Err.Description
         Err.Clear
     End If
@@ -265,7 +265,7 @@ Public Function NTU_Apply(ByVal d As Document, ByVal sz As Single, ByVal keepH A
     Trace "  <- sotrang err=" & Err.Number & " " & Err.Description
     rep = rep & s4 & vbCrLf
     If Err.Number <> 0 Then
-        rep = rep & "! Sá»‘ trang: " & Err.Description & vbCrLf
+        rep = rep & "! Số trang: " & Err.Description & vbCrLf
         Trace "step sotrang ERR " & Err.Number & " " & Err.Description
         Err.Clear
     End If
@@ -279,13 +279,13 @@ Public Function NTU_Apply(ByVal d As Document, ByVal sz As Single, ByVal keepH A
     n = FixDashes(d, rep)
     Trace "  <- gachdai err=" & Err.Number & " " & Err.Description
     If Err.Number <> 0 Then
-        rep = rep & "! Gáº¡ch dÃ i: " & Err.Description & vbCrLf
+        rep = rep & "! Gạch dài: " & Err.Description & vbCrLf
         Trace "step gachdai ERR " & Err.Number & " " & Err.Description
         Err.Clear
     ElseIf n > 0 Then
-        rep = rep & "âœ“ ÄÃ£ Ä‘á»•i " & Format$(n, "#,##0") & " dáº¥u gáº¡ch dÃ i thÃ nh gáº¡ch ná»‘i (-)" & vbCrLf
+        rep = rep & "✓ Đã đổi " & Format$(n, "#,##0") & " dấu gạch dài thành gạch nối (-)" & vbCrLf
     Else
-        rep = rep & "âœ“ KhÃ´ng cÃ³ dáº¥u gáº¡ch dÃ i nÃ o cáº§n Ä‘á»•i" & vbCrLf
+        rep = rep & "✓ Không có dấu gạch dài nào cần đổi" & vbCrLf
     End If
     On Error GoTo Loi
 
@@ -299,12 +299,12 @@ Public Function NTU_Apply(ByVal d As Document, ByVal sz As Single, ByVal keepH A
     End If
 
     Trace "== xong"
-    NTU_Apply = rep & vbCrLf & "Xong. Báº¥m [Kiá»ƒm Tra] Ä‘á»ƒ soÃ¡t láº¡i."
+    NTU_Apply = rep & vbCrLf & "Xong. Bấm [Kiểm Tra] để soát lại."
     Exit Function
 Loi:
     Trace "FATAL at " & lastStep & ": " & Err.Description
     Application.ScreenUpdating = True
-    NTU_Apply = rep & "! Lá»—i á»Ÿ bÆ°á»›c [" & lastStep & "]: " & Err.Description
+    NTU_Apply = rep & "! Lỗi ở bước [" & lastStep & "]: " & Err.Description
 End Function
 
 ' --------------------------------------------------------- Tung buoc
@@ -370,7 +370,7 @@ Private Function NormalizeRange(ByVal r As Range, ByVal sz As Single, ByVal keep
     Dim p As Paragraph, n As Long, bad As Long, firstErr As String
     Dim inTable As Boolean, lvl As Long
 
-    ' 1. Phong chu cho ca range mot lan â€” nhanh va khong phu thuoc tung doan.
+    ' 1. Phong chu cho ca range mot lan — nhanh va khong phu thuoc tung doan.
     On Error Resume Next
     Err.Clear
     SetRunFont r
@@ -381,7 +381,7 @@ Private Function NormalizeRange(ByVal r As Range, ByVal sz As Single, ByVal keep
     On Error GoTo 0
 
     ' 2. Dinh dang tung doan. Mot doan loi (o bang gop, field, textbox)
-    '    khong duoc phep huy ca tai lieu â€” dem vao bad roi di tiep.
+    '    khong duoc phep huy ca tai lieu — dem vao bad roi di tiep.
     '
     '    QD 900/2023:
     '      - than bai: co 13, gian dong 1,5, can deu 2 ben, thut dong dau 1 cm,
@@ -449,7 +449,7 @@ Private Function NormalizeRange(ByVal r As Range, ByVal sz As Single, ByVal keep
 End Function
 
 Private Sub SetRunFont(ByVal r As Range)
-    ' NameFarEast bi tu choi (loi 5844) tren mot so tai lieu â€” bo qua, khong lam hong ca buoc.
+    ' NameFarEast bi tu choi (loi 5844) tren mot so tai lieu — bo qua, khong lam hong ca buoc.
     On Error Resume Next
     Err.Clear
     With r.Font
@@ -491,16 +491,16 @@ Private Function HeadingLevel(ByVal p As Paragraph) As Long
     Err.Clear
     If Err.Number = 0 Then
         nm = LCase$(nm)
-        If InStr(nm, "heading 1") > 0 Or InStr(nm, "tiÃªu Ä‘á» 1") > 0 Then HeadingLevel = 1 : Err.Clear : Exit Function
-        If InStr(nm, "heading") > 0 Or InStr(nm, "tiÃªu Ä‘á»") > 0 Then HeadingLevel = 2 : Err.Clear : Exit Function
+        If InStr(nm, "heading 1") > 0 Or InStr(nm, "tiêu đề 1") > 0 Then HeadingLevel = 1 : Err.Clear : Exit Function
+        If InStr(nm, "heading") > 0 Or InStr(nm, "tiêu đề") > 0 Then HeadingLevel = 2 : Err.Clear : Exit Function
     End If
     Err.Clear
 
-    ' "ChÆ°Æ¡ng 1" / "CHÆ¯Æ NG 1" go tay
+    ' "Chương 1" / "CHƯƠNG 1" go tay
     t = CleanText(p.Range.Text)
     Err.Clear
     If Len(t) <= 60 Then
-        If Left$(LCase$(t), 6) = "chÆ°Æ¡ng" Or Left$(LCase$(t), 5) = "chuong" Then HeadingLevel = 1 : Err.Clear : Exit Function
+        If Left$(LCase$(t), 6) = "chương" Or Left$(LCase$(t), 5) = "chuong" Then HeadingLevel = 1 : Err.Clear : Exit Function
     End If
     Err.Clear
 
@@ -525,7 +525,7 @@ Private Function IsTableMark(ByVal p As Paragraph) As Boolean
     IsTableMark = False
     If InStr(t, Chr(7)) = 0 Then Exit Function
 
-    ' Chi co ky tu dieu khien/dau cach/so thu tu dong â€” tuc la khong co chu that.
+    ' Chi co ky tu dieu khien/dau cach/so thu tu dong — tuc la khong co chu that.
     For i = 1 To Len(t)
         c = Asc(Mid(t, i, 1))
         Select Case c
@@ -598,7 +598,7 @@ Private Function SetPageNumberFooter(ByVal d As Document) As String
     Err.Clear
     On Error GoTo 0
 
-    SetPageNumberFooter = "âœ“ Sá»‘ trang: Ä‘áº·t á»Ÿ giá»¯a phÃ­a dÆ°á»›i (" & done & " chÃ¢n trang) Â· Ä‘Ã£ bá» header"
+    SetPageNumberFooter = "✓ Số trang: đặt ở giữa phía dưới (" & done & " chân trang) · đã bỏ header"
 End Function
 
 Private Sub DelFields(ByVal r As Range, ByVal typ As Long)
@@ -724,7 +724,7 @@ End Sub
 Public Sub NTU_KiemTra()
     Dim d As Document
     If Application.Documents.Count = 0 Then
-        MsgBox "ChÆ°a cÃ³ tÃ i liá»‡u nÃ o Ä‘ang má»Ÿ.", vbExclamation, "Chuáº©n NTU"
+        MsgBox "Chưa có tài liệu nào đang mở.", vbExclamation, "Chuẩn NTU"
         Exit Sub
     End If
     Set d = ActiveDocument
@@ -740,7 +740,7 @@ Public Sub NTU_KiemTra()
         w.Content.Font.Name = FONT_NAME
         w.Content.Font.Size = 10
     Else
-        MsgBox rep, vbInformation, "Chuáº©n NTU â€” káº¿t quáº£ kiá»ƒm tra"
+        MsgBox rep, vbInformation, "Chuẩn NTU — kết quả kiểm tra"
     End If
 
     XuatTxt rep
@@ -754,8 +754,8 @@ Private Sub NhayToiLoi()
     If LastGoc Is Nothing Then Exit Sub
 
     Do
-        s = InputBox("Nháº­p sá»‘ thá»© tá»± lá»—i cáº§n xem (1 - " & LastDemLoi & ")." & vbCrLf & _
-                     "Bá» trá»‘ng hoáº·c Cancel Ä‘á»ƒ thÃ´i.", "Chuáº©n NTU â€” nháº£y tá»›i lá»—i")
+        s = InputBox("Nhập số thứ tự lỗi cần xem (1 - " & LastDemLoi & ")." & vbCrLf & _
+                     "Bỏ trống hoặc Cancel để thôi.", "Chuẩn NTU — nhảy tới lỗi")
         If Len(Trim$(s)) = 0 Then Exit Do
         If IsNumeric(s) Then
             k = CLng(Val(s))
@@ -764,7 +764,7 @@ Private Sub NhayToiLoi()
                 LastGoc.Activate
                 LastChoLoi(k).Select
                 If Err.Number <> 0 Then
-                    MsgBox "KhÃ´ng nháº£y tá»›i Ä‘Æ°á»£c má»¥c nÃ y (tÃ i liá»‡u Ä‘Ã£ thay Ä‘á»•i?).", vbExclamation, "Chuáº©n NTU"
+                    MsgBox "Không nhảy tới được mục này (tài liệu đã thay đổi?).", vbExclamation, "Chuẩn NTU"
                     Err.Clear
                 End If
                 On Error GoTo 0
@@ -804,9 +804,9 @@ Public Function NTU_Check(ByVal d As Document, ByVal sz As Single) As String
     Application.ScreenUpdating = False
 
     If PageSetupOk(d) Then
-        rep = "Lá» / khá»• giáº¥y: Ä‘Ãºng"
+        rep = "Lề / khổ giấy: đúng"
     Else
-        rep = "Lá» / khá»• giáº¥y: SAI â€” cáº§n trÃªn 2 Â· dÆ°á»›i 2 Â· trÃ¡i 3 Â· pháº£i 2 cm, khá»• A4 dá»c"
+        rep = "Lề / khổ giấy: SAI — cần trên 2 · dưới 2 · trái 3 · phải 2 cm, khổ A4 dọc"
     End If
 
     For Each p In d.Content.Paragraphs
@@ -844,56 +844,56 @@ Public Function NTU_Check(ByVal d As Document, ByVal sz As Single) As String
     Next p
 
     If badFont > 0 Then
-        line = "PhÃ´ng chá»¯ khÃ¡c Times New Roman: " & badFont
+        line = "Phông chữ khác Times New Roman: " & badFont
         If firstFont <> "" Then line = line & " (vd: " & firstFont & ")"
         AddL rep, line
     End If
     If badSize > 0 Then
-        line = "Cá»¡ chá»¯ khÃ¡c " & sz & " pt: " & badSize
+        line = "Cỡ chữ khác " & sz & " pt: " & badSize
         If firstSize <> "" Then line = line & " (vd: " & firstSize & ")"
         AddL rep, line
     End If
-    If badLine > 0 Then AddL rep, "Äoáº¡n chÆ°a dÃ£n dÃ²ng Ä‘Ãºng (thÃ¢n bÃ i 1,5 Â· trong báº£ng 1): " & badLine
-    If badAlign > 0 Then AddL rep, "Äoáº¡n chÆ°a cÄƒn Ä‘á»u 2 bÃªn: " & badAlign
-    If badIndent > 0 Then AddL rep, "Äoáº¡n chÆ°a thá»¥t dÃ²ng Ä‘áº§u 1 cm: " & badIndent
-    If badHead > 0 Then AddL rep, "TiÃªu Ä‘á» sai cá»¡ chá»¯ (chÆ°Æ¡ng 14 Â· má»¥c 13): " & badHead
-    If badHeadAlign > 0 Then AddL rep, "TiÃªu Ä‘á» chÆ°Æ¡ng chÆ°a cÄƒn giá»¯a: " & badHeadAlign
+    If badLine > 0 Then AddL rep, "Đoạn chưa dãn dòng đúng (thân bài 1,5 · trong bảng 1): " & badLine
+    If badAlign > 0 Then AddL rep, "Đoạn chưa căn đều 2 bên: " & badAlign
+    If badIndent > 0 Then AddL rep, "Đoạn chưa thụt dòng đầu 1 cm: " & badIndent
+    If badHead > 0 Then AddL rep, "Tiêu đề sai cỡ chữ (chương 14 · mục 13): " & badHead
+    If badHeadAlign > 0 Then AddL rep, "Tiêu đề chương chưa căn giữa: " & badHeadAlign
 
     footerOk = HasPageNumberBottom(d)
-    If Not footerOk Then AddL rep, "Sá»‘ trang: chÆ°a Ä‘áº·t á»Ÿ giá»¯a phÃ­a dÆ°á»›i"
+    If Not footerOk Then AddL rep, "Số trang: chưa đặt ở giữa phía dưới"
 
-    If CountHeadersWithText(d) > 0 Then AddL rep, "Header cÃ²n ná»™i dung (quy cÃ¡ch khÃ´ng dÃ¹ng header)"
+    If CountHeadersWithText(d) > 0 Then AddL rep, "Header còn nội dung (quy cách không dùng header)"
 
     dashCount = CountDashes(d)
-    If dashCount > 0 Then AddL rep, "CÃ²n dáº¥u gáº¡ch dÃ i: " & dashCount & " (dÃ¹ng gáº¡ch ná»‘i -)"
+    If dashCount > 0 Then AddL rep, "Còn dấu gạch dài: " & dashCount & " (dùng gạch nối -)"
 
     deepCount = CountDeepHeadings(d)
-    If deepCount > 0 Then AddL rep, "Má»¥c quÃ¡ 4 cáº¥p: " & deepCount
+    If deepCount > 0 Then AddL rep, "Mục quá 4 cấp: " & deepCount
 
     refCount = CountBadRefs(d)
-    If refCount > 0 Then AddL rep, "Chá»— viáº¿t ""báº£ng/hÃ¬nh dÆ°á»›i Ä‘Ã¢y"" (pháº£i nÃªu sá»‘): " & refCount
+    If refCount > 0 Then AddL rep, "Chỗ viết ""bảng/hình dưới đây"" (phải nêu số): " & refCount
 
     rep = rep & vbCrLf & String(58, "-")
     If badFont = 0 And badSize = 0 And badLine = 0 And badAlign = 0 And badIndent = 0 _
        And badHead = 0 And badHeadAlign = 0 And footerOk And dashCount = 0 _
        And CountHeadersWithText(d) = 0 Then
-        rep = rep & vbCrLf & "Äáº T thá»ƒ thá»©c. CÃ²n pháº£i tá»± soÃ¡t: Ä‘Ã¡nh sá»‘ báº£ng/hÃ¬nh theo chÆ°Æ¡ng, danh má»¥c tÃ i liá»‡u tham kháº£o, sá»‘ trang La MÃ£ á»Ÿ pháº§n Ä‘áº§u."
+        rep = rep & vbCrLf & "ĐẠT thể thức. Còn phải tự soát: đánh số bảng/hình theo chương, danh mục tài liệu tham khảo, số trang La Mã ở phần đầu."
     Else
-        rep = rep & vbCrLf & "Báº¥m [Chuáº©n HÃ³a] Ä‘á»ƒ sá»­a cÃ¡c má»¥c thá»ƒ thá»©c á»Ÿ trÃªn; má»¥c ná»™i dung pháº£i sá»­a tay."
+        rep = rep & vbCrLf & "Bấm [Chuẩn Hóa] để sửa các mục thể thức ở trên; mục nội dung phải sửa tay."
     End If
     If deepCount > 0 Or refCount > 0 Then
-        rep = rep & vbCrLf & "CÃ²n " & (deepCount + refCount) & " lá»—i ná»™i dung â€” khÃ´ng tá»± sá»­a Ä‘Æ°á»£c."
+        rep = rep & vbCrLf & "Còn " & (deepCount + refCount) & " lỗi nội dung — không tự sửa được."
     End If
 
     AddL rep, ""
-    rep = "Káº¾T QUáº¢ KIá»‚M TRA - chuáº©n NTU (QÄ 900/QÄ-ÄHNT 31/7/2023)" & rep
-    rep = rep & vbCrLf & "(Ä‘Ã£ soÃ¡t " & n & " Ä‘oáº¡n, " & headCount & " tiÃªu Ä‘á»)"
+    rep = "KẾT QUẢ KIỂM TRA - chuẩn NTU (QĐ 900/QĐ-ĐHNT 31/7/2023)" & rep
+    rep = rep & vbCrLf & "(đã soát " & n & " đoạn, " & headCount & " tiêu đề)"
     Application.ScreenUpdating = True
     NTU_Check = rep
     Exit Function
 Loi:
     Application.ScreenUpdating = True
-    NTU_Check = "Lá»—i khi kiá»ƒm tra: " & Err.Description
+    NTU_Check = "Lỗi khi kiểm tra: " & Err.Description
 End Function
 
 Private Function PageSetupOk(ByVal d As Document) As Boolean
@@ -974,8 +974,8 @@ End Function
 Private Function CountBadRefs(ByVal d As Document) As Long
     Dim p As Paragraph, txt As String
     Dim a As String, b As String
-    a = "báº£ng"
-    b = "dÆ°á»›i Ä‘Ã¢y"
+    a = "bảng"
+    b = "dưới đây"
     For Each p In d.Content.Paragraphs
         txt = LCase$(p.Range.Text)
         If InStr(txt, a) > 0 And InStr(txt, b) > 0 Then CountBadRefs = CountBadRefs + 1
@@ -1052,11 +1052,11 @@ Public Function NTU_ChuanHoaFull(ByVal d As Document, ByVal sz As Single, ByVal 
     OptimizePageSetup d
     SetNormalStyle d, sz
     If Err.Number <> 0 Then
-        rep = rep & "! Khá»• giáº¥y / lá» / kiá»ƒu Normal: " & Err.Description & vbCrLf
+        rep = rep & "! Khổ giấy / lề / kiểu Normal: " & Err.Description & vbCrLf
         Trace "step kho/le ERR " & Err.Number & " " & Err.Description
         Err.Clear
     Else
-        rep = rep & "âœ“ A4 dá»c Â· lá» trÃªn 2 Â· dÆ°á»›i 2 Â· trÃ¡i 3 Â· pháº£i 2 cm Â· kiá»ƒu Normal Ä‘Ã£ Ä‘áº·t" & vbCrLf
+        rep = rep & "✓ A4 dọc · lề trên 2 · dưới 2 · trái 3 · phải 2 cm · kiểu Normal đã đặt" & vbCrLf
     End If
     On Error GoTo Cleanup
 
@@ -1066,12 +1066,12 @@ Public Function NTU_ChuanHoaFull(ByVal d As Document, ByVal sz As Single, ByVal 
     Err.Clear
     n = NormalizeBody(d, sz, keepH)
     If Err.Number <> 0 Then
-        rep = rep & "! ThÃ¢n bÃ i: " & Err.Description & vbCrLf
+        rep = rep & "! Thân bài: " & Err.Description & vbCrLf
         Trace "step than bai ERR " & Err.Number & " " & Err.Description
         Err.Clear
     End If
-    rep = rep & "âœ“ ÄÃ£ Ä‘á»‹nh dáº¡ng " & Format$(n, "#,##0") & " Ä‘oáº¡n" & _
-          IIf(keepH, " (giá»¯ cá»¡ chá»¯ cá»§a tiÃªu Ä‘á»)", "") & vbCrLf
+    rep = rep & "✓ Đã định dạng " & Format$(n, "#,##0") & " đoạn" & _
+          IIf(keepH, " (giữ cỡ chữ của tiêu đề)", "") & vbCrLf
     On Error GoTo Cleanup
 
     ' 3. Tieu de muc
@@ -1080,11 +1080,11 @@ Public Function NTU_ChuanHoaFull(ByVal d As Document, ByVal sz As Single, ByVal 
     Err.Clear
     ApplyHeadingStyles d
     If Err.Number <> 0 Then
-        rep = rep & "! TiÃªu Ä‘á» má»¥c: " & Err.Description & vbCrLf
+        rep = rep & "! Tiêu đề mục: " & Err.Description & vbCrLf
         Trace "step tieu de ERR " & Err.Number & " " & Err.Description
         Err.Clear
     Else
-        rep = rep & "âœ“ TiÃªu Ä‘á»: chÆ°Æ¡ng IN HOA Ä‘áº­m 14 cÄƒn giá»¯a Â· má»¥c Ä‘áº­m 13 khÃ´ng thá»¥t dÃ²ng" & vbCrLf
+        rep = rep & "✓ Tiêu đề: chương IN HOA đậm 14 căn giữa · mục đậm 13 không thụt dòng" & vbCrLf
     End If
     On Error GoTo Cleanup
 
@@ -1094,11 +1094,11 @@ Public Function NTU_ChuanHoaFull(ByVal d As Document, ByVal sz As Single, ByVal 
     Err.Clear
     ApplyCaptions d
     If Err.Number <> 0 Then
-        rep = rep & "! Caption báº£ng/hÃ¬nh: " & Err.Description & vbCrLf
+        rep = rep & "! Caption bảng/hình: " & Err.Description & vbCrLf
         Trace "step caption ERR " & Err.Number & " " & Err.Description
         Err.Clear
     End If
-    rep = rep & "âœ“ ÄÃ£ chÃ¨n " & LastCaptionCount & " caption báº£ng/hÃ¬nh cÃ²n thiáº¿u" & vbCrLf
+    rep = rep & "✓ Đã chèn " & LastCaptionCount & " caption bảng/hình còn thiếu" & vbCrLf
     On Error GoTo Cleanup
 
     ' 5. So trang theo section (La Ma phan dau, A Rap phan than)
@@ -1107,13 +1107,13 @@ Public Function NTU_ChuanHoaFull(ByVal d As Document, ByVal sz As Single, ByVal 
     Err.Clear
     ApplySectionPageNumbers d
     If Err.Number <> 0 Then
-        rep = rep & "! Sá»‘ trang theo pháº§n: " & Err.Description & vbCrLf
+        rep = rep & "! Số trang theo phần: " & Err.Description & vbCrLf
         Trace "step so trang ERR " & Err.Number & " " & Err.Description
         Err.Clear
     End If
     soSec = 0
     soSec = d.Sections.Count
-    rep = rep & "âœ“ Sá»‘ trang: " & soSec & " pháº§n (section), Ä‘Ã¡nh sá»‘ á»Ÿ giá»¯a phÃ­a dÆ°á»›i" & vbCrLf
+    rep = rep & "✓ Số trang: " & soSec & " phần (section), đánh số ở giữa phía dưới" & vbCrLf
     On Error GoTo Cleanup
 
     ' 6. Gach dai
@@ -1122,11 +1122,11 @@ Public Function NTU_ChuanHoaFull(ByVal d As Document, ByVal sz As Single, ByVal 
     Err.Clear
     n = FixDashes(d, rep)
     If Err.Number <> 0 Then
-        rep = rep & "! Gáº¡ch dÃ i: " & Err.Description & vbCrLf
+        rep = rep & "! Gạch dài: " & Err.Description & vbCrLf
         Trace "step gach dai ERR " & Err.Number & " " & Err.Description
         Err.Clear
     ElseIf n > 0 Then
-        rep = rep & "âœ“ ÄÃ£ Ä‘á»•i " & Format$(n, "#,##0") & " gáº¡ch dÃ i thÃ nh gáº¡ch ná»‘i (-)" & vbCrLf
+        rep = rep & "✓ Đã đổi " & Format$(n, "#,##0") & " gạch dài thành gạch nối (-)" & vbCrLf
     End If
     On Error GoTo Cleanup
 
@@ -1138,7 +1138,7 @@ Public Function NTU_ChuanHoaFull(ByVal d As Document, ByVal sz As Single, ByVal 
     Application.ScreenUpdating = olds
     Application.DisplayAlerts = oldal
     Err.Clear
-    NTU_ChuanHoaFull = rep & vbCrLf & "Xong. Báº¥m [Kiá»ƒm tra] Ä‘á»ƒ soÃ¡t láº¡i vÃ  xem lá»—i cÃ³ Ä‘Ã¡nh sá»‘."
+    NTU_ChuanHoaFull = rep & vbCrLf & "Xong. Bấm [Kiểm tra] để soát lại và xem lỗi có đánh số."
     Exit Function
 
 Cleanup:
@@ -1151,7 +1151,7 @@ Cleanup:
     Application.ScreenUpdating = olds
     Application.DisplayAlerts = oldal
     Err.Clear
-    NTU_ChuanHoaFull = rep & "! Lá»—i á»Ÿ bÆ°á»›c [" & lastStep & "]: " & em
+    NTU_ChuanHoaFull = rep & "! Lỗi ở bước [" & lastStep & "]: " & em
 End Function
 
 ' -------------------------------------------------------- Tieu de muc
@@ -1378,7 +1378,7 @@ End Sub
 Private Function IsNguonLine(ByVal t As String) As Boolean
     Dim s As String
     s = LCase$(CleanText(t))
-    IsNguonLine = (Left$(s, 6) = "nguá»“n:" Or Left$(s, 6) = "nguon:")
+    IsNguonLine = (Left$(s, 6) = "nguồn:" Or Left$(s, 6) = "nguon:")
 End Function
 
 Private Function IsCaptionPara(ByVal p As Paragraph) As Boolean
@@ -1390,11 +1390,11 @@ Private Function IsCaptionPara(ByVal p As Paragraph) As Boolean
         IsCaptionPara = True
         Exit Function
     End If
-    If CaptionNo(t, "Báº£ng") > 0 Then
+    If CaptionNo(t, "Bảng") > 0 Then
         IsCaptionPara = True
         Exit Function
     End If
-    If CaptionNo(t, "HÃ¬nh") > 0 Then IsCaptionPara = True
+    If CaptionNo(t, "Hình") > 0 Then IsCaptionPara = True
     Err.Clear
 End Function
 
@@ -1443,7 +1443,7 @@ Private Sub ApplyCaptions(ByVal d As Document)
                 Set p = ParaBeforeTable(d.Tables(i))
                 t = ""
                 If Not p Is Nothing Then t = CleanText(p.Range.Text)
-                datNo = CaptionNo(t, "Báº£ng")
+                datNo = CaptionNo(t, "Bảng")
                 If datNo > 0 Then
                     If datNo > demB(ch) Then demB(ch) = datNo
                     caps.Add Array("B", ch, i, 0)
@@ -1468,7 +1468,7 @@ Private Sub ApplyCaptions(ByVal d As Document)
                 Set p = ParaAfterShape(d.InlineShapes(i))
                 t = ""
                 If Not p Is Nothing Then t = CleanText(p.Range.Text)
-                datNo = CaptionNo(t, "HÃ¬nh")
+                datNo = CaptionNo(t, "Hình")
                 If datNo > 0 Then
                     If datNo > demH(ch) Then demH(ch) = datNo
                     caps.Add Array("H", ch, i, 0)
@@ -1491,7 +1491,7 @@ Private Sub ApplyCaptions(ByVal d As Document)
         ch = CLng(a(1))
         i = CLng(a(2))
         datNo = CLng(a(3))
-        txt = IIf(kind = "B", "Báº£ng ", "HÃ¬nh ") & ch & "." & datNo
+        txt = IIf(kind = "B", "Bảng ", "Hình ") & ch & "." & datNo
         Set r = Nothing
         Set p = Nothing
         If datNo > 0 Then
@@ -1544,8 +1544,8 @@ Private Sub ApplySectionPageNumbers(ByVal d As Document)
 
     If first Is Nothing Then
         Trace "ApplySectionPageNumbers: khong co Heading1"
-        MsgBox "KhÃ´ng tÃ¬m tháº¥y tiÃªu Ä‘á» chÆ°Æ¡ng (Heading 1 hoáº·c Ä‘oáº¡n má»Ÿ Ä‘áº§u ""CHÆ¯Æ NG ..."") nÃªn chÆ°a Ä‘áº·t láº¡i sá»‘ trang theo pháº§n." & vbCrLf & _
-               "Quy cÃ¡ch: pháº§n Ä‘áº§u Ä‘Ã¡nh sá»‘ La MÃ£ (i, ii...), tá»« chÆ°Æ¡ng 1 Ä‘Ã¡nh sá»‘ 1, 2, 3...", vbExclamation, "Chuáº©n NTU"
+        MsgBox "Không tìm thấy tiêu đề chương (Heading 1 hoặc đoạn mở đầu ""CHƯƠNG ..."") nên chưa đặt lại số trang theo phần." & vbCrLf & _
+               "Quy cách: phần đầu đánh số La Mã (i, ii...), từ chương 1 đánh số 1, 2, 3...", vbExclamation, "Chuẩn NTU"
         On Error GoTo 0
         Exit Sub
     End If
@@ -1656,7 +1656,7 @@ Public Sub RibbonPhanTich(control As Object)
 
     On Error GoTo Loi
     If Application.Documents.Count = 0 Then
-        MsgBox "ChÆ°a cÃ³ tÃ i liá»‡u nÃ o Ä‘ang má»Ÿ.", vbExclamation, "Chuáº©n NTU"
+        MsgBox "Chưa có tài liệu nào đang mở.", vbExclamation, "Chuẩn NTU"
         Exit Sub
     End If
     Set src = ActiveDocument
@@ -1671,10 +1671,10 @@ Public Sub RibbonPhanTich(control As Object)
             ReDim Preserve no(1 To nCh)
             pos(nCh) = p.Range.Start
             no(nCh) = ChapterNoFromText(CleanText(p.Range.Text), nCh)
-            hienTai = "Cá»¡ " & FmtSo(p.Range.Font.Size) & " Â· Ä‘áº­m: " & YesNo(p.Range.Font.Bold) & _
-                      " Â· in hoa: " & YesNo(p.Range.Font.AllCaps) & _
-                      " Â· cÄƒn: " & TenCan(p.Range.ParagraphFormat.Alignment)
-            rows.Add Array("ChÆ°Æ¡ng " & no(nCh), Snippet80(p.Range.Text), hienTai, "In hoa, Ä‘áº­m, 14 pt, cÄƒn giá»¯a, khÃ´ng thá»¥t dÃ²ng")
+            hienTai = "Cỡ " & FmtSo(p.Range.Font.Size) & " · đậm: " & YesNo(p.Range.Font.Bold) & _
+                      " · in hoa: " & YesNo(p.Range.Font.AllCaps) & _
+                      " · căn: " & TenCan(p.Range.ParagraphFormat.Alignment)
+            rows.Add Array("Chương " & no(nCh), Snippet80(p.Range.Text), hienTai, "In hoa, đậm, 14 pt, căn giữa, không thụt dòng")
         End If
         If rows.Count >= 300 Then Exit For
     Next
@@ -1690,8 +1690,8 @@ Public Sub RibbonPhanTich(control As Object)
                     If lvl > prev + 1 Then
                         nhayCap = nhayCap + 1
                         If rows.Count < 300 Then
-                            rows.Add Array("TiÃªu Ä‘á» (Ä‘oáº¡n " & n & ")", Snippet80(p.Range.Text), _
-                                           "H" & prev & " â†’ H" & lvl, "KhÃ´ng nháº£y cáº¥p: thÃªm má»¥c cáº¥p trung gian")
+                            rows.Add Array("Tiêu đề (đoạn " & n & ")", Snippet80(p.Range.Text), _
+                                           "H" & prev & " → H" & lvl, "Không nhảy cấp: thêm mục cấp trung gian")
                         End If
                     End If
                 End If
@@ -1701,29 +1701,29 @@ Public Sub RibbonPhanTich(control As Object)
                 t = p.Range.Text
                 If p.Range.Font.Name <> FONT_NAME And p.Range.Font.Name <> "" Then
                     soFont = soFont + 1
-                    If rows.Count < 300 Then rows.Add Array("Äoáº¡n " & n, Snippet80(t), _
-                        "PhÃ´ng " & p.Range.Font.Name, "Times New Roman")
+                    If rows.Count < 300 Then rows.Add Array("Đoạn " & n, Snippet80(t), _
+                        "Phông " & p.Range.Font.Name, "Times New Roman")
                 End If
                 If Abs(p.Range.Font.Size - 13) > 0.5 Then
                     soCo = soCo + 1
-                    If rows.Count < 300 Then rows.Add Array("Äoáº¡n " & n, Snippet80(t), _
-                        "Cá»¡ " & FmtSo(p.Range.Font.Size), "13 pt")
+                    If rows.Count < 300 Then rows.Add Array("Đoạn " & n, Snippet80(t), _
+                        "Cỡ " & FmtSo(p.Range.Font.Size), "13 pt")
                 End If
                 If p.Range.ParagraphFormat.LineSpacingRule <> wdLineSpace1pt5 Then
                     soDong = soDong + 1
-                    If rows.Count < 300 Then rows.Add Array("Äoáº¡n " & n, Snippet80(t), _
-                        "GiÃ£n dÃ²ng " & TenGian(p.Range.ParagraphFormat.LineSpacingRule), "GiÃ£n dÃ²ng 1,5")
+                    If rows.Count < 300 Then rows.Add Array("Đoạn " & n, Snippet80(t), _
+                        "Giãn dòng " & TenGian(p.Range.ParagraphFormat.LineSpacingRule), "Giãn dòng 1,5")
                 End If
                 If p.Range.ParagraphFormat.Alignment <> wdAlignParagraphJustify Then
                     soCan = soCan + 1
-                    If rows.Count < 300 Then rows.Add Array("Äoáº¡n " & n, Snippet80(t), _
-                        "CÄƒn " & TenCan(p.Range.ParagraphFormat.Alignment), "CÄƒn Ä‘á»u 2 bÃªn")
+                    If rows.Count < 300 Then rows.Add Array("Đoạn " & n, Snippet80(t), _
+                        "Căn " & TenCan(p.Range.ParagraphFormat.Alignment), "Căn đều 2 bên")
                 End If
                 If Abs(p.Range.ParagraphFormat.FirstLineIndent - Cm(OptIndent())) > 3 Then
                     soThut = soThut + 1
-                    If rows.Count < 300 Then rows.Add Array("Äoáº¡n " & n, Snippet80(t), _
-                        "Thá»¥t dÃ²ng Ä‘áº§u " & FmtSo(p.Range.ParagraphFormat.FirstLineIndent / Cm(1#)) & " cm", _
-                        "Thá»¥t dÃ²ng Ä‘áº§u " & Format$(OptIndent(), "0.00") & " cm")
+                    If rows.Count < 300 Then rows.Add Array("Đoạn " & n, Snippet80(t), _
+                        "Thụt dòng đầu " & FmtSo(p.Range.ParagraphFormat.FirstLineIndent / Cm(1#)) & " cm", _
+                        "Thụt dòng đầu " & Format$(OptIndent(), "0.00") & " cm")
                 End If
             End If
         End If
@@ -1737,11 +1737,11 @@ Public Sub RibbonPhanTich(control As Object)
             Set p = ParaBeforeTable(src.Tables(i))
             t = ""
             If Not p Is Nothing Then t = p.Range.Text
-            If CaptionNo(CleanText(t), "Báº£ng") = 0 Then
+            If CaptionNo(CleanText(t), "Bảng") = 0 Then
                 thieuCap = thieuCap + 1
                 If rows.Count < 300 Then
-                    rows.Add Array("Báº£ng #" & soBang & " (" & src.Tables(i).Rows.Count & "Ã—" & src.Tables(i).Columns.Count & ")", _
-                                   Snippet80(t), "KhÃ´ng cÃ³ caption", "ChÃ¨n [Báº£ng X.Y] ngay TRÃŠN báº£ng, Ä‘áº­m 13, cÄƒn giá»¯a")
+                    rows.Add Array("Bảng #" & soBang & " (" & src.Tables(i).Rows.Count & "×" & src.Tables(i).Columns.Count & ")", _
+                                   Snippet80(t), "Không có caption", "Chèn [Bảng X.Y] ngay TRÊN bảng, đậm 13, căn giữa")
                 End If
             End If
         End If
@@ -1753,11 +1753,11 @@ Public Sub RibbonPhanTich(control As Object)
             Set p = ParaAfterShape(sh)
             t = ""
             If Not p Is Nothing Then t = p.Range.Text
-            If CaptionNo(CleanText(t), "HÃ¬nh") = 0 Then
+            If CaptionNo(CleanText(t), "Hình") = 0 Then
                 thieuCap = thieuCap + 1
                 If rows.Count < 300 Then
-                    rows.Add Array("HÃ¬nh #" & soHinh, "", "KhÃ´ng cÃ³ caption", _
-                                   "ChÃ¨n [HÃ¬nh X.Y] ngay DÆ¯á»šI hÃ¬nh, Ä‘áº­m 13, cÄƒn giá»¯a")
+                    rows.Add Array("Hình #" & soHinh, "", "Không có caption", _
+                                   "Chèn [Hình X.Y] ngay DƯỚI hình, đậm 13, căn giữa")
                 End If
             End If
         End If
@@ -1767,31 +1767,31 @@ Public Sub RibbonPhanTich(control As Object)
     Set kq = MoCuaSoNhap()
     If kq Is Nothing Then
         Application.ScreenUpdating = True
-        MsgBox "KhÃ´ng má»Ÿ Ä‘Æ°á»£c cá»­a sá»• nhÃ¡p Ä‘á»ƒ ghi bÃ¡o cÃ¡o.", vbExclamation, "Chuáº©n NTU"
+        MsgBox "Không mở được cửa sổ nháp để ghi báo cáo.", vbExclamation, "Chuẩn NTU"
         Exit Sub
     End If
-    kq.Content.InsertAfter "BÃO CÃO PHÃ‚N TÃCH â€” QUY CÃCH NTU" & vbCr & _
-        "(QÄ 900/QÄ-ÄHNT ngÃ y 31/7/2023) Â· " & src.Name & " Â· " & Format$(Now, "dd/mm/yyyy hh:nn") & vbCr & _
-        "Cháº¿ Ä‘á»™ CHá»ˆ Äá»ŒC: khÃ´ng sá»­a gÃ¬ trong tÃ i liá»‡u gá»‘c. Báº£ng chi tiáº¿t á»Ÿ dÆ°á»›i." & vbCr & vbCr & _
-        "Tá»”NG Káº¾T" & vbCr & _
-        "- ChÆ°Æ¡ng (Heading 1): " & nCh & vbCr & _
-        "- Báº£ng: " & soBang & " Â· HÃ¬nh: " & soHinh & vbCr & _
-        "- Báº£ng/hÃ¬nh thiáº¿u caption: " & thieuCap & vbCr & _
-        "- TiÃªu Ä‘á» nháº£y cáº¥p: " & nhayCap & vbCr & _
-        "- Äoáº¡n lá»‡ch phÃ´ng: " & soFont & " Â· lá»‡ch cá»¡ chá»¯: " & soCo & _
-        " Â· lá»‡ch giÃ£n dÃ²ng: " & soDong & " Â· lá»‡ch cÄƒn lá»: " & soCan & _
-        " Â· lá»‡ch thá»¥t dÃ²ng: " & soThut & vbCr & _
-        "- áº¢nh: " & src.InlineShapes.Count & " â€” DPI KHÃ”NG xÃ¡c Ä‘á»‹nh Ä‘Æ°á»£c (Word khÃ´ng phÆ¡i DPI cho InlineShape)." & vbCr & vbCr
+    kq.Content.InsertAfter "BÁO CÁO PHÂN TÍCH — QUY CÁCH NTU" & vbCr & _
+        "(QĐ 900/QĐ-ĐHNT ngày 31/7/2023) · " & src.Name & " · " & Format$(Now, "dd/mm/yyyy hh:nn") & vbCr & _
+        "Chế độ CHỈ ĐỌC: không sửa gì trong tài liệu gốc. Bảng chi tiết ở dưới." & vbCr & vbCr & _
+        "TỔNG KẾT" & vbCr & _
+        "- Chương (Heading 1): " & nCh & vbCr & _
+        "- Bảng: " & soBang & " · Hình: " & soHinh & vbCr & _
+        "- Bảng/hình thiếu caption: " & thieuCap & vbCr & _
+        "- Tiêu đề nhảy cấp: " & nhayCap & vbCr & _
+        "- Đoạn lệch phông: " & soFont & " · lệch cỡ chữ: " & soCo & _
+        " · lệch giãn dòng: " & soDong & " · lệch căn lề: " & soCan & _
+        " · lệch thụt dòng: " & soThut & vbCr & _
+        "- Ảnh: " & src.InlineShapes.Count & " — DPI KHÔNG xác định được (Word không phơi DPI cho InlineShape)." & vbCr & vbCr
 
     Set r = kq.Content
     r.Collapse wdCollapseEnd
     Dim tbl As Table
     Set tbl = kq.Tables.Add(r, rows.Count + 1, 4)
     tbl.Borders.Enable = True
-    tbl.Cell(1, 1).Range.Text = "Vá»‹ trÃ­"
-    tbl.Cell(1, 2).Range.Text = "Äoáº¡n (80 kÃ½ tá»±)"
-    tbl.Cell(1, 3).Range.Text = "Hiá»‡n táº¡i"
-    tbl.Cell(1, 4).Range.Text = "Gá»£i Ã½"
+    tbl.Cell(1, 1).Range.Text = "Vị trí"
+    tbl.Cell(1, 2).Range.Text = "Đoạn (80 ký tự)"
+    tbl.Cell(1, 3).Range.Text = "Hiện tại"
+    tbl.Cell(1, 4).Range.Text = "Gợi ý"
     For i = 1 To rows.Count
         a = rows(i)
         tbl.Cell(i + 1, 1).Range.Text = CStr(a(0))
@@ -1812,7 +1812,7 @@ Public Sub RibbonPhanTich(control As Object)
 
 Loi:
     Application.ScreenUpdating = True
-    MsgBox "Lá»—i khi phÃ¢n tÃ­ch: " & Err.Description, vbExclamation, "Chuáº©n NTU"
+    MsgBox "Lỗi khi phân tích: " & Err.Description, vbExclamation, "Chuẩn NTU"
 End Sub
 
 Private Function Snippet80(ByVal s As String) As String
@@ -1828,24 +1828,24 @@ End Function
 
 Private Function YesNo(ByVal b As Boolean) As String
     If b Then
-        YesNo = "cÃ³"
+        YesNo = "có"
     Else
-        YesNo = "khÃ´ng"
+        YesNo = "không"
     End If
 End Function
 
 Private Function TenCan(ByVal al As Long) As String
     Select Case al
         Case wdAlignParagraphLeft
-            TenCan = "trÃ¡i"
+            TenCan = "trái"
         Case wdAlignParagraphRight
-            TenCan = "pháº£i"
+            TenCan = "phải"
         Case wdAlignParagraphCenter
-            TenCan = "giá»¯a"
+            TenCan = "giữa"
         Case wdAlignParagraphJustify
-            TenCan = "Ä‘á»u 2 bÃªn"
+            TenCan = "đều 2 bên"
         Case Else
-            TenCan = "khÃ¡c (" & al & ")"
+            TenCan = "khác (" & al & ")"
     End Select
 End Function
 
@@ -1858,13 +1858,13 @@ Private Function TenGian(ByVal v As Long) As String
         Case wdLineSpaceDouble
             TenGian = "2,0"
         Case wdLineSpaceAtLeast
-            TenGian = "tá»‘i thiá»ƒu"
+            TenGian = "tối thiểu"
         Case wdLineSpaceExactly
-            TenGian = "chÃ­nh xÃ¡c"
+            TenGian = "chính xác"
         Case wdLineSpaceMultiple
-            TenGian = "bá»™i sá»‘"
+            TenGian = "bội số"
         Case Else
-            TenGian = "khÃ¡c (" & v & ")"
+            TenGian = "khác (" & v & ")"
     End Select
 End Function
 
@@ -2007,37 +2007,37 @@ Public Sub NTU_KiemTraCapNhat(ByVal hoiKhiKhongCo As Boolean, _
     If kt = 0 Then kt = Val(NTU_ParseJson(js, "ntu_size"))
     If Len(ver) = 0 Or Len(url) = 0 Or Len(sha) <> 64 Then
         If hoiKhiKhongCo Then
-            MsgBox "KhÃ´ng káº¿t ná»‘i Ä‘Æ°á»£c mÃ¡y chá»§ cáº­p nháº­t (GitHub). Kiá»ƒm tra máº¡ng rá»“i thá»­ láº¡i." & vbCrLf & _
-                   "PhiÃªn báº£n Ä‘ang dÃ¹ng: " & NTU_PhienBan(), vbExclamation, "Cáº­p nháº­t Chuáº©n NTU"
+            MsgBox "Không kết nối được máy chủ cập nhật (GitHub). Kiểm tra mạng rồi thử lại." & vbCrLf & _
+                   "Phiên bản đang dùng: " & NTU_PhienBan(), vbExclamation, "Cập nhật Chuẩn NTU"
         End If
         Exit Sub
     End If
     daDocDuoc = True
     If NTU_SoSanh(ver, NTU_PhienBan()) <= 0 Then
         If hoiKhiKhongCo Then
-            MsgBox "Báº¡n Ä‘ang dÃ¹ng phiÃªn báº£n má»›i nháº¥t: " & NTU_PhienBan(), vbInformation, "Cáº­p nháº­t Chuáº©n NTU"
+            MsgBox "Bạn đang dùng phiên bản mới nhất: " & NTU_PhienBan(), vbInformation, "Cập nhật Chuẩn NTU"
         End If
         Exit Sub
     End If
     If Not NTU_DungFileAddIn() Then
         Dim q As String
         q = Chr$(39)
-        MsgBox "CÃ³ phiÃªn báº£n má»›i " & ver & " nhÆ°ng macro Ä‘ang cháº¡y tá»« " & q & NTU_FileTuChay() & q & " - khÃ´ng pháº£i tá»‡p add-in Ä‘Ã£ cÃ i." & vbCrLf & "HÃ£y cÃ i láº¡i báº±ng bá»™ cÃ i Ä‘áº·t.", vbExclamation, "Cáº­p nháº­t Chuáº©n NTU"
+        MsgBox "Có phiên bản mới " & ver & " nhưng macro đang chạy từ " & q & NTU_FileTuChay() & q & " - không phải tệp add-in đã cài." & vbCrLf & "Hãy cài lại bằng bộ cài đặt.", vbExclamation, "Cập nhật Chuẩn NTU"
         Exit Sub
     End If
     Dim ans As VbMsgBoxResult
-    ans = MsgBox("CÃ³ phiÃªn báº£n má»›i: " & ver & " (Ä‘ang dÃ¹ng " & NTU_PhienBan() & ")." & vbCrLf & vbCrLf & _
-                 notes & vbCrLf & vbCrLf & "Cáº­p nháº­t ngay?", vbYesNo + vbQuestion, "Cáº­p nháº­t Chuáº©n NTU")
+    ans = MsgBox("Có phiên bản mới: " & ver & " (đang dùng " & NTU_PhienBan() & ")." & vbCrLf & vbCrLf & _
+                 notes & vbCrLf & vbCrLf & "Cập nhật ngay?", vbYesNo + vbQuestion, "Cập nhật Chuẩn NTU")
     If ans <> vbYes Then Exit Sub
     Dim msg As String
     msg = NTU_TaiVaCai(url, sha, kt)
-    If Len(msg) > 0 Then MsgBox msg, vbInformation, "Cáº­p nháº­t Chuáº©n NTU"
+    If Len(msg) > 0 Then MsgBox msg, vbInformation, "Cập nhật Chuẩn NTU"
 End Sub
 
 Private Function NTU_TaiVaCai(ByVal url As String, ByVal sha As String, _
                               Optional ByVal kichThuoc As Long = 0) As String
     ' Tai ban moi, kiem tinh toan ven (ZIP magic + kich thuoc), roi de mot .cmd
-    ' cho Word tat han moi copy de â€” khong the ghi de tep .dotm dang mo.
+    ' cho Word tat han moi copy de — khong the ghi de tep .dotm dang mo.
     Dim target As String
     target = NTU_FileTuChay()
     On Error GoTo WinFail
@@ -2083,16 +2083,16 @@ Private Function NTU_TaiVaCai(ByVal url As String, ByVal sha As String, _
     Print #f, "del ""%APPDATA%\NTUThesisAddin\capnhat_NTU.moi"" >nul 2>&1"
     Close #f
     Shell "cmd.exe /c """ & cmdPath & """", vbMinimizedNoFocus
-    NTU_TaiVaCai = "ÄÃ£ táº£i báº£n má»›i. HÃ£y ÄÃ“NG Háº¾T cá»­a sá»• Word: báº£n má»›i sáº½ tá»± cÃ i Ä‘áº·t, má»Ÿ láº¡i Word lÃ  dÃ¹ng Ä‘Æ°á»£c."
+    NTU_TaiVaCai = "Đã tải bản mới. Hãy ĐÓNG HẾT cửa sổ Word: bản mới sẽ tự cài đặt, mở lại Word là dùng được."
     Exit Function
 WinBad:
     On Error Resume Next
     Close #f
     If Len(moiW) > 0 Then Kill moiW
-    NTU_TaiVaCai = "Tá»‡p táº£i vá» khÃ´ng Ä‘Ãºng (thiáº¿u hoáº·c há»ng). ChÆ°a thay Ä‘á»•i gÃ¬, hÃ£y thá»­ láº¡i sau."
+    NTU_TaiVaCai = "Tệp tải về không đúng (thiếu hoặc hỏng). Chưa thay đổi gì, hãy thử lại sau."
     Exit Function
 WinFail:
-    NTU_TaiVaCai = "Táº£i báº£n cáº­p nháº­t tháº¥t báº¡i (kiá»ƒm tra máº¡ng). ChÆ°a thay Ä‘á»•i gÃ¬."
+    NTU_TaiVaCai = "Tải bản cập nhật thất bại (kiểm tra mạng). Chưa thay đổi gì."
 End Function
 
 ' ================================================== KIEM TRA NANG CAO (QD 900)
@@ -2115,7 +2115,7 @@ Public Function NTU_CheckDayDu(ByVal d As Document, ByVal sz As Single) As Strin
     On Error GoTo Loi
     Application.ScreenUpdating = False
 
-    ' (i)(ii)(iii) phong / co chu / gian dong â€” quet lai de lay vung tung loi.
+    ' (i)(ii)(iii) phong / co chu / gian dong — quet lai de lay vung tung loi.
     For Each p In d.Content.Paragraphs
         If Not IsTableMark(p) Then
             n = n + 1
@@ -2123,36 +2123,36 @@ Public Function NTU_CheckDayDu(ByVal d As Document, ByVal sz As Single) As Strin
             lvl = HeadingLevel(p)
 
             If p.Range.Font.Name <> "" And p.Range.Font.Name <> FONT_NAME Then
-                GhiLoi p.Range, chiTiet, "PhÃ´ng " & p.Range.Font.Name & " (cáº§n " & FONT_NAME & ")"
+                GhiLoi p.Range, chiTiet, "Phông " & p.Range.Font.Name & " (cần " & FONT_NAME & ")"
             ElseIf p.Range.Font.Name = "" And Len(t) > 0 Then
-                GhiLoi p.Range, chiTiet, "PhÃ´ng khÃ´ng Ä‘á»“ng nháº¥t trong Ä‘oáº¡n (cáº§n " & FONT_NAME & ")"
+                GhiLoi p.Range, chiTiet, "Phông không đồng nhất trong đoạn (cần " & FONT_NAME & ")"
             End If
 
             ' Co chu hop le: than bai = sz; tieu de chuong 14; caption 11 hoac 13;
             ' trong bang 13. Ngoai bo do la loi.
             If Not CoChuHopLe(p, lvl, sz) Then
                 If p.Range.Font.Size >= 9999999 Then
-                    GhiLoi p.Range, chiTiet, "Cá»¡ chá»¯ khÃ´ng Ä‘á»“ng nháº¥t trong Ä‘oáº¡n"
+                    GhiLoi p.Range, chiTiet, "Cỡ chữ không đồng nhất trong đoạn"
                 Else
-                    GhiLoi p.Range, chiTiet, "Cá»¡ chá»¯ " & FmtSo(p.Range.Font.Size) & " pt (cáº§n " & _
+                    GhiLoi p.Range, chiTiet, "Cỡ chữ " & FmtSo(p.Range.Font.Size) & " pt (cần " & _
                            IIf(lvl = 1, "14", FmtSo(sz)) & " pt" & _
-                           IIf(IsCaptionPara(p), "; caption 11 hoáº·c 13", "") & ")"
+                           IIf(IsCaptionPara(p), "; caption 11 hoặc 13", "") & ")"
                 End If
             End If
 
             If lvl = 0 And Not p.Range.Information(wdWithInTable) Then
                 If p.Range.ParagraphFormat.LineSpacingRule <> wdLineSpace1pt5 Then
-                    GhiLoi p.Range, chiTiet, "GiÃ£n dÃ²ng " & TenGian(p.Range.ParagraphFormat.LineSpacingRule) & " (cáº§n 1,5)"
+                    GhiLoi p.Range, chiTiet, "Giãn dòng " & TenGian(p.Range.ParagraphFormat.LineSpacingRule) & " (cần 1,5)"
                 End If
             ElseIf p.Range.Information(wdWithInTable) Then
                 If p.Range.ParagraphFormat.LineSpacingRule <> wdLineSpaceSingle Then
-                    GhiLoi p.Range, chiTiet, "GiÃ£n dÃ²ng trong báº£ng chÆ°a báº±ng 1,0"
+                    GhiLoi p.Range, chiTiet, "Giãn dòng trong bảng chưa bằng 1,0"
                 End If
             End If
 
             ' (v) nhay cap tieu de: H1 -> H3 tro len la loi.
             If lvl >= 3 And lvlTruoc = 1 Then
-                GhiLoi p.Range, chiTiet, "Nháº£y cáº¥p tiÃªu Ä‘á»: cáº¥p 1 -> cáº¥p " & lvl & " (thiáº¿u cáº¥p 2)"
+                GhiLoi p.Range, chiTiet, "Nhảy cấp tiêu đề: cấp 1 -> cấp " & lvl & " (thiếu cấp 2)"
             End If
             If lvl > 0 Then lvlTruoc = lvl
         End If
@@ -2163,8 +2163,8 @@ Public Function NTU_CheckDayDu(ByVal d As Document, ByVal sz As Single) As Strin
         Set p = ParaBeforeTable(d.Tables(i))
         If Not p Is Nothing Then
             t = CleanText(p.Range.Text)
-            If Len(Trim$(t)) = 0 Or InStr(1, t, "Báº£ng", vbTextCompare) = 0 Then
-                GhiLoi d.Tables(i).Range, chiTiet, "Báº£ng chÆ°a cÃ³ caption ""Báº£ng X.Y"" ngay TRÃŠN báº£ng"
+            If Len(Trim$(t)) = 0 Or InStr(1, t, "Bảng", vbTextCompare) = 0 Then
+                GhiLoi d.Tables(i).Range, chiTiet, "Bảng chưa có caption ""Bảng X.Y"" ngay TRÊN bảng"
             End If
         End If
     Next i
@@ -2173,8 +2173,8 @@ Public Function NTU_CheckDayDu(ByVal d As Document, ByVal sz As Single) As Strin
         Set p = ParaAfterShape(d.InlineShapes(i))
         If Not p Is Nothing Then
             t = CleanText(p.Range.Text)
-            If Len(Trim$(t)) = 0 Or InStr(1, t, "HÃ¬nh", vbTextCompare) = 0 Then
-                GhiLoi d.InlineShapes(i).Range, chiTiet, "HÃ¬nh chÆ°a cÃ³ caption ""HÃ¬nh X.Y"" ngay DÆ¯á»šI hÃ¬nh"
+            If Len(Trim$(t)) = 0 Or InStr(1, t, "Hình", vbTextCompare) = 0 Then
+                GhiLoi d.InlineShapes(i).Range, chiTiet, "Hình chưa có caption ""Hình X.Y"" ngay DƯỚI hình"
             End If
         End If
     Next i
@@ -2183,25 +2183,25 @@ Public Function NTU_CheckDayDu(ByVal d As Document, ByVal sz As Single) As Strin
     ' khong xac dinh duoc, khong doan bua.
     coAnh = d.InlineShapes.Count
     If coAnh > 0 Then
-        chiTiet = chiTiet & "  - áº¢nh: " & coAnh & " hÃ¬nh â€” Ä‘á»™ phÃ¢n giáº£i khÃ´ng xÃ¡c Ä‘á»‹nh Ä‘Æ°á»£c qua COM;" & _
-                  " má»Ÿ Word, chuá»™t pháº£i > Size Ä‘á»ƒ tá»± soÃ¡t (cáº§n >= 300 dpi khi in)." & vbCrLf
+        chiTiet = chiTiet & "  - Ảnh: " & coAnh & " hình — độ phân giải không xác định được qua COM;" & _
+                  " mở Word, chuột phải > Size để tự soát (cần >= 300 dpi khi in)." & vbCrLf
     End If
 
     If LastDemLoi = 0 Then
-        chiTiet = "  (khÃ´ng cÃ³ má»¥c nÃ o cáº§n chá»‰ tay)"
+        chiTiet = "  (không có mục nào cần chỉ tay)"
     Else
-        chiTiet = "  Nháº­p sá»‘ trong [1.." & LastDemLoi & "] Ä‘á»ƒ nháº£y tá»›i lá»—i." & vbCrLf & chiTiet
+        chiTiet = "  Nhập số trong [1.." & LastDemLoi & "] để nhảy tới lỗi." & vbCrLf & chiTiet
     End If
 
     rep = rep & vbCrLf & String(58, "-") & vbCrLf & _
-          "CHI TIáº¾T Lá»–I (Ä‘Ã£ soÃ¡t " & n & " Ä‘oáº¡n)" & vbCrLf & chiTiet
+          "CHI TIẾT LỖI (đã soát " & n & " đoạn)" & vbCrLf & chiTiet
 
     Application.ScreenUpdating = True
     NTU_CheckDayDu = rep
     Exit Function
 Loi:
     Application.ScreenUpdating = True
-    NTU_CheckDayDu = rep & vbCrLf & "! Lá»—i khi kiá»ƒm tra chi tiáº¿t: " & Err.Description
+    NTU_CheckDayDu = rep & vbCrLf & "! Lỗi khi kiểm tra chi tiết: " & Err.Description
 End Function
 
 ' Co chu co nam trong bo hop le khong.

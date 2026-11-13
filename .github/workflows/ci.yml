@@ -30,6 +30,10 @@ jobs:
         shell: pwsh
         run: node src/build/vba2bas.test.mjs
 
+      - name: Kiểm chứng module NTU (6 nút + callback khớp VBA + ASCII)
+        shell: pwsh
+        run: powershell.exe -NoProfile -ExecutionPolicy Bypass -File src/modules/ntu-thesis/verify-module.ps1
+
       - name: Kiểm thử bộ cá nhân hóa (tái tạo đúng từng byte)
         shell: pwsh
         run: node src/build/personalize.test.mjs

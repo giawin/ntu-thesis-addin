@@ -15,6 +15,7 @@ out/
 _build/
 scratch/
 dist_work/
+bo-cai-dat/
 
 # Môi trường Node.js (chỉ dùng cho bộ chuyển đổi .vba sang .bas)
 node_modules/

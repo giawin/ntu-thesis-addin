@@ -23,6 +23,16 @@ param(
     [switch]$SkipVerify    # bo qua buoc kiem chung (khong khuyen dung)
 )
 
+# Office dang mo se khoa tep .dotm va lam hong buoc dong goi giua chung.
+# Chan ngay tu dau voi thong bao ro rang thay vi that bai kho hieu o buoc 4.
+$officeDangMo = @(Get-Process -Name WINWORD,EXCEL -ErrorAction SilentlyContinue)
+if ($officeDangMo.Count -gt 0) {
+    $ten = ($officeDangMo | ForEach-Object { "$($_.ProcessName) (PID $($_.Id))" }) -join ", "
+    Write-Host "DUNG: dang co tien trinh Office mo: $ten" -ForegroundColor Red
+    Write-Host "Hay dong Word/Excel roi chay lai. Script khong tu ket thuc tien trinh cua ban." -ForegroundColor Yellow
+    exit 1
+}
+
 $ErrorActionPreference = 'Stop'
 $script:stepNo = 0
 $script:sw = [Diagnostics.Stopwatch]::StartNew()
