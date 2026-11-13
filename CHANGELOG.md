@@ -13,6 +13,15 @@ Dòng có dấu tiếng Việt vẫn được giữ ở phần thân tài liệu
 
 ## [Chưa phát hành]
 
+### Đã sửa
+- `version.json` sinh khoá `xlam_url` / `xlam_sha256` / `xlam_size` trong khi
+  add-in Excel nguyên bản đọc `excel_url` / `excel_sha256` / `excel_size`.
+  Hệ quả: nút tự cập nhật trong Excel nhận chuỗi rỗng và dừng lặng lẽ.
+  Nay manifest dùng đúng tên khoá `excel_*`.
+- Thêm `src/build/verify-manifest-contract.ps1` chạy trong CI: nó trích khoá
+  manifest từ chính mã VBA của cả ba add-in rồi đối chiếu với khoá workflow
+  sinh ra, nên lỗi lệch tên khoá không thể tái diễn mà không làm CI đỏ.
+
 ### Sẽ bổ sung
 - Bổ sung kiểm thử hồi quy cho `src/build/vba2bas.mjs` khi gặp tệp có ký tự
   ngoài bảng mã ASCII.

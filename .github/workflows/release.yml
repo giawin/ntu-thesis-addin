@@ -123,7 +123,7 @@ jobs:
           foreach ($cap in @(
             @('word', 'dist/GiaTwinH_NTU_Thesis_Word.dotm'),
             @('ntu',  'dist/NTUThesis.dotm'),
-            @('xlam', 'dist/ChuanHoa_Excel.xlam')
+            @('excel', 'dist/ChuanHoa_Excel.xlam')
           )) {
             $ten = $cap[0]; $tep = $cap[1]
             "$($ten)_sha256=$((Get-FileHash $tep -Algorithm SHA256).Hash.ToLower())" >> $env:GITHUB_OUTPUT
@@ -138,8 +138,8 @@ jobs:
           WORD_SIZE: ${{ steps.bam.outputs.word_size }}
           NTU_SHA: ${{ steps.bam.outputs.ntu_sha256 }}
           NTU_SIZE: ${{ steps.bam.outputs.ntu_size }}
-          XLAM_SHA: ${{ steps.bam.outputs.xlam_sha256 }}
-          XLAM_SIZE: ${{ steps.bam.outputs.xlam_size }}
+          EXCEL_SHA: ${{ steps.bam.outputs.excel_sha256 }}
+          EXCEL_SIZE: ${{ steps.bam.outputs.excel_size }}
         run: |
           $tag = "v$env:SO_PHIEN_BAN"
           $goc = "https://github.com/${{ github.repository }}/releases/download/$tag"
@@ -155,9 +155,9 @@ jobs:
             ntu_url     = "$goc/NTUThesis.dotm"
             ntu_sha256  = $env:NTU_SHA
             ntu_size    = [long]$env:NTU_SIZE
-            xlam_url    = "$goc/ChuanHoa_Excel.xlam"
-            xlam_sha256 = $env:XLAM_SHA
-            xlam_size   = [long]$env:XLAM_SIZE
+            excel_url    = "$goc/ChuanHoa_Excel.xlam"
+            excel_sha256 = $env:EXCEL_SHA
+            excel_size   = [long]$env:EXCEL_SIZE
           }
           $json = $man | ConvertTo-Json -Depth 4
           $enc = New-Object System.Text.UTF8Encoding($false)
@@ -169,13 +169,13 @@ jobs:
         shell: pwsh
         run: |
           $j = Get-Content 'dist/version.json' -Raw | ConvertFrom-Json
-          foreach ($k in 'version', 'word_url', 'word_sha256', 'word_size', 'ntu_url', 'ntu_sha256') {
+          foreach ($k in 'version', 'notes_ascii', 'word_url', 'word_sha256', 'word_size', 'ntu_url', 'ntu_sha256', 'ntu_size', 'excel_url', 'excel_sha256', 'excel_size') {
             if ([string]::IsNullOrWhiteSpace("$($j.$k)")) { throw "version.json thiếu khoá $k." }
           }
           foreach ($cap in @(
             @('word_sha256', 'GiaTwinH_NTU_Thesis_Word.dotm'),
             @('ntu_sha256', 'NTUThesis.dotm'),
-            @('xlam_sha256', 'ChuanHoa_Excel.xlam')
+            @('excel_sha256', 'ChuanHoa_Excel.xlam')
           )) {
             $thuc = (Get-FileHash "dist/$($cap[1])" -Algorithm SHA256).Hash.ToLower()
             if ($thuc -ne $j.($cap[0])) { throw "Mã băm $($cap[0]) không khớp với tệp $($cap[1])." }

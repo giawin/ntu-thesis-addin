@@ -37,6 +37,9 @@ jobs:
       - name: Kiểm thử bộ cá nhân hóa (tái tạo đúng từng byte)
         shell: pwsh
         run: node src/build/personalize.test.mjs
+      - name: Kiem chung hop dong manifest (khoa VBA doc == khoa workflow sinh)
+        shell: pwsh
+        run: powershell.exe -NoProfile -ExecutionPolicy Bypass -File src/build/verify-manifest-contract.ps1
 
       - name: Chuyển NTU.vba và xác nhận đầu ra thuần ASCII
         shell: pwsh

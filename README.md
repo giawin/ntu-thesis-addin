@@ -6,7 +6,7 @@ Trường Đại học Nha Trang.
 
 Phiên bản hiện hành: **1.0.0** — Mã định danh add-in: `giatwin_h-ntu-thesis-addin`.
 
-Kho mã này là kho riêng (private). Toàn bộ tệp cài đặt được phát hành kèm theo trong mục
+Kho mã này là kho công khai (public). Toàn bộ tệp cài đặt được phát hành kèm theo trong mục
 [Releases](../../releases).
 
 ## Giới thiệu
