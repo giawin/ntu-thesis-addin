@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui" onLoad="RibbonLoad">
+  <ribbon>
+    <tabs>
+      <tab id="tabNTU" label="NTU Thesis">
+        <group id="grpNTU" label="Chuẩn hóa luận án NTU">
+          <button id="btnNTUChuanHoa"
+                  label="Chuẩn hóa luận án"
+                  size="large"
+                  imageMso="AcceptTask"
+                  screentip="Chuẩn hóa toàn bộ luận án theo QĐ 900/QĐ-ĐHNT"
+                  supertip="Một bấm chạy đủ 5 bước: khổ giấy và lề, thân bài (Times New Roman 13 pt, căn đều, giãn 1,5, thụt dòng đầu 1 cm, cách đoạn 6/0 pt), tiêu đề chương in hoa đậm 14 pt, caption bảng/hình kèm dòng Nguồn, số trang La Mã rồi Ả Rập, và đổi gạch dài thành gạch nối. Cuối cùng tự kiểm tra và tóm tắt kết quả. Ctrl+Z hoàn tác được."
+                  onAction="RibbonChuanHoa" />
+          <button id="btnNTUPhanTich"
+                  label="Phân tích"
+                  size="large"
+                  imageMso="ReviewShowMarkup"
+                  screentip="Xem hiện trạng định dạng, không sửa gì"
+                  supertip="Mở bảng phân tích trong cửa sổ riêng: mỗi đoạn lệch chuẩn được liệt kê kèm vị trí, nội dung rút gọn, định dạng hiện tại và gợi ý sửa. Chỉ đọc, hoàn toàn không thay đổi tài liệu."
+                  onAction="RibbonPhanTich" />
+          <button id="btnNTUKiemTra"
+                  label="Kiểm tra"
+                  size="large"
+                  imageMso="SpellingAndGrammar"
+                  screentip="Soát lỗi thể thức có đánh số để nhảy tới"
+                  supertip="Kiểm tra phông, cỡ chữ, giãn dòng, caption thiếu, nhảy cấp tiêu đề, ảnh chưa rõ độ phân giải cùng lề, khổ giấy, số trang, header, gạch dài. Kết quả đánh số: nhập số là Word nhảy thẳng tới chỗ lỗi. Xuất được báo cáo ra %TEMP%."
+                  onAction="RibbonKiemTra" />
+          <button id="btnNTUTuyChon"
+                  label="Tùy chọn"
+                  size="large"
+                  imageMso="FileProperties"
+                  screentip="Chọn thụt dòng đầu và cách xử lý tiêu đề chương"
+                  supertip="Thụt dòng đầu 1,0 cm (mặc định) hoặc 1,25 cm; có in hoa tiêu đề chương hay không; có giữ nguyên cỡ chữ riêng của tiêu đề đã đặt tay hay đưa tất cả về 13 pt. Mọi tùy chọn lưu vào registry và được ghi vào file log."
+                  onAction="RibbonTuyChon" />
+          <button id="btnNTUCapNhat"
+                  label="Cập nhật"
+                  size="large"
+                  imageMso="Refresh"
+                  screentip="Kiểm tra bản mới của module Chuẩn NTU"
+                  supertip="Đọc version.json trên GitHub, so với phiên bản đang dùng, tải bản mới và tự cài đặt khi bạn đóng Word. Bấm nút này không cần tải lại repo bằng tay."
+                  onAction="RibbonCapNhat" />
+          <button id="btnNTUHuongDan"
+                  label="Hướng dẫn"
+                  size="large"
+                  imageMso="Help"
+                  screentip="Tóm tắt quy định trình bày của Trường"
+                  supertip="Quy định trình bày luận văn, đồ án, đề án tốt nghiệp thạc sĩ của Trường Đại học Nha Trang, kèm theo Quyết định số 900/QĐ-ĐHNT ngày 31/7/2023."
+                  onAction="RibbonHuongDan" />
+        </group>
+      </tab>
+    </tabs>
+  </ribbon>
+</customUI>

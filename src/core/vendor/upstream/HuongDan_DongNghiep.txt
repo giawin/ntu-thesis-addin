@@ -1,0 +1,90 @@
+﻿================================================================================
+        HƯỚNG DẪN CÀI ĐẶT & SỬ DỤNG BỘ ADD-IN CHUẨN HÓA THỂ THỨC VĂN BẢN
+   Khối Đảng (HD 05-HD/VPTW) · Chính quyền (NĐ 30/2020/NĐ-CP) · Công an · Quân đội
+                    Created by VPĐU xã Thạnh Phú
+================================================================================
+
+1. BỘ CÔNG CỤ GỒM CÓ
+--------------------------------------------------------------------------------
+- ChuanHoa_VanBanDang.dotm : Add-in Microsoft Word (tab THỂ THỨC VĂN BẢN).
+- ChuanHoa_Excel.xlam       : Add-in Microsoft Excel (căn trang in A4).
+- CaiDat_AddIn_Windows.bat : Cài tự động cho Word & Excel trên Windows.
+- GoCaiDat_Windows.bat     : Gỡ cài đặt trên Windows.
+
+2. CÀI ĐẶT (CHỈ LÀM 1 LẦN)
+--------------------------------------------------------------------------------
+Bước 1: Giải nén tệp "Bo_Cai_Dat_AddIn_Windows.zip" (chuột phải > Extract All).
+Bước 2: Tắt hẳn Word và Excel.
+Bước 3: Nhấp đúp tệp "CaiDat_AddIn_Windows.bat".
+Bước 4: Màn hình báo cài đặt thành công là xong.
+
+* Không cần nhập mã kích hoạt: lần đầu dùng (khi có Internet), máy tự được ghi nhận
+  với Văn phòng Đảng ủy xã Thạnh Phú. Dùng chung cho Word và Excel.
+* KHÔNG nhấp đúp mở file .dotm / .xlam (Word sẽ hỏi bật macro): chỉ chạy file cài đặt.
+* Windows báo "Kiểm soát Ứng dụng Thông minh đã chặn": chuột phải file .zip > Properties >
+  tích "Bỏ chặn" (Unblock) > OK, rồi giải nén lại và chạy file cài đặt.
+
+3. CẬP NHẬT PHIÊN BẢN MỚI (KHÔNG CẦN CÀI LẠI)
+--------------------------------------------------------------------------------
+- Bấm nút [Cập nhật] trên Ribbon Word hoặc Excel. Add-in cũng tự kiểm tra mỗi tuần
+  một lần khi bấm nút chuẩn hóa và hỏi trước khi cập nhật.
+- Có bản mới: bấm "Yes" (Có).
+  + ĐÓNG HẾT cửa sổ Word (hoặc Excel), bản mới tự cài, mở lại là dùng được.
+- Tệp tải về được kiểm tra trước khi cài; tệp thiếu hoặc hỏng thì không cài.
+- Thông tin đơn vị, khối đã chọn và bản quyền được giữ nguyên.
+
+GỠ CÀI ĐẶT
+--------------------------------------------------------------------------------
+- Tắt Word và Excel, nhấp đúp tệp "GoCaiDat_Windows.bat".
+- Mở lại Word / Excel: nút của add-in đã biến mất.
+- Nếu phần mềm diệt virus hỏi, chọn cho phép (chỉ lần đầu).
+
+4. MICROSOFT WORD
+--------------------------------------------------------------------------------
+a) Chọn khối: ô [Khối] trên Ribbon.
+   - "Tự động nhận diện" (khuyên dùng): có "ĐẢNG CỘNG SẢN VIỆT NAM" -> khối Đảng;
+     có Quốc hiệu -> khối Chính quyền / Công an / Quân đội theo tên cơ quan.
+   - Văn bản của cấp ủy, tổ chức đảng trong Công an, Quân đội: chọn khối Đảng.
+   - Nếu chọn cố định một khối, văn bản khối khác sẽ bị chuẩn hóa sai thể thức
+     (báo cáo có cảnh báo "lệch khối").
+b) Chuẩn hóa: mở văn bản, bấm [Chuẩn Hóa Thể Thức]. Add-in sửa lề, phông chữ,
+   tiêu ngữ / Quốc hiệu, số ký hiệu, ngày tháng, trích yếu, Kính gửi, Nơi nhận,
+   chữ ký... rồi hiện báo cáo các điểm cần kiểm tra trước khi trình ký.
+c) Thông tin đơn vị (tab THỂ THỨC VĂN BẢN, hoặc nút [Đơn vị] ở tab Home):
+   - Nhập 1 lần: Cấp trên, Cơ quan, Viết tắt, Địa danh, Thẩm quyền, Chức vụ, Người ký.
+     Tên dài muốn xuống dòng thì gõ dấu | (VD: ỦY BAN NHÂN DÂN | XÃ ...).
+     Thẩm quyền, Chức vụ cũng xuống dòng bằng dấu | được.
+   - Hoặc mở 1 văn bản đã chuẩn hóa của đơn vị, bấm [Lấy từ văn bản đang mở].
+   - Khối Đảng: ô Cấp trên ghi tên ĐẢNG BỘ cấp trên trực tiếp (VD: ĐẢNG BỘ TỈNH ...),
+     theo HD 05-HD/VPTW.
+   - Để trống ô Thẩm quyền nghĩa là người ký ký trực tiếp.
+   - Cấp phó ký thay: Thẩm quyền ghi "KT. TRƯỞNG CÔNG AN XÃ" (hoặc "KT. CHỦ TỊCH"),
+     Chức vụ ghi "PHÓ TRƯỞNG CÔNG AN XÃ" (hoặc "PHÓ CHỦ TỊCH").
+   - Ô [Tên dài] (tab THỂ THỨC VĂN BẢN): cách xử lý khi tên cơ quan dài bị rớt dòng.
+     + Hạ cỡ chữ (khuyên dùng, mặc định): nới cột tên cơ quan, hạ Quốc hiệu 12,
+       Tiêu ngữ và ngày tháng 13, tên cơ quan 12 (NĐ 30 cho phép cỡ 12-13).
+       Khối Đảng giữ cỡ 14 theo hướng dẫn, chỉ nới cột.
+     + Lấn lề trái (giữ cỡ chữ): không hạ cỡ, bảng tiêu đề lấn sang lề trái tối đa 15 mm.
+     Cả hai cách: tên vẫn quá dài thì tự tách 2 dòng (VD: ỦY BAN NHÂN DÂN / TỈNH ...).
+     Chọn xong, bấm [Chuẩn Hóa Thể Thức] lại để áp dụng cho văn bản đang mở.
+d) Tạo văn bản mẫu: bấm [Tạo văn bản mẫu] rồi chọn loại (Nghị quyết, Quyết định,
+   Kế hoạch, Báo cáo, Thông báo, Tờ trình, Công văn, Giấy mời, Biên bản).
+   Văn bản mới đã đúng thể thức; chỗ cần điền được tô vàng trong dấu [ ... ].
+   Số và ngày tháng để trống cho văn thư.
+
+5. MICROSOFT EXCEL
+--------------------------------------------------------------------------------
+1. Mở bảng tính cần in (phụ lục, bảng biểu thống kê...), bấm [Chuẩn Hóa Trang In].
+2. Add-in tự:
+   - Chống che mất chữ (kể cả ô gộp), căn chỉnh cột, hàng.
+   - Chọn A4 dọc hoặc ngang theo độ rộng bảng (giữ khổ ngang nếu bạn đã chọn).
+   - Lặp lại dòng tiêu đề bảng ở các trang sau, kéo phần người ký về chung trang.
+   - Đánh số "Trang x/y" khi bảng từ 2 trang trở lên.
+   - Cảnh báo nếu chữ in ra quá nhỏ.
+3. Muốn trả lại như cũ: bấm Ctrl+Z ngay sau đó, hoặc nút [Hoàn tác].
+   (Đóng Excel thì không hoàn tác được nữa.)
+4. Sheet đang khóa (Protect Sheet) thì cần bỏ khóa trước.
+
+================================================================================
+                    VĂN PHÒNG ĐẢNG ỦY XÃ THẠNH PHÚ
+================================================================================

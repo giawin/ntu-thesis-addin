@@ -1,0 +1,36 @@
+# Hệ điều hành và trình quản lý tệp
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# Tệp tạm của Microsoft Office (ổ khóa, bản nháp, tệp khôi phục)
+~$*
+*.tmp
+*.temp
+*.asd
+
+# Thư mục làm việc tạm của quy trình đóng gói và phát hành
+out/
+_build/
+scratch/
+dist_work/
+
+# Môi trường Node.js (chỉ dùng cho bộ chuyển đổi .vba sang .bas)
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Cấu hình cục bộ của trình soạn thảo
+.vscode/
+.idea/
+.agent-teams/
+
+# Cấu hình cá nhân, không đưa lên kho
+*.local
+.env
+.env.*
+
+# Lưu ý: hai thư mục src/core/word/dist/ và src/modules/ntu-thesis/dist/
+# KHÔNG được bỏ qua. Quy trình phát hành đọc tệp .dotm đã đóng gói sẵn từ đó,
+# nên tệp phải được commit như mọi tệp khác trong kho.

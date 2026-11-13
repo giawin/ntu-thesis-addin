@@ -1,0 +1,98 @@
+name: CI
+
+# Kiểm tra mỗi lần đẩy mã nguồn hoặc mở yêu cầu gộp.
+# Không cần Microsoft Word/Excel: chỉ kiểm tra những gì kiểm tra được bằng máy.
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  kiem-tra:
+    name: Kiểm tra mã VBA và Ribbon
+    runs-on: windows-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Lấy mã nguồn
+        uses: actions/checkout@v4
+
+      - name: Cài Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Chạy kiểm thử bộ chuyển đổi .vba sang .bas
+        shell: pwsh
+        run: node src/build/vba2bas.test.mjs
+
+      - name: Kiểm thử bộ cá nhân hóa (tái tạo đúng từng byte)
+        shell: pwsh
+        run: node src/build/personalize.test.mjs
+
+      - name: Chuyển NTU.vba và xác nhận đầu ra thuần ASCII
+        shell: pwsh
+        run: |
+          $out = Join-Path $env:RUNNER_TEMP 'NTU.bas'
+          $p = Start-Process -FilePath node `
+            -ArgumentList @('src/build/vba2bas.mjs', 'src/modules/ntu-thesis/NTU.vba', $out) `
+            -Wait -PassThru -NoNewWindow
+          if ($p.ExitCode -ne 0) {
+            throw "vba2bas.mjs thất bại với mã thoát $($p.ExitCode) — .bas sinh ra sẽ không biên dịch được."
+          }
+          $bytes = [System.IO.File]::ReadAllBytes($out)
+          $xau = @($bytes | Where-Object { $_ -gt 127 })
+          if ($xau.Count -gt 0) {
+            throw "Đầu ra .bas còn $($xau.Count) byte ngoài ASCII — Word sẽ báo lỗi biên dịch."
+          }
+          "Đạt: $out ($($bytes.Length) byte, thuần ASCII)"
+
+      - name: Kiểm tra customUI.xml hợp lệ và đủ thủ tục callback
+        shell: pwsh
+        run: |
+          $tep = Get-ChildItem src -Recurse -Filter 'customUI*.xml'
+          if (-not $tep) { throw 'Không tìm thấy tệp customUI*.xml nào trong src.' }
+          foreach ($f in $tep) {
+            $x = New-Object System.Xml.XmlDocument
+            $x.Load($f.FullName)
+            $goc = $x.DocumentElement
+            if ($goc.LocalName -ne 'customUI') {
+              throw "$($f.Name): phần tử gốc phải là customUI, gặp '$($goc.LocalName)'."
+            }
+            $nut = $x.SelectNodes("//*[local-name()='button']")
+            $thieu = @()
+            foreach ($b in $nut) {
+              $cb = $b.GetAttribute('onAction')
+              if ([string]::IsNullOrWhiteSpace($cb)) {
+                $thieu += "$($b.GetAttribute('id')): thiếu onAction"
+              }
+            }
+            if ($thieu.Count -gt 0) { throw ("$($f.Name):`n" + ($thieu -join "`n")) }
+            "Đạt: $($f.Name) — $($nut.Count) nút, mọi nút đều có onAction"
+          }
+
+      - name: Rà tên tệp add-in và tài liệu bắt buộc
+        shell: pwsh
+        run: |
+          $batBuoc = @(
+            'README.md',
+            'HuongDan_CaiDat.txt',
+            'CHANGELOG.md',
+            'releases/README.md'
+          )
+          $thieu = @($batBuoc | Where-Object { -not (Test-Path $_) })
+          if ($thieu.Count -gt 0) { throw "Thiếu tệp: $($thieu -join ', ')" }
+          "Đạt: đủ $($batBuoc.Count) tệp tài liệu bắt buộc."
+
+      - name: Kiểm tra kho mã không lẫn tệp tạm của Office
+        shell: pwsh
+        run: |
+          $rac = Get-ChildItem -Recurse -Force -File -Include '~$*', '*.tmp' -ErrorAction SilentlyContinue
+          if ($rac) {
+            throw ("Có tệp tạm của Office bị đưa vào kho mã:`n" + (($rac | ForEach-Object { $_.FullName }) -join "`n"))
+          }
+          'Đạt: không có tệp tạm.'

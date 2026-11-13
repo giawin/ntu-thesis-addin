@@ -1,0 +1,191 @@
+HƯỚNG DẪN CÀI ĐẶT VÀ SỬ DỤNG
+BỘ ADD-IN "TRỢ THỦ LUẬN ÁN NTU"
+Phiên bản 1.0.0 — Mã định danh: giatwin_h-ntu-thesis-addin
+================================================================
+
+I. GIỚI THIỆU
+----------------------------------------------------------------
+Bộ add-in gồm ba thành phần, phục vụ hai nhóm công việc:
+
+  1. GiaTwinH_NTU_Thesis_Word.dotm
+     Chuẩn hóa thể thức văn bản hành chính trên Microsoft Word.
+  2. NTUThesis.dotm
+     Chuẩn hóa luận án theo Quyết định số 900/QĐ-ĐHNT ngày 31/7/2023
+     của Trường Đại học Nha Trang.
+  3. ChuanHoa_Excel.xlam
+     Căn chỉnh trang in khổ A4 trên Microsoft Excel.
+
+Cả ba thành phần được cài đặt trong cùng một lần và xuất hiện trên
+dải lệnh của Word và Excel ngay sau khi khởi động lại ứng dụng.
+
+
+II. YÊU CẦU HỆ THỐNG
+----------------------------------------------------------------
+  - Hệ điều hành Windows 10 hoặc Windows 11.
+  - Microsoft Word và Microsoft Excel thuộc bộ Microsoft 365, hoặc
+    Office 2016 trở lên.
+  - Quyền ghi vào thư mục hồ sơ người dùng. Không cần quyền quản trị.
+  - Kết nối Internet cho lần cài đặt đầu tiên và cho chức năng cập nhật.
+
+
+III. NỘI DUNG BỘ CÀI ĐẶT
+----------------------------------------------------------------
+Sau khi giải nén tệp zip của bản phát hành, thư mục gồm:
+
+  CaiDat.bat                       Tập lệnh cài đặt tự động
+  GoCaiDat.bat                     Tập lệnh gỡ cài đặt
+  HuongDan_CaiDat.txt              Tài liệu này
+  GiaTwinH_NTU_Thesis_Word.dotm    Add-in thể thức văn bản Word
+  NTUThesis.dotm                   Add-in luận án NTU
+  ChuanHoa_Excel.xlam              Add-in căn chỉnh trang in Excel
+
+Đề nghị giữ nguyên tên các tệp. Các tập lệnh cài đặt và gỡ cài đặt
+dựa vào tên tệp để xác định vị trí đích.
+
+
+IV. CÁC BƯỚC CÀI ĐẶT
+----------------------------------------------------------------
+Bước 1. Giải nén tệp zip ra một thư mục trên ổ đĩa. Không cài đặt
+        trực tiếp từ bên trong tệp nén.
+
+Bước 2. Đóng toàn bộ cửa sổ Microsoft Word và Microsoft Excel đang mở.
+        Nếu còn tệp nào đang mở, hệ thống sẽ không thay thế được add-in.
+
+Bước 3. Bấm chuột phải vào tệp CaiDat.bat và chọn "Run as
+        administrator". Trên một số máy, chế độ này không bắt buộc,
+        nhưng nên thực hiện để tránh lỗi quyền ghi.
+
+Bước 4. Cửa sổ dòng lệnh hiện ra và thông báo kết quả cài đặt từng
+        thành phần. Đọc kỹ các dòng thông báo trước khi đóng cửa sổ.
+
+Bước 5. Khởi động lại Microsoft Word và Microsoft Excel.
+
+Vị trí cài đặt:
+  Word:  %APPDATA%\Microsoft\Word\STARTUP
+  Excel: %APPDATA%\Microsoft\Excel\XLSTART
+
+
+V. KIỂM TRA SAU KHI CÀI ĐẶT
+----------------------------------------------------------------
+  - Trong Microsoft Word, dải lệnh xuất hiện thêm tab "THỂ THỨC VĂN
+    BẢN" và tab "NTU Thesis".
+  - Trong Microsoft Excel, dải lệnh xuất hiện thêm tab "CHUẨN HÓA IN".
+
+Nếu thiếu một trong các tab nêu trên, đề nghị xem Mục VIII.
+
+
+VI. SỬ DỤNG
+----------------------------------------------------------------
+1. Tab "THỂ THỨC VĂN BẢN" (Word)
+   Dùng cho văn bản hành chính theo Nghị định số 30/2020/NĐ-CP. Add-in
+   hỗ trợ khối thể thức chính quyền, khối Công an nhân dân, khối Quân
+   đội nhân dân và khối Mặt trận Tổ quốc. Có thể để add-in tự nhận diện
+   khối thể thức, hoặc chọn thủ công.
+
+2. Tab "NTU Thesis" (Word)
+   - Nút "Chuẩn hóa luận án": áp dụng toàn bộ quy cách trình bày luận
+     án cho tài liệu đang mở. Thao tác này sửa trực tiếp tài liệu và
+     có thể hoàn tác bằng tổ hợp Ctrl+Z.
+   - Nút "Phân tích": mở bảng liệt kê từng đoạn lệch chuẩn kèm vị trí,
+     nội dung rút gọn, định dạng hiện tại và gợi ý sửa. Chỉ đọc, không
+     thay đổi tài liệu.
+   - Nút "Kiểm tra": soát lỗi thể thức có đánh số để nhảy thẳng tới
+     chỗ lỗi. Thao tác này không sửa nội dung.
+   - Nút "Tùy chọn": chọn thụt dòng đầu 1,0 hoặc 1,25 cm; có in hoa
+     tiêu đề chương hay không; giữ nguyên hay đưa về 13 pt cỡ chữ
+     tiêu đề đã đặt tay.
+   - Nút "Cập nhật": kiểm tra bản mới trên kho phát hành và cài đặt
+     nếu có. Hoạt động độc lập với add-in thể thức văn bản.
+   - Nút "Hướng dẫn": hiển thị bản tóm tắt quy định trình bày.
+
+   Khuyến nghị: sao lưu tài liệu trước khi bấm "Chuẩn Hóa" cho một
+   luận án hoàn chỉnh.
+
+3. Tab "CHUẨN HÓA IN" (Excel)
+   Căn chỉnh vùng in theo khổ A4, xử lý bảng biểu tràn trang và thống
+   nhất lề in. Đây là bản gốc của tác giả, giữ nguyên hành vi đã được
+   kiểm chứng trong thực tế.
+
+
+VII. CẬP NHẬT PHIÊN BẢN
+----------------------------------------------------------------
+Add-in thể thức văn bản tự kiểm tra phiên bản mới khi người dùng bấm
+nút "Cập nhật". Quá trình gồm ba bước: tải tệp mới về thư mục tạm,
+đối chiếu mã băm SHA-256, rồi chờ Microsoft Word đóng hẳn mới thay
+thế tệp cũ.
+
+Trong lúc cập nhật, đề nghị lưu công việc đang làm và đóng Word khi
+được yêu cầu. Không thay thế tệp add-in theo cách thủ công trong khi
+ứng dụng đang chạy.
+
+Add-in luận án NTU cũng có nút "Cập Nhật" riêng, hoạt động độc lập với
+add-in thể thức văn bản: bấm nút trên tab "NTU Thesis" để kiểm tra bản mới.
+Tài liệu của người dùng không bị ảnh hưởng bởi thao tác này.
+
+
+VIII. XỬ LÝ SỰ CỐ
+----------------------------------------------------------------
+1. Không thấy tab sau khi cài đặt
+   Nguyên nhân: Word hoặc Excel chưa được khởi động lại.
+   Cách xử lý: đóng hẳn ứng dụng, kể cả biểu tượng còn trong khay hệ
+   thống, rồi mở lại.
+
+2. Báo lỗi macro bị chặn
+   Nguyên nhân: tệp được tải từ Internet nên bị đánh dấu.
+   Cách xử lý: bấm chuột phải vào tệp trong thư mục cài đặt, chọn
+   "Properties", tích ô "Unblock", bấm "OK", rồi khởi động lại ứng dụng.
+
+3. Tab hiện ra nhưng nút không phản hồi
+   Nguyên nhân: thường do cùng nguyên nhân với mục 2.
+   Cách xử lý: thực hiện như mục 2.
+
+4. Chức năng cập nhật báo lỗi
+   Nguyên nhân: không có kết nối Internet, hoặc bản phát hành chưa có
+   tệp version.json.
+   Cách xử lý: kiểm tra kết nối mạng và sự tồn tại của bản phát hành.
+
+5. Excel báo lỗi khi mở tệp ChuanHoa_Excel.xlam
+   Nguyên nhân: tệp đã bị chỉnh sửa ngoài ý muốn.
+   Cách xử lý: cài lại từ bộ phát hành chính thức.
+
+6. Đã cài nhưng Word vẫn dùng bản cũ
+   Nguyên nhân: còn một bản add-in khác cùng tên trong thư mục STARTUP.
+   Cách xử lý: mở thư mục STARTUP, xóa các bản trùng tên, rồi cài lại.
+
+
+IX. GỠ CÀI ĐẶT
+----------------------------------------------------------------
+Bước 1. Đóng toàn bộ Microsoft Word và Microsoft Excel.
+Bước 2. Bấm chuột phải vào tệp GoCaiDat.bat, chọn "Run as
+        administrator".
+Bước 3. Khởi động lại Word và Excel để xác nhận các tab đã được gỡ bỏ.
+
+Thao tác gỡ cài đặt chỉ xóa các tệp add-in và tệp cấu hình đi kèm.
+Toàn bộ tài liệu của người dùng được giữ nguyên.
+
+
+X. QUYỀN RIÊNG TƯ
+----------------------------------------------------------------
+Add-in xử lý tài liệu ngay trên máy của người dùng. Không có nội dung
+tài liệu nào được gửi ra ngoài. Kết nối mạng chỉ được dùng cho chức
+năng kiểm tra và tải bản cập nhật.
+
+
+XI. GHI CÔNG
+----------------------------------------------------------------
+Module thể thức văn bản được cá nhân hóa từ dự án
+"CuongBC195/add-in-office" của tác giả gốc. Phần lõi chuẩn hóa thể thức
+và toàn bộ add-in Excel ChuanHoa_Excel.xlam thuộc quyền của tác giả
+gốc, được sử dụng nguyên trạng và không chỉnh sửa.
+
+Module NTUThesis.dotm do nhóm thực hiện kho mã này phát triển.
+
+
+XII. LIÊN HỆ
+----------------------------------------------------------------
+Mọi góp ý và báo lỗi xin gửi qua mục Issues của kho mã
+giawin/ntu-thesis-addin. Khi báo lỗi, đề nghị nêu rõ phiên bản add-in,
+phiên bản Office và các bước tái hiện.
+
+================================================================
+Hết tài liệu.

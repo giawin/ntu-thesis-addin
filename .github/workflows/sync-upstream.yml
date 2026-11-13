@@ -1,0 +1,213 @@
+name: Đồng bộ từ kho gốc
+
+# Đồng bộ phần LÕI GỐC từ kho nguồn về kho này.
+#
+# Phạm vi: chỉ bốn tệp nhị phân nằm trong src/core/vendor/upstream/.
+# Workflow TUYỆT ĐỐI không ghi đè README.md, HuongDan_CaiDat.txt, CHANGELOG.md
+# của bản cá nhân hóa và không chạm vào src/modules/ntu-thesis/.
+#
+# Việc cá nhân hóa KHÔNG cần làm tay. Sau khi trộn PR, chỉ cần chạy MỘT lệnh:
+#
+#     powershell -ExecutionPolicy Bypass -File src/build/build-all.ps1
+#
+# Lệnh đó tự làm toàn bộ chuỗi: trích VBA từ .dotm gốc (src/build/extract-vba.ps1),
+# áp giá trị NTU một cách tất định (src/build/personalize.mjs), rồi đóng gói lại.
+# Không có bước sửa tay nào, nên đồng bộ lặp lại bao nhiêu lần cũng cho cùng kết quả.
+#
+# Vì sao bước trích + đóng gói không chạy trên runner: cả hai đều cần Word COM
+# thật để mở và lưu tệp .dotm, mà runner GitHub không có Office. Workflow vì vậy
+# chỉ lo phần artifact nhị phân gốc; phần dựng tệp chạy trên máy có Office.
+# personalize.mjs có tự kiểm tra (personalize.test.mjs) chứng minh nó tạo lại
+# đúng từng byte bản đã kiểm chứng, và CI chạy test này để phát hiện lệch sớm.
+#
+# Lần chạy đầu tiên: chưa có tệp VERSION nên workflow coi như có bản mới và mở
+# PR ghi nhận phiên bản hiện hành. Đây là hành vi mong muốn, không phải lỗi.
+#
+# Cấu hình bí mật không cần: workflow chỉ đọc kho công khai của tác giả gốc.
+
+on:
+  schedule:
+    - cron: '0 6 * * *'   # 06:00 UTC hằng ngày = 13:00 giờ Việt Nam
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: sync-upstream
+  cancel-in-progress: false
+
+env:
+  # Kho nguồn cần theo dõi. Đây là địa chỉ kỹ thuật của đối tượng cần đồng bộ,
+  # không phải phần ghi công — phần ghi công nằm trong README.md và HuongDan_CaiDat.txt.
+  UPSTREAM_REPO: CuongBC195/add-in-office
+  UPSTREAM_DIR: src/core/vendor/upstream
+
+jobs:
+  dong-bo:
+    name: Kiểm tra và đồng bộ bản phát hành gốc
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Lấy mã nguồn
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Tải manifest bản phát hành gốc
+        id: manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          URL="https://github.com/${UPSTREAM_REPO}/releases/latest/download/version.json"
+          echo "Nguồn: $URL"
+          curl -fsSL --retry 3 --retry-delay 5 -o up.json "$URL"
+          test -s up.json || { echo "::error::Không tải được version.json của kho gốc."; exit 1; }
+
+          python3 - <<'PY'
+          import json, os, sys
+
+          with open('up.json', encoding='utf-8') as fh:
+              data = json.load(fh)
+
+          ver = str(data.get('version', '')).strip()
+          if not ver:
+              sys.exit('version.json của kho gốc không có trường "version".')
+
+          def pick(*keys):
+              for k in keys:
+                  v = data.get(k)
+                  if isinstance(v, str) and v.strip():
+                      return v.strip()
+              return ''
+
+          fields = {
+              'version':   ver,
+              'word_url':  pick('word_url_win', 'word_url'),
+              'word_sha':  pick('word_sha256_win', 'word_sha256').lower(),
+              'excel_url': pick('excel_url_win', 'excel_url'),
+              'excel_sha': pick('excel_sha256_win', 'excel_sha256').lower(),
+          }
+
+          for key in ('word_url', 'word_sha', 'excel_url', 'excel_sha'):
+              if not fields[key]:
+                  sys.exit(f'version.json của kho gốc thiếu trường bắt buộc: {key}')
+
+          out = os.environ['GITHUB_OUTPUT']
+          with open(out, 'a', encoding='utf-8') as fh:
+              for k, v in fields.items():
+                  fh.write(f'{k}={v}\n')
+
+          print(f'Bản gốc hiện hành: {ver}')
+          PY
+
+      - name: So sánh với bản đang dùng
+        id: so_sanh
+        shell: bash
+        run: |
+          set -euo pipefail
+          MOI='${{ steps.manifest.outputs.version }}'
+          CU=''
+          if [ -f "$UPSTREAM_DIR/VERSION" ]; then
+            CU=$(tr -d '[:space:]' < "$UPSTREAM_DIR/VERSION")
+          fi
+          echo "Đang dùng: ${CU:-<chưa ghi nhận>} | Bản gốc: $MOI"
+          if [ "$CU" = "$MOI" ]; then
+            echo "thay_doi=false" >> "$GITHUB_OUTPUT"
+            echo "up-to-date $MOI"
+          else
+            echo "thay_doi=true" >> "$GITHUB_OUTPUT"
+            echo "Có bản mới: $MOI"
+          fi
+
+      - name: Tải và đối chiếu mã băm
+        if: steps.so_sanh.outputs.thay_doi == 'true'
+        shell: bash
+        env:
+          WORD_URL: ${{ steps.manifest.outputs.word_url }}
+          WORD_SHA: ${{ steps.manifest.outputs.word_sha }}
+          EXCEL_URL: ${{ steps.manifest.outputs.excel_url }}
+          EXCEL_SHA: ${{ steps.manifest.outputs.excel_sha }}
+        run: |
+          set -euo pipefail
+          mkdir -p up-dl
+
+          tai_va_kiem() {
+            local url="$1" sha="$2" ten="$3"
+            curl -fsSL --retry 3 --retry-delay 5 -o "up-dl/$ten" "$url"
+            test -s "up-dl/$ten" || { echo "::error::Tệp tải về rỗng: $ten"; exit 1; }
+
+            local that
+            that=$(sha256sum "up-dl/$ten" | cut -d' ' -f1)
+            echo "$ten: sha256=$that (mong đợi $sha)"
+            if [ "$that" != "$sha" ]; then
+              echo "::error::Mã băm không khớp cho $ten. Dừng đồng bộ để tránh đưa tệp sai vào kho."
+              exit 1
+            fi
+          }
+
+          tai_va_kiem "$WORD_URL"  "$WORD_SHA"  'ChuanHoa_VanBanDang.dotm'
+          tai_va_kiem "$EXCEL_URL" "$EXCEL_SHA" 'ChuanHoa_Excel.xlam'
+
+      - name: Cập nhật bốn tệp trong thư mục upstream
+        if: steps.so_sanh.outputs.thay_doi == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$UPSTREAM_DIR"
+          cp 'up-dl/ChuanHoa_VanBanDang.dotm' "$UPSTREAM_DIR/ChuanHoa_VanBanDang.dotm"
+          cp 'up-dl/ChuanHoa_Excel.xlam'      "$UPSTREAM_DIR/ChuanHoa_Excel.xlam"
+          cp 'up.json'                        "$UPSTREAM_DIR/version.json"
+          printf '%s\n' '${{ steps.manifest.outputs.version }}' > "$UPSTREAM_DIR/VERSION"
+
+          echo "Đã cập nhật:"
+          ls -l "$UPSTREAM_DIR/ChuanHoa_VanBanDang.dotm" \
+                "$UPSTREAM_DIR/ChuanHoa_Excel.xlam" \
+                "$UPSTREAM_DIR/version.json" \
+                "$UPSTREAM_DIR/VERSION"
+          cat "$UPSTREAM_DIR/VERSION"
+
+      - name: Mở yêu cầu trộn
+        if: steps.so_sanh.outputs.thay_doi == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          add-paths: |
+            src/core/vendor/upstream/ChuanHoa_VanBanDang.dotm
+            src/core/vendor/upstream/ChuanHoa_Excel.xlam
+            src/core/vendor/upstream/version.json
+            src/core/vendor/upstream/VERSION
+          branch: sync/upstream-${{ steps.manifest.outputs.version }}
+          delete-branch: true
+          commit-message: "chore(upstream): đồng bộ bản phát hành ${{ steps.manifest.outputs.version }}"
+          title: "Đồng bộ kho gốc ${{ steps.manifest.outputs.version }}"
+          body: |
+            Workflow `sync-upstream` phát hiện kho gốc `${{ env.UPSTREAM_REPO }}`
+            đã phát hành phiên bản `${{ steps.manifest.outputs.version }}`.
+
+            ### Tệp được cập nhật
+            - `src/core/vendor/upstream/ChuanHoa_VanBanDang.dotm`
+            - `src/core/vendor/upstream/ChuanHoa_Excel.xlam`
+            - `src/core/vendor/upstream/version.json`
+            - `src/core/vendor/upstream/VERSION`
+
+            Mã băm SHA-256 đã được đối chiếu với `word_sha256_win` và
+            `excel_sha256_win` trong manifest của kho gốc.
+
+            ### Không bị ảnh hưởng
+            `README.md`, `HuongDan_CaiDat.txt`, `CHANGELOG.md`, `src/modules/ntu-thesis/`
+            và toàn bộ tài liệu của bản cá nhân hóa giữ nguyên.
+
+            ### Checklist phải áp lại thủ công
+            Sau khi trộn PR này, chạy `src/build/extract-vba.ps1` trên Windows để
+            trích VBA mới từ `vbaProject.bin`, rồi áp lại bảy điểm cá nhân hóa:
+
+            - [ ] 1. Đổi namespace/tiền tố về `NTUThesisAddin`
+            - [ ] 2. Đặt lại hằng `CN_PhienBan` theo bản phát hành của kho này
+            - [ ] 3. Trỏ `CN_ManifestUrl` về `giawin/ntu-thesis-addin`
+            - [ ] 4. Rà lại `CN_DungFileAddIn` (tên tệp đích trong STARTUP)
+            - [ ] 5. Giữ thư mục làm việc `\NTUThesisAddin` trong `%APPDATA%`
+            - [ ] 6. Vô hiệu hóa cổng kiểm tra bản quyền của bản gốc
+            - [ ] 7. Cập nhật chuỗi thương hiệu (tên tab, tên add-in, hộp thoại)
+
+            Không trộn PR này nếu chưa đọc phần checklist trên.

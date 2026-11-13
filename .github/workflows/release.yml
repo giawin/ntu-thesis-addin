@@ -1,0 +1,215 @@
+name: Phát hành bộ cài
+
+# Kích hoạt khi đẩy thẻ phiên bản, ví dụ: git tag v1.0.0 && git push origin v1.0.0
+#
+# Lưu ý quan trọng: GitHub Actions KHÔNG đóng gói được .dotm/.xlam vì việc đó cần
+# Microsoft Word/Excel thật. Hai tệp .dotm phải được đóng gói trên máy bằng
+# src/build/word/pack-word.ps1 và src/build/ntu/pack-ntu.ps1 (xem releases/README.md),
+# kết quả nằm ở src/core/word/dist/ và src/modules/ntu-thesis/dist/. Workflow này
+# kiểm tra bộ tệp, tính mã băm, sinh version.json, đóng gói .zip và tạo bản phát hành.
+#
+# Nguồn từng tệp:
+#   GiaTwinH_NTU_Thesis_Word.dotm  <- src/core/word/dist/
+#   NTUThesis.dotm                 <- src/modules/ntu-thesis/dist/
+#   ChuanHoa_Excel.xlam            <- src/core/vendor/upstream/ (bản gốc, không sửa)
+#   CaiDat.bat, GoCaiDat.bat       <- src/build/installer/
+#   HuongDan_CaiDat.txt            <- thư mục gốc kho
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Phiên bản phát hành, ví dụ 1.0.0 (bỏ trống thì lấy theo thẻ)"
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+env:
+  TEN_ADDIN: giatwin_h-ntu-thesis-addin
+
+jobs:
+  phat-hanh:
+    name: Đóng gói và phát hành
+    runs-on: windows-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Lấy mã nguồn
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Cài Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Xác định số phiên bản
+        id: ver
+        shell: pwsh
+        run: |
+          $v = "${{ inputs.version }}"
+          if ([string]::IsNullOrWhiteSpace($v)) {
+            $v = "${{ github.ref_name }}" -replace '^v', ''
+          }
+          if ($v -notmatch '^\d+\.\d+\.\d+$') {
+            throw "Số phiên bản '$v' không đúng dạng X.Y.Z."
+          }
+          "version=$v" >> $env:GITHUB_OUTPUT
+          "Bản phát hành: $v"
+
+      - name: Kiểm thử bộ chuyển đổi .vba sang .bas
+        shell: pwsh
+        run: node src/build/vba2bas.test.mjs
+
+      - name: Tập hợp bộ tệp cài đặt
+        shell: pwsh
+        env:
+          SO_PHIEN_BAN: ${{ steps.ver.outputs.version }}
+        run: |
+          New-Item -ItemType Directory -Force -Path dist, out | Out-Null
+
+          # Hai tệp .dotm do bước đóng gói trên máy sinh ra (cần Word thật).
+          $nguon = @{
+            'src/core/word/dist/GiaTwinH_NTU_Thesis_Word.dotm' = 'dist/GiaTwinH_NTU_Thesis_Word.dotm'
+            'src/modules/ntu-thesis/dist/NTUThesis.dotm'       = 'dist/NTUThesis.dotm'
+          }
+          foreach ($tep in $nguon.Keys) {
+            if (-not (Test-Path $tep)) {
+              $loi = "Không thấy $tep. " +
+                     "Hãy chạy src/build/word/pack-word.ps1 và src/build/ntu/pack-ntu.ps1 " +
+                     "trên máy có Microsoft Word (xem releases/README.md), commit thư mục dist, " +
+                     "rồi tạo lại thẻ phiên bản."
+              throw $loi
+            }
+            Copy-Item $tep $nguon[$tep] -Force
+          }
+
+          # Bản gốc của tác giả: luôn lấy từ kho để bảo đảm không sửa một byte nào.
+          Copy-Item 'src/core/vendor/upstream/ChuanHoa_Excel.xlam' 'dist/ChuanHoa_Excel.xlam' -Force
+          $goc = (Get-FileHash 'src/core/vendor/upstream/ChuanHoa_Excel.xlam' -Algorithm SHA256).Hash
+          $ban = (Get-FileHash 'dist/ChuanHoa_Excel.xlam' -Algorithm SHA256).Hash
+          if ($goc -ne $ban) { throw 'ChuanHoa_Excel.xlam trong dist/ không trùng bản gốc trong kho.' }
+
+          # Bộ cài và hướng dẫn lấy bản mới nhất từ kho.
+          Copy-Item 'src/build/installer/CaiDat.bat'   'dist/CaiDat.bat'   -Force
+          Copy-Item 'src/build/installer/GoCaiDat.bat' 'dist/GoCaiDat.bat' -Force
+          Copy-Item 'HuongDan_CaiDat.txt'              'dist/HuongDan_CaiDat.txt' -Force
+
+          $canCo = @(
+            'dist/GiaTwinH_NTU_Thesis_Word.dotm',
+            'dist/ChuanHoa_Excel.xlam',
+            'dist/NTUThesis.dotm',
+            'dist/CaiDat.bat',
+            'dist/GoCaiDat.bat',
+            'dist/HuongDan_CaiDat.txt'
+          )
+          $thieu = @($canCo | Where-Object { -not (Test-Path $_) })
+          if ($thieu.Count -gt 0) {
+            throw "Bộ cài còn thiếu tệp: $($thieu -join ', ')"
+          }
+          "ChuanHoa_Excel.xlam: nguyên trạng ($($goc.Substring(0, 16))...)"
+          Get-ChildItem dist -File | ForEach-Object { "  {0,9} {1}" -f $_.Length, $_.Name }
+
+      - name: Tính mã băm SHA-256
+        id: bam
+        shell: pwsh
+        run: |
+          foreach ($cap in @(
+            @('word', 'dist/GiaTwinH_NTU_Thesis_Word.dotm'),
+            @('ntu',  'dist/NTUThesis.dotm'),
+            @('xlam', 'dist/ChuanHoa_Excel.xlam')
+          )) {
+            $ten = $cap[0]; $tep = $cap[1]
+            "$($ten)_sha256=$((Get-FileHash $tep -Algorithm SHA256).Hash.ToLower())" >> $env:GITHUB_OUTPUT
+            "$($ten)_size=$((Get-Item $tep).Length)" >> $env:GITHUB_OUTPUT
+          }
+
+      - name: Sinh version.json
+        shell: pwsh
+        env:
+          SO_PHIEN_BAN: ${{ steps.ver.outputs.version }}
+          WORD_SHA: ${{ steps.bam.outputs.word_sha256 }}
+          WORD_SIZE: ${{ steps.bam.outputs.word_size }}
+          NTU_SHA: ${{ steps.bam.outputs.ntu_sha256 }}
+          NTU_SIZE: ${{ steps.bam.outputs.ntu_size }}
+          XLAM_SHA: ${{ steps.bam.outputs.xlam_sha256 }}
+          XLAM_SIZE: ${{ steps.bam.outputs.xlam_size }}
+        run: |
+          $tag = "v$env:SO_PHIEN_BAN"
+          $goc = "https://github.com/${{ github.repository }}/releases/download/$tag"
+
+          # Khoá đọc bởi add-in: module Word dùng version/word_url/word_sha256/word_size/notes_ascii;
+          # module NTU dùng ntu_url/ntu_sha256. Chỉ dùng ký tự ASCII để bộ đọc JSON trong VBA hiểu được.
+          $man = [ordered]@{
+            version     = $env:SO_PHIEN_BAN
+            notes_ascii = "NTU Thesis Add-in $($env:SO_PHIEN_BAN) - chuan hoa the thuc van ban Word va can chinh trang in Excel"
+            word_url    = "$goc/GiaTwinH_NTU_Thesis_Word.dotm"
+            word_sha256 = $env:WORD_SHA
+            word_size   = [long]$env:WORD_SIZE
+            ntu_url     = "$goc/NTUThesis.dotm"
+            ntu_sha256  = $env:NTU_SHA
+            ntu_size    = [long]$env:NTU_SIZE
+            xlam_url    = "$goc/ChuanHoa_Excel.xlam"
+            xlam_sha256 = $env:XLAM_SHA
+            xlam_size   = [long]$env:XLAM_SIZE
+          }
+          $json = $man | ConvertTo-Json -Depth 4
+          $enc = New-Object System.Text.UTF8Encoding($false)
+          [System.IO.File]::WriteAllText((Join-Path $PWD 'dist/version.json'), $json, $enc)
+          Copy-Item 'dist/version.json' 'out/version.json' -Force
+          Get-Content 'dist/version.json' -Raw
+
+      - name: Kiểm tra lại version.json vừa sinh
+        shell: pwsh
+        run: |
+          $j = Get-Content 'dist/version.json' -Raw | ConvertFrom-Json
+          foreach ($k in 'version', 'word_url', 'word_sha256', 'word_size', 'ntu_url', 'ntu_sha256') {
+            if ([string]::IsNullOrWhiteSpace("$($j.$k)")) { throw "version.json thiếu khoá $k." }
+          }
+          foreach ($cap in @(
+            @('word_sha256', 'GiaTwinH_NTU_Thesis_Word.dotm'),
+            @('ntu_sha256', 'NTUThesis.dotm'),
+            @('xlam_sha256', 'ChuanHoa_Excel.xlam')
+          )) {
+            $thuc = (Get-FileHash "dist/$($cap[1])" -Algorithm SHA256).Hash.ToLower()
+            if ($thuc -ne $j.($cap[0])) { throw "Mã băm $($cap[0]) không khớp với tệp $($cap[1])." }
+          }
+          if ((Get-Content 'dist/version.json' -Raw) -match '[^\x00-\x7F]') {
+            throw 'version.json còn ký tự ngoài ASCII.'
+          }
+          'Đạt: version.json hợp lệ, mã băm khớp, thuần ASCII.'
+
+      - name: Đóng gói tệp zip cho người dùng cuối
+        shell: pwsh
+        run: |
+          $zip = "out/$env:TEN_ADDIN-v${{ steps.ver.outputs.version }}.zip"
+          $goi = @(
+            'GiaTwinH_NTU_Thesis_Word.dotm',
+            'ChuanHoa_Excel.xlam',
+            'NTUThesis.dotm',
+            'CaiDat.bat',
+            'GoCaiDat.bat',
+            'HuongDan_CaiDat.txt'
+          )
+          Compress-Archive -Path ($goi | ForEach-Object { "dist/$_" }) -DestinationPath $zip -Force
+          "Đã tạo $zip ($((Get-Item $zip).Length) byte)"
+
+      - name: Tạo bản phát hành trên GitHub
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.ver.outputs.version }}
+          name: NTU Thesis Add-in v${{ steps.ver.outputs.version }}
+          body_path: CHANGELOG.md
+          fail_on_unmatched_files: true
+          files: |
+            out/${{ env.TEN_ADDIN }}-v${{ steps.ver.outputs.version }}.zip
+            dist/GiaTwinH_NTU_Thesis_Word.dotm
+            dist/ChuanHoa_Excel.xlam
+            dist/NTUThesis.dotm
+            dist/version.json
