@@ -3,6 +3,7 @@ chcp 65001 >nul 2>&1
 setlocal EnableDelayedExpansion
 title Go cai dat bo Add-in NTU Thesis
 
+set "SCRIPT_DIR=%~dp0"
 set "WORD_TARGET=%APPDATA%\Microsoft\Word\STARTUP"
 set "EXCEL_TARGET=%APPDATA%\Microsoft\Excel\XLSTART"
 
@@ -37,6 +38,14 @@ if exist "%EXCEL_TARGET%\ChuanHoa_Excel.xlam" (
 )
 
 echo.
+echo.
+echo   Dang xoa danh sach chan cua Office (neu co)...
+if exist "%SCRIPT_DIR%DonDepBlacklist.vbs" (
+    cscript //nologo "%SCRIPT_DIR%DonDepBlacklist.vbs" >nul 2>&1
+) else (
+    echo     (khong tim thay DonDepBlacklist.vbs - bo qua buoc nay^)
+)
+
 echo   Da go cai dat. Mo lai Word/Excel de xac nhan cac tab khong con hien.
 echo.
 pause

@@ -15,7 +15,7 @@ import { dirname } from 'node:path';
 // 1. Hang so ca nhan hoa
 // ---------------------------------------------------------------------------
 const APP_ID = 'NTUThesisAddin';                  // thay "OfficePartySuite"
-const VERSION = '1.0.0';                           // CN_PhienBan
+const VERSION = '1.0.1';                           // CN_PhienBan
 const REPO = 'giawin/ntu-thesis-addin';
 const MANIFEST_URL =
   `https://github.com/${REPO}/releases/latest/download/version.json`;

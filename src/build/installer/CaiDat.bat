@@ -8,7 +8,7 @@ set "WORD_TARGET=%APPDATA%\Microsoft\Word\STARTUP"
 set "EXCEL_TARGET=%APPDATA%\Microsoft\Excel\XLSTART"
 
 echo ==========================================================================
-echo   BO CAI DAT ADD-IN NTU THESIS - Truong Dai hoc Nong Lam
+echo   BO CAI DAT ADD-IN NTU THESIS - Truong Dai hoc Nha Trang
 echo ==========================================================================
 echo.
 echo   Gom 3 add-in:
@@ -53,17 +53,17 @@ pause
 exit /b 1
 
 :CAI_DAT
-echo   [1/4] Chuan bi thu muc...
+echo   [1/5] Chuan bi thu muc...
 if not exist "%WORD_TARGET%"  mkdir "%WORD_TARGET%"  >nul 2>&1
 if not exist "%EXCEL_TARGET%" mkdir "%EXCEL_TARGET%" >nul 2>&1
 
-echo   [2/4] Go ban cu neu co...
+echo   [2/5] Go ban cu neu co...
 for %%F in (GiaTwinH_NTU_Thesis_Word.dotm NTUThesis.dotm ChuanHoa_VanBanDang.dotm) do (
     if exist "%WORD_TARGET%\%%F" del /F /Q "%WORD_TARGET%\%%F" >nul 2>&1
 )
 if exist "%EXCEL_TARGET%\ChuanHoa_Excel.xlam" del /F /Q "%EXCEL_TARGET%\ChuanHoa_Excel.xlam" >nul 2>&1
 
-echo   [3/4] Sao chep add-in...
+echo   [3/5] Sao chep add-in...
 set "WORD_OK=0"
 set "NTU_OK=0"
 set "EXCEL_OK=0"
@@ -71,7 +71,14 @@ copy /Y "%SCRIPT_DIR%GiaTwinH_NTU_Thesis_Word.dotm" "%WORD_TARGET%\" >nul 2>&1 &
 copy /Y "%SCRIPT_DIR%NTUThesis.dotm"               "%WORD_TARGET%\" >nul 2>&1 && set "NTU_OK=1"
 copy /Y "%SCRIPT_DIR%ChuanHoa_Excel.xlam"          "%EXCEL_TARGET%\" >nul 2>&1 && set "EXCEL_OK=1"
 
-echo   [4/4] Bo chan Mark-of-the-Web...
+echo   [4/5] Go danh sach chan cua Office...
+if exist "%SCRIPT_DIR%DonDepBlacklist.vbs" (
+    cscript //nologo "%SCRIPT_DIR%DonDepBlacklist.vbs" >nul 2>&1
+) else (
+    echo         (khong tim thay DonDepBlacklist.vbs - bo qua buoc nay^)
+)
+
+echo   [5/5] Bo chan Mark-of-the-Web...
 powershell -NoProfile -Command "Get-ChildItem -LiteralPath '%WORD_TARGET%' -Filter '*.dotm' -ErrorAction SilentlyContinue | Unblock-File -ErrorAction SilentlyContinue" >nul 2>&1
 powershell -NoProfile -Command "Get-ChildItem -LiteralPath '%EXCEL_TARGET%' -Filter '*.xlam' -ErrorAction SilentlyContinue | Unblock-File -ErrorAction SilentlyContinue" >nul 2>&1
 

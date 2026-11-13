@@ -35,3 +35,6 @@ yarn-error.log*
 # Lưu ý: hai thư mục src/core/word/dist/ và src/modules/ntu-thesis/dist/
 # KHÔNG được bỏ qua. Quy trình phát hành đọc tệp .dotm đã đóng gói sẵn từ đó,
 # nên tệp phải được commit như mọi tệp khác trong kho.
+
+# Goi cai dat co so phien ban: workflow phat hanh tu dong tao, khong commit
+Bo_Cai_Dat_NTU_Thesis_Addin_v*.zip

@@ -26,6 +26,28 @@ Dòng có dấu tiếng Việt vẫn được giữ ở phần thân tài liệu
 - Bổ sung kiểm thử hồi quy cho `src/build/vba2bas.mjs` khi gặp tệp có ký tự
   ngoài bảng mã ASCII.
 
+## [1.0.1] - 2026-11-13
+
+Ban sua loi. Chi thay doi cach dong goi, khong doi hanh vi chuan hoa.
+
+### Đã sửa
+- **Add-in lõi Word không chạy được trên bản 1.0.0.** `src/build/word/build-word.vbs`
+  nạp mã vào mô-đun bằng `CodeModule.DeleteLines` + `AddFromString`, cách này để
+  dự án ở trạng thái không biên dịch được, khiến Word ẩn *toàn bộ* macro: dải
+  lệnh vẫn hiện nhưng bấm nút không có phản ứng, và `Application.Run` báo
+  "Không thể chạy macro đã nêu". Nay dùng `VBComponents.Import` — cùng cách
+  `src/build/ntu/build-ntu.vbs` vẫn làm, và add-in NTU chưa bao giờ gặp lỗi này.
+- `src/build/word/verify-word.vbs` chỉ kiểm sự có mặt của chuỗi trong mã, nên
+  lỗi trên lọt qua toàn bộ pipeline, CI và bản phát hành 1.0.0. Nay có thêm pha
+  kiểm tra thật: nạp add-in rồi gọi `CN_PhienBan`, `TT_ProfileCount`,
+  `CN_ManifestUrl` và yêu cầu đúng giá trị. Bản 1.0.0 sẽ trượt bước này.
+- **Danh sách chặn của Office.** Khi một add-in từng nạp thất bại, Word ghi
+  đường dẫn vào `Resiliency\DisabledItems` và im lặng từ chối nạp lại vĩnh viễn.
+  Cài lại không xoá được mục này. Thêm `DonDepBlacklist.vbs`: chỉ xoá mục trỏ
+  tới tệp của bộ cài này, giữ nguyên mục của nhà cung cấp khác. `CaiDat.bat` và
+  `GoCaiDat.bat` đều gọi nó.
+- Banner `CaiDat.bat` ghi sai tên trường ("Nong Lam" thay vì "Nha Trang").
+
 ## [1.0.0] - 2026-11-13
 
 Phien ban dau tien. Bo cai gom ba add-in, cai dat cung mot lan.

@@ -99,6 +99,7 @@ jobs:
           # Bộ cài và hướng dẫn lấy bản mới nhất từ kho.
           Copy-Item 'src/build/installer/CaiDat.bat'   'dist/CaiDat.bat'   -Force
           Copy-Item 'src/build/installer/GoCaiDat.bat' 'dist/GoCaiDat.bat' -Force
+          Copy-Item 'src/build/installer/DonDepBlacklist.vbs' 'dist/DonDepBlacklist.vbs' -Force
           Copy-Item 'HuongDan_CaiDat.txt'              'dist/HuongDan_CaiDat.txt' -Force
 
           $canCo = @(
@@ -107,6 +108,7 @@ jobs:
             'dist/NTUThesis.dotm',
             'dist/CaiDat.bat',
             'dist/GoCaiDat.bat',
+            'dist/DonDepBlacklist.vbs',
             'dist/HuongDan_CaiDat.txt'
           )
           $thieu = @($canCo | Where-Object { -not (Test-Path $_) })
@@ -195,6 +197,7 @@ jobs:
             'NTUThesis.dotm',
             'CaiDat.bat',
             'GoCaiDat.bat',
+            'DonDepBlacklist.vbs',
             'HuongDan_CaiDat.txt'
           )
           Compress-Archive -Path ($goi | ForEach-Object { "dist/$_" }) -DestinationPath $zip -Force

@@ -8370,7 +8370,7 @@ Public Sub AutoExec()
 Call CN_HenKiemTraKhiMo
 End Sub
 Public Function CN_PhienBan() As String
-CN_PhienBan = "1.0.0"
+CN_PhienBan = "1.0.1"
 End Function
 Private Function CN_ManifestUrl() As String
 CN_ManifestUrl = "https://github.com/giawin/ntu-thesis-addin/releases/latest/download/version.json"

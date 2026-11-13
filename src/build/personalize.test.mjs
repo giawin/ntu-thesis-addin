@@ -74,7 +74,7 @@ check('co du gia tri cua ban NTU', () => {
   for (const need of [
     'TT_SETTING_APP As String = "NTUThesisAddin"',
     'giatwin_h_ntu_thesis_word.dotm',
-    'CN_PhienBan = "1.0.0"',
+    'CN_PhienBan = "1.0.1"',
     'giawin/ntu-thesis-addin/releases/latest/download/version.json',
     'Created by Add-in NTU Thesis',
     'CheckLicenseActivation = True',

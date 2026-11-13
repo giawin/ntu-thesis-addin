@@ -104,12 +104,12 @@ For i = 0 To UBound(mustNot)
     End If
 Next
 
-' --- version constant must be 1.0.0 ---
+' --- version constant must be 1.0.1 ---
 checks = checks + 1
-If InStr(1, code, "NTU_PhienBan = ""1.0.0""", vbTextCompare) > 0 Then
-    WScript.Echo "PASS: NTU_PhienBan = 1.0.0"
+If InStr(1, code, "NTU_PhienBan = ""1.0.1""", vbTextCompare) > 0 Then
+    WScript.Echo "PASS: NTU_PhienBan = 1.0.1"
 Else
-    WScript.Echo "FAIL: NTU_PhienBan khong phai 1.0.0"
+    WScript.Echo "FAIL: NTU_PhienBan khong phai 1.0.1"
     fails = fails + 1
 End If
 

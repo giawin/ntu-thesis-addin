@@ -23,6 +23,13 @@ param(
     [switch]$SkipVerify    # bo qua buoc kiem chung (khong khuyen dung)
 )
 
+# Mot nguon su that duy nhat cho so hieu phien ban trong bo cai. Truoc day con so
+# nay nam rai o bon cho (personalize.mjs, NTU.vba, version.json, ten tep zip) nen
+# chi can sua mot cho la manifest va ten zip lech nhau. Gio ba cho duoi day deu
+# doc tu $PhienBan, con hai tep ma VBA kiem tra (CN_PhienBan/NTU_PhienBan) van
+# phai sua tay -- va verify-word.vbs / verify-ntu.vbs se bao do ngay neu quen.
+$PhienBan = '1.0.1'
+
 # Office dang mo se khoa tep .dotm va lam hong buoc dong goi giua chung.
 # Chan ngay tu dau voi thong bao ro rang thay vi that bai kho hieu o buoc 4.
 $officeDangMo = @(Get-Process -Name WINWORD,EXCEL -ErrorAction SilentlyContinue)
@@ -189,13 +196,50 @@ $wordDotm = Join-Path $wordOut 'GiaTwinH_NTU_Thesis_Word.dotm'
 if (-not (Test-Path -LiteralPath $wordDotm)) { Dung "Khong thay $wordDotm" }
 
 if (-not $SkipVerify) {
-    & cscript.exe //nologo (Join-Path $build 'word\verify-word.vbs') $wordDotm
-    if ($LASTEXITCODE -ne 0) { Dung "verify-word.vbs that bai (exit $LASTEXITCODE)" }
+    # Word auto-loads copies of our add-ins from Word\STARTUP. On a machine that
+    # already ran CaiDat.bat, those installed copies expose the same macro names,
+    # and Application.Run resolves to the installed one -- so the runtime check
+    # would grade the PREVIOUS build and report it as a pass. Move same-named
+    # STARTUP files aside for the duration of the check and always put them back,
+    # including when the check fails or throws.
+    $startupWord  = Join-Path $env:APPDATA 'Microsoft\Word\STARTUP'
+    $startupExcel = Join-Path $env:APPDATA 'Microsoft\Excel\XLSTART'
+    $tamCat = Join-Path $env:TEMP ('ntu-verify-hold_' + [guid]::NewGuid().ToString('N').Substring(0,8))
+    $daCat = @()
+    $tenCuaTa = @('GiaTwinH_NTU_Thesis_Word.dotm', 'NTUThesis.dotm', 'ChuanHoa_VanBanDang.dotm')
+    try {
+        New-Item -ItemType Directory -Path $tamCat -Force | Out-Null
+        foreach ($thuMuc in @($startupWord, $startupExcel)) {
+            if (-not (Test-Path -LiteralPath $thuMuc)) { continue }
+            foreach ($ten in $tenCuaTa) {
+                $nguon = Join-Path $thuMuc $ten
+                if (Test-Path -LiteralPath $nguon) {
+                    Move-Item -LiteralPath $nguon -Destination (Join-Path $tamCat $ten) -Force
+                    $daCat += ,@($nguon, $ten)
+                }
+            }
+        }
+        if ($daCat.Count -gt 0) {
+            Write-Host ("  tam cat {0} tep trong STARTUP de kiem tra dung ban vua build" -f $daCat.Count)
+        }
 
-    if (-not $SkipNtu) {
-        $ntuVerify = Join-Path $ntuDir 'dist\NTUThesis.dotm'
-        & cscript.exe //nologo (Join-Path $build 'ntu\verify-ntu.vbs') $ntuVerify
-        if ($LASTEXITCODE -ne 0) { Dung "verify-ntu.vbs that bai (exit $LASTEXITCODE)" }
+        & cscript.exe //nologo (Join-Path $build 'word\verify-word.vbs') $wordDotm
+        if ($LASTEXITCODE -ne 0) { throw "verify-word.vbs that bai (exit $LASTEXITCODE)" }
+
+        if (-not $SkipNtu) {
+            $ntuVerify = Join-Path $ntuDir 'dist\NTUThesis.dotm'
+            & cscript.exe //nologo (Join-Path $build 'ntu\verify-ntu.vbs') $ntuVerify
+            if ($LASTEXITCODE -ne 0) { throw "verify-ntu.vbs that bai (exit $LASTEXITCODE)" }
+        }
+    } finally {
+        foreach ($cap in $daCat) {
+            $dich = $cap[0]
+            $nguonTam = Join-Path $tamCat $cap[1]
+            if (Test-Path -LiteralPath $nguonTam) {
+                Move-Item -LiteralPath $nguonTam -Destination $dich -Force -ErrorAction SilentlyContinue
+            }
+        }
+        Remove-Item -LiteralPath $tamCat -Recurse -Force -ErrorAction SilentlyContinue
     }
 }
 
@@ -244,6 +288,7 @@ Copy-Item -LiteralPath $upXlam -Destination $outDir -Force
 $installer = Join-Path $build 'installer'
 Copy-Item -LiteralPath (Join-Path $installer 'CaiDat.bat') -Destination $outDir -Force
 Copy-Item -LiteralPath (Join-Path $installer 'GoCaiDat.bat') -Destination $outDir -Force
+Copy-Item -LiteralPath (Join-Path $installer 'DonDepBlacklist.vbs') -Destination $outDir -Force
 $huongDan = Join-Path $repo 'HuongDan_CaiDat.txt'
 if (Test-Path -LiteralPath $huongDan) {
     Copy-Item -LiteralPath $huongDan -Destination $outDir -Force
@@ -255,7 +300,7 @@ function Sha([string]$p) {
     (Get-FileHash -LiteralPath $p -Algorithm SHA256).Hash.ToLower()
 }
 $version = @{
-    version      = '1.0.0'
+    version      = $PhienBan
     notes_ascii  = 'Chuan hoa van ban Word va can chinh trang in Excel theo chuan NTU.'
     word_url     = "$base/GiaTwinH_NTU_Thesis_Word.dotm"
     word_sha256  = (Sha $wordDotm)
@@ -275,7 +320,7 @@ $json = $version | ConvertTo-Json -Depth 4
     (New-Object Text.UTF8Encoding($false)))
 
 # --- Zip bo cai ---
-$zipName = 'Bo_Cai_Dat_NTU_Thesis_Addin_v1.0.0.zip'
+$zipName = "Bo_Cai_Dat_NTU_Thesis_Addin_v$PhienBan.zip"
 $zipPath = Join-Path $repo $zipName
 if (Test-Path -LiteralPath $zipPath) { Remove-Item -LiteralPath $zipPath -Force }
 Compress-Archive -Path (Join-Path $outDir '*') -DestinationPath $zipPath -CompressionLevel Optimal

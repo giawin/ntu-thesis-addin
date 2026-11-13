@@ -4,7 +4,7 @@ Bộ công cụ hỗ trợ soạn thảo dành cho Microsoft Word và Microsoft 
 thể thức văn bản và trình bày luận án theo Quyết định số 900/QĐ-ĐHNT ngày 31/7/2023 của
 Trường Đại học Nha Trang.
 
-Phiên bản hiện hành: **1.0.0** — Mã định danh add-in: `giatwin_h-ntu-thesis-addin`.
+Phiên bản hiện hành: **1.0.1** — Mã định danh add-in: `giatwin_h-ntu-thesis-addin`.
 
 Kho mã này là kho công khai (public). Toàn bộ tệp cài đặt được phát hành kèm theo trong mục
 [Releases](../../releases).
@@ -101,7 +101,7 @@ Trình tự cập nhật của add-in Word: tải tệp mới về thư mục t�
 sau đó tạo một tập lệnh chờ Microsoft Word đóng hẳn rồi mới thay thế tệp cũ. Nhờ vậy tệp
 đang được ứng dụng giữ không bị ghi đè giữa chừng.
 
-Tính đến phiên bản 1.0.0, cơ chế này được cài đặt trong cả hai tệp: `GiaTwinH_NTU_Thesis_Word.dotm`
+Tính đến phiên bản 1.0.1, cơ chế này được cài đặt trong cả hai tệp: `GiaTwinH_NTU_Thesis_Word.dotm`
 đọc các khóa `word_*`, còn `NTUThesis.dotm` đọc các khóa `ntu_*`. Hai tệp dùng chung một
 `version.json` nhưng hoàn toàn độc lập với nhau — không tệp nào gọi mã của tệp kia, nên có thể
 cập nhật riêng từng tệp.
@@ -163,8 +163,8 @@ này kiểm tra bốn nhóm nội dung:
 Quy trình phát hành được kích hoạt bằng cách đẩy một thẻ phiên bản:
 
 ```
-git tag v1.0.0
-git push origin v1.0.0
+git tag v1.0.1
+git push origin v1.0.1
 ```
 
 Trước khi tạo thẻ, hai tệp `.dotm` phải được đóng gói sẵn theo quy trình nêu trên và được
